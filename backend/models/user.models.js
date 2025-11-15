@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['Librarian', 'Reader'],
         default: 'Reader'
+    },
+    refreshToken: {
+        type: String,
+        default: null
     }
 
 
