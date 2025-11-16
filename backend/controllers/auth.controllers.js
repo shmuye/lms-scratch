@@ -115,7 +115,7 @@ export const refresh = async (req, res) => {
     }
 
     const userId = payload.userId;
-    const user = await User.findById({ userId})
+    const user = await User.findById( userId )
     if(!user || !user.refreshToken) {
         return res.status(401).json({ message: 'unAuthorized' })
     }
