@@ -14,7 +14,7 @@ const App = () => {
                         <Home />
                     </>
                 } />
-                <Route path="/login" element={
+                <Route path="/Login" element={
                     <>
                         <NavBar/>
                         <Login/>
