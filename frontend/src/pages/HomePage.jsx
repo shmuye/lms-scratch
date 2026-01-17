@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom'
 
 const HomePage = () => {
+  const navigate = useNavigate()
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6">
       <div className="max-w-3xl text-center space-y-6">
@@ -21,7 +23,9 @@ const HomePage = () => {
             Browse Books
           </button>
 
-          <button className="px-6 py-3 rounded-xl border border-gray-400 text-gray-200 hover:bg-white hover:text-slate-900 transition cursor-pointer">
+          <button 
+            onClick={() => navigate('/signup')}
+            className="px-6 py-3 rounded-xl border border-gray-400 text-gray-200 hover:bg-white hover:text-slate-900 transition cursor-pointer">
             Join Readshere
           </button>
         </div>
