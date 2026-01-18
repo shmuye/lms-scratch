@@ -24,7 +24,6 @@ const bookSchema = new mongoose.Schema({
       required: true,
       enum: [
         "Fiction",
-        "Non-Fiction",
         "Science",
         "Technology",
         "History",

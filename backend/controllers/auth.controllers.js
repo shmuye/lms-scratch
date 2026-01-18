@@ -2,20 +2,7 @@ import {User} from "../models/user.models.js";
 import bcrypt from "bcryptjs";
 import {generateAccessToken, generateRefreshToken } from "../utils/generateTokens.js"
 import jwt from "jsonwebtoken";
-
-const ACCESS_COOKIE_OPTIONS = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 1000 * 60 * 15 // 15 minutes
-};
-
-const REFRESH_COOKIE_OPTIONS = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-};
-
-
+import { ACCESS_COOKIE_OPTIONS, REFRESH_COOKIE_OPTIONS } from "../config/token-options.js";
 export const signUp = async (req, res) => {
     const { name, role, email, password } = req.body;
 
@@ -36,7 +23,7 @@ export const signUp = async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            role,
+            role: "Reader",
         })
         return res.status(201).json(
             {   user: {
@@ -64,7 +51,7 @@ export const signIn = async (req, res) => {
 
     try {
 
-        const user = await User.findOne({ email })
+        const user = await User.findOne({ email }).select("+password");
         if(!user) {
             return res.status(400).json({ message: 'Invalid credentials' })
         }
@@ -83,7 +70,7 @@ export const signIn = async (req, res) => {
 
         // set cookies
 
-        res.cookie('token', accessToken, ACCESS_COOKIE_OPTIONS)
+        res.cookie('accessToken', accessToken, ACCESS_COOKIE_OPTIONS)
         res.cookie('refreshToken', refreshToken, REFRESH_COOKIE_OPTIONS);
 
 
@@ -135,7 +122,7 @@ export const refresh = async (req, res) => {
     await user.save();
 
     // set cookies
-    res.cookie("token", newAccessToken, ACCESS_COOKIE_OPTIONS);
+    res.cookie("accessToken", newAccessToken, ACCESS_COOKIE_OPTIONS);
     res.cookie("refreshToken", newRefreshToken, REFRESH_COOKIE_OPTIONS);
 
     return res.status(200).json({ message: "Token refreshed" });
@@ -148,31 +135,38 @@ export const refresh = async (req, res) => {
 }
 export const logout = async (req, res) => {
     try {
-        let userId = req?.user?.id
-        if(!userId) {
+        
             const { refreshToken } = req.cookies;
-            if(!refreshToken) {
+            if(refreshToken) {
                 try {
-                    const { userId } = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET)
+                    const { userId } = jwt.verify(
+                        refreshToken, 
+                        process.env.JWT_REFRESH_TOKEN_SECRET)
+
+                    await User.findByIdAndUpdate(userId, {
+                        refreshToken: null
+                    })
                 } catch(_) {
-                    userId = null;
+                   
                 }
             }
-        }
+        
 
         // clear cookies on client
-        res.clearCookie("token", ACCESS_COOKIE_OPTIONS);
+        res.clearCookie("accessToken", ACCESS_COOKIE_OPTIONS);
         res.clearCookie("refreshToken", REFRESH_COOKIE_OPTIONS);
 
-        // clear refresh token server-side
-        if (userId) {
-            await User.findByIdAndUpdate(userId, { refreshToken: null });
-        }
+        
+        return res.status(200).json({ 
+               success: true, 
+               message: "Logout successful" 
+            });
 
-        return res.status(200).json({ success: true, message: "Logout successful" });
     } catch (err) {
         console.error("Error in logout", err);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json(
+            { message: "Internal server error" }
+        );
     }
 
 }
