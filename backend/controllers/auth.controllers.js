@@ -3,8 +3,9 @@ import bcrypt from "bcryptjs";
 import {generateAccessToken, generateRefreshToken } from "../utils/generateTokens.js"
 import jwt from "jsonwebtoken";
 import { ACCESS_COOKIE_OPTIONS, REFRESH_COOKIE_OPTIONS } from "../config/token-options.js";
+
 export const signUp = async (req, res) => {
-    const { name, role, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     if(!name || !email || !password) {
         return res.status(400).json(
