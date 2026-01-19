@@ -1,0 +1,20 @@
+import { PERMISSIONS } from "./permissions.js";
+
+export const ROLES = {
+  Admin: [
+    PERMISSIONS.SYSTEM_ALL,
+  ],
+
+  Librarian: [
+    PERMISSIONS.BOOK_CREATE,
+    PERMISSIONS.BOOK_UPDATE,
+    PERMISSIONS.BOOK_DELETE,
+    PERMISSIONS.BOOK_READ,
+  ],
+
+  Reader: [
+    PERMISSIONS.BOOK_READ,
+    PERMISSIONS.BOOK_BORROW,
+    PERMISSIONS.BOOK_RETURN,
+  ],
+};
