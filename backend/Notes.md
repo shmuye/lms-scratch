@@ -26,3 +26,12 @@ an array method to check if all its elements satisfy a condition
 - **Jest** is a complete test frame work for javascript 
 
 - **supertest** is specifically for api testing
+
+### multipart/form-data 
+
+- is an HTTP content type (MIME type) user to send data to a server when a request includes multiple indepent parts.It is the standard method for uploading files via 
+HTML forms
+
+### mongoose lean query 
+
+- A mongoose lean query is an optimization technique that tell mongoose to return plain javascript objects instead of full mongoose document objects. This significantly improves performance and reduces memory usage.

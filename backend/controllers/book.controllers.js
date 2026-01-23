@@ -1,12 +1,10 @@
 import Book from '../models/book.models.js'
 
-export const creatBook = async (req, res) => {
+export const createBook = async (req, res) => {
 
     const { 
 
         title,  
-        description, 
-        publishiedYear,
         author, 
         category, 
         isbn,
@@ -14,22 +12,47 @@ export const creatBook = async (req, res) => {
         copiesAvailable,
 
     } = req.body
-
+    
     const coverImage = req.file?.path || null;
 
-    if(!title || !description || !publishiedYear || !author || !category || !isbn || !copiesAvailable || !totalCopies || !coverImage){
+    if(
+        !title || 
+        !author || 
+        !category || 
+        !isbn || 
+        copiesAvailable == null|| 
+        totalCopies == null || 
+        !coverImage){
         return res.status(400).json({
             message: "please fill all required fields"
         })
     }
 
+     if (copiesAvailable > totalCopies) {
+      return res.status(400).json({
+        message: "Copies available cannot exceed total copies",
+      })
+    }
+
     try {
 
-      await Book.create()
+     const book =  await Book.create({
+        title,  
+        author, 
+        category, 
+        isbn,
+        totalCopies, 
+        copiesAvailable,
+        coverPage: coverImage,
+     })
+     return res.status(201).json(book)
         
     } catch (error) {
 
-        
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message 
+        })
     }
 
 }
@@ -37,7 +60,7 @@ export const creatBook = async (req, res) => {
 export const getBooks = async (req, res) => {
    
     try {
-        const books = await Book.find() 
+        const books = await Book.find().lean() 
         return res.status(200).json(books)      
     } catch (error) {
         return res.status(500).json({
@@ -48,49 +71,79 @@ export const getBooks = async (req, res) => {
 
 export const getBook = async (req, res) => {
     
-    const { id } = req.params
+   
     try {
-     
-    const book = Book.findById(id)
+
+    const { id } = req.params
+    const book = await Book.findById(id)
+
+    if(!book) {
+        return res.status(404).json({
+            message: "Book not found"
+        })
+    }
     return res.status(200).json(book)
 
     } catch (error) {
         
-        return res.status(404).json({
-            message: "Book not found"
+        return res.status(400).json({
+            message: "Invalid Book ID"
       })  
     }       
 }
 
 export const updateBook = async (req, res) => {
-    const { id } = req.params
-    const { title, description, publishiedYear, author, category, isbn, totalCopies, copiesAvailable } = req.body
 
-    return Book.findByIdAndUpdate(id, {
-        title,
-        description,
-        publishiedYear,
-        author,
-        category,
-        isbn,
-        totalCopies,
-        copiesAvailable
-    }, { new: true })
+    try {
+
+        const { id } = req.params
+        const updatedBook = await Book.findByIdAndUpdate(
+            id, 
+            req.body,
+            { new: true, runValidators: true } 
+        )
+
+    if (!updatedBook) {
+        return res.status(404).json({
+        message: "Book not found",
+      })
+    }
+
+    return res.status(200).json(updatedBook)
+        
+        
+    } catch (error) {
+
+      return res.status(500).json({
+      message: "Internal server error",
+    })
+    }
+   
 }
 
 export const deleteBook = async (req, res) => {
-    const { id } = req.params
 
-     try {
-        await Book.deleteBookById(id)   
+    try {
+
+        const { id } = req.params
+        const deletedBook = await Book.findByIdAndDelete(id)
+
+        if(!deletedBook) {
+            return res.status(404).json({
+                message: "Book not found"
+            })
+        }
+
         return res.status(200).json({
             message: "Book deleted successfully"
-        }) 
-     } catch (error) {
-        return res.status(500).json({
-            message: "Internal server error"
-        }) 
-     }
-}
+        })
+        
+    } catch (error) {
+        
+        return res.status(400).json({
+            message: "Invalid Book ID"
+      })  
+    }       
+}   
 
      
