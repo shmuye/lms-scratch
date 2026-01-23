@@ -1,7 +1,7 @@
 import { ROLES } from "../config/roles.js";
 import { PERMISSIONS } from "../config/permissions.js";
 
-export const permissionMiddleware = (...requiredPermissions) => {
+const permissionMiddleware = (...requiredPermissions) => {
   return (req, res, next) => {
     const userRole = req.user?.role;
 
@@ -27,3 +27,5 @@ export const permissionMiddleware = (...requiredPermissions) => {
     next();
   };
 };
+
+export default permissionMiddleware;

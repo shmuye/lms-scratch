@@ -1,7 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import {connectDB} from "./db/connectDB.js";
 import authRoutes from './routes/auth.routes.js'
 import bookRoutes from './routes/book.routes.js';
 
@@ -19,6 +18,6 @@ app.use(cookieParser());
 app.use('/auth', authRoutes);
 app.use('/books', bookRoutes);
 
-connectDB();
+
 
 export default app

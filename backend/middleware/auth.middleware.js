@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-export const authMiddleware = (req, res, next) => {
+const authMiddleware = (req, res, next) => {
 
     const token = req.cookies?.accessToken
 
@@ -27,3 +27,5 @@ export const authMiddleware = (req, res, next) => {
         })
     }
 }
+
+export default authMiddleware;
