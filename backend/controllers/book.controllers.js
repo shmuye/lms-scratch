@@ -1,8 +1,10 @@
-import Book from '../models/book.models.js'
+import Book from '../models/book.model.js'
 
 export const createBook = async (req, res) => {
 
-    const { 
+    try {
+        
+        const { 
 
         title,  
         author, 
@@ -12,8 +14,12 @@ export const createBook = async (req, res) => {
         copiesAvailable,
 
     } = req.body
-    
-    const coverImage = req.file?.path || null;
+
+    if(!req.file){
+        return res.status(400).json({
+            message: "Cover image is required"
+ })}
+
 
     if(
         !title || 
@@ -34,28 +40,27 @@ export const createBook = async (req, res) => {
       })
     }
 
-    try {
+    const book = await Book.create({
+      title,
+      author,
+      category,
+      isbn,
+      totalCopies,
+      copiesAvailable,
+      coverPage: `/uploads/coverImages/${req.file.filename}`,
+    });
 
-     const book =  await Book.create({
-        title,  
-        author, 
-        category, 
-        isbn,
-        totalCopies, 
-        copiesAvailable,
-        coverPage: coverImage,
-     })
-     return res.status(201).json(book)
-        
-    } catch (error) {
+    return res.status(201).json({
+      message: "Book created successfully",
+      book,
+    });
 
+} catch (error) {
         return res.status(500).json({
             message: "Internal server error",
             error: error.message 
         })
-    }
-
-}
+    }}
 
 export const getBooks = async (req, res) => {
    
@@ -89,8 +94,9 @@ export const getBook = async (req, res) => {
         return res.status(400).json({
             message: "Invalid Book ID"
       })  
-    }       
-}
+    }   
+}    
+
 
 export const updateBook = async (req, res) => {
 
@@ -144,6 +150,9 @@ export const deleteBook = async (req, res) => {
             message: "Invalid Book ID"
       })  
     }       
-}   
+} 
+
+
+    
 
      

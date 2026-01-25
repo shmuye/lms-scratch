@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.routes.js'
 import bookRoutes from './routes/book.routes.js';
+import path from 'path';
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static(path.join( process.cwd(), 'uploads')));
 
 //routes
 app.use('/auth', authRoutes);
