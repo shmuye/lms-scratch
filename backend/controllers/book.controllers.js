@@ -1,45 +1,45 @@
 import Book from '../models/book.model.js'
 
 export const createBook = async (req, res) => {
+  try {
+    const {
+      title,
+      author,
+      category,
+      isbn,
+      totalCopies,
+      copiesAvailable,
+    } = req.body;
 
-    try {
-        
-        const { 
-
-        title,  
-        author, 
-        category, 
-        isbn,
-        totalCopies, 
-        copiesAvailable,
-
-    } = req.body
-
-    if(!req.file){
-        return res.status(400).json({
-            message: "Cover image is required"
- })}
-
-
-    if(
-        !title || 
-        !author || 
-        !category || 
-        !isbn || 
-        copiesAvailable == null|| 
-        totalCopies == null || 
-        !coverImage){
-        return res.status(400).json({
-            message: "please fill all required fields"
-        })
+    // 1. Validate body
+    if (
+      !title ||
+      !author ||
+      !category ||
+      !isbn ||
+      totalCopies == null ||
+      copiesAvailable == null
+    ) {
+      return res.status(400).json({
+        message: "Please fill all required fields",
+      });
     }
 
-     if (copiesAvailable > totalCopies) {
+    // 2. Validate file
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Cover image is required",
+      });
+    }
+
+    // 3. Business rule
+    if (copiesAvailable > totalCopies) {
       return res.status(400).json({
         message: "Copies available cannot exceed total copies",
-      })
+      });
     }
 
+    // 4. Create book
     const book = await Book.create({
       title,
       author,
@@ -54,13 +54,13 @@ export const createBook = async (req, res) => {
       message: "Book created successfully",
       book,
     });
-
-} catch (error) {
-        return res.status(500).json({
-            message: "Internal server error",
-            error: error.message 
-        })
-    }}
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
 
 export const getBooks = async (req, res) => {
    
