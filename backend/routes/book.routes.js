@@ -1,4 +1,4 @@
-import { PERMISSIONS } from "../config/permissions.js";
+import { PERMISSIONS } from "../constants/permissions.js";
 import { createBook, updateBook, deleteBook, getBook, getBooks } from "../controllers/book.controllers.js";
 import { authMiddleware, permissionMiddleware } from "../middleware/index.js";
 import { uploadBookCover } from "../utils/multer.js";

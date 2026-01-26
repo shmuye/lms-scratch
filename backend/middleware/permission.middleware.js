@@ -1,5 +1,5 @@
-import { ROLES } from "../config/roles.js";
-import { PERMISSIONS } from "../config/permissions.js";
+import { ROLES } from "../constants/roles.js";
+import { PERMISSIONS } from "../constants/permissions.js";
 
 const permissionMiddleware = (...requiredPermissions) => {
   return (req, res, next) => {
