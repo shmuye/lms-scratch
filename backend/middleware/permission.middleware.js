@@ -1,5 +1,5 @@
-import { ROLES } from "../constants/roles.js";
 import { PERMISSIONS } from "../constants/permissions.js";
+import { ROLE_PERMISSIONS } from "../constants/role-permissions.js";
 
 const permissionMiddleware = (...requiredPermissions) => {
   return (req, res, next) => {
@@ -9,7 +9,7 @@ const permissionMiddleware = (...requiredPermissions) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const userPermissions = ROLES[userRole] || [];
+    const userPermissions = ROLE_PERMISSIONS[userRole] || [];
 
     // Admin shortcut
     if (userPermissions.includes(PERMISSIONS.SYSTEM_ALL)) {
