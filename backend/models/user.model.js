@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { ROLES } from '../config/roles';
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -27,8 +28,8 @@ const userSchema = new mongoose.Schema({
 
     role: {
         type: String,
-        enum: ['Librarian', 'Reader' | "Admin"],
-        default: 'Reader'
+        enum: Object.values(ROLES),
+        default: ROLES.READER
     },
     refreshToken: {
         type: String,

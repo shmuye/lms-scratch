@@ -24,14 +24,12 @@ export const signUp = async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            role: "Reader",
         })
         return res.status(201).json(
             {   user: {
                     id: user._id,
                     name,
                     email,
-                    role,
                 },
                 message: 'User created successfully'})
 
