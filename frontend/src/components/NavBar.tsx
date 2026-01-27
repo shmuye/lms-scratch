@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MenuIcon, X } from "lucide-react";
+import { User } from "lucide-react";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ const NavBar = () => {
         {/* Desktop Profile */}
         <div className="hidden md:flex">
           <button className="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition">
-            Profile
+            <User className="inline-block mr-2" size={16} />
           </button>
         </div>
 
@@ -47,7 +48,7 @@ const NavBar = () => {
           <a href="/user-dashboard" className="block text-gray-300 hover:text-white">Dashboard</a>
 
           <button className="w-full mt-2 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition">
-            Profile
+            <User className="inline-block mr-2" size={16} />
           </button>
         </div>
       )}
