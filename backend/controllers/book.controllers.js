@@ -208,7 +208,48 @@ export const borrowBook = async (req, res) => {
 }
 
 export const returnBook = async (req, res) => {
-    // To be implemented
+    try {
+      const userId = req.user.id;
+      const bookId = req.params.id;
+  
+      // 1. Find active borrow record
+      const borrowRecord = await Borrow.findOne({
+        user: userId,
+        book: bookId,
+        status: "Borrowed",
+      });
+  
+      if (!borrowRecord) {
+        return res.status(404).json({ message: "No active borrow record found for this book" });
+      }
+      
+      const now = new Date();
+
+      let status = "Returned";
+
+      if (now > borrowRecord.dueDate) {
+        status  = "Overdue";
+      }
+      // 2. Update borrow record
+      borrowRecord.returnDate = now;
+      borrowRecord.status = status;
+      await borrowRecord.save();
+  
+      // 3. Update book availability
+
+      await Book.findByIdAndUpdate(bookId, {
+        $inc: { copiesAvailable: 1 },
+        isAvailable: true,
+      });
+      
+  
+      return res.status(200).json({ message: "Book returned successfully", borrowRecord });
+    } catch (error) {
+      return res.status(500).json({ 
+        message: "Internal server error",
+        error: error.message
+      });  
+    }
 }   
 
 
