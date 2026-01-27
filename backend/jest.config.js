@@ -1,7 +1,9 @@
 export default {
+  preset: "ts-jest",
   testEnvironment: "node",
-  setupFilesAfterEnv: ["<rootDir>/tests/setup/testDB.js"],
-  testMatch: ["**/tests/**/*.test.js"],     // look for tests in tests/ folder
+  testMatch: ["**/**/*.test.js"], 
+  verbose: true,
+  forceExit: true,    
   clearMocks: true,
   transform: {},                             // no babel needed if pure ESM
 };

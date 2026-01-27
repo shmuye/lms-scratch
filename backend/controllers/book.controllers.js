@@ -1,4 +1,5 @@
 import Book from '../models/book.model.js'
+import Borrow from '../models/borrow.model.js';
 
 export const createBook = async (req, res) => {
   try {
@@ -151,6 +152,64 @@ export const deleteBook = async (req, res) => {
       })  
     }       
 } 
+
+
+export const borrowBook = async (req, res) => {
+   try {
+
+    const userId = req.user.id;
+    const bookId  = req.params.id;
+
+    // 1. Check if book exists and is available
+    const book = await Book.findById(bookId);
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+    if(!book.isAvailable || book.copiesAvailable < 1) {
+        return res.status(400).json({ message: "No copies available to borrow" });
+    }
+
+    const activeBorrow = await Borrow.findOne({
+       user: userId, 
+       status: 'Borrowed'
+    });
+
+    if(activeBorrow) {
+        return res.status(400).json({ message: "You have already borrowed a book. Return it before borrowing another." });
+    }
+
+    const borrowDate = new Date();
+    const dueDate = new Date(borrowDate);
+    dueDate.setDate(borrowDate.getDate() + 14); // 2 weeks from borrow date
+
+    const borrowRecord = await Borrow.create({
+        user: userId,
+        book: bookId,
+        borrowDate,
+        dueDate,
+    });
+
+    // 2. Update book availability
+    book.copiesAvailable -= 1;
+    if (book.copiesAvailable === 0) {
+      book.isAvailable = false;
+    }
+    await book.save();
+
+    return res.status(200).json({
+      message: "Book borrowed successfully",
+      borrowRecord,
+    });
+
+    
+   } catch (error) {
+    
+   } 
+}
+
+export const returnBook = async (req, res) => {
+    // To be implemented
+}   
 
 
     

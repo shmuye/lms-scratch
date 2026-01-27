@@ -5,13 +5,20 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-    },
-
-    author: {
+      },
+      
+      author: {
         type: String,
         required: true,
         trim: true
      },
+
+     rating: {
+      type: Number,
+      min: 0,
+      max: 5,
+      default: 0,
+    },  
      
     isbn: {
       type: String,
