@@ -1,9 +1,37 @@
-import user from "../models/user.model";
+import User from "../models/user.model.js";
 import Borrow from "../models/borrow.model.js";
+import { ROLES } from "../constants/roles.js";
+import { hash } from "../utils/hash.js";
+
+export const createUserByAdmin = async (req, res) => {
+    try {
+        const { name, email, password, role } = req.body;
+
+        if(![ROLES.LIBRARIAN, ROLES.ADMIN].includes(role)) {
+            return res.status(400).json({ message: 'Invalid role specified' });
+        }
+
+        const existingUser = await User.findOne({ email });
+        if(existingUser) {
+            return res.status(409).json({ message: 'User with this email already exists' });
+        }
+
+        
+        const hashedPassword = await hash(password);
+        const user = await User.create({ name, email, password: hashedPassword, role });
+
+        return res.status(201).json({message: 'User created successfully', user}); 
+
+    } catch (error) {
+        console.log("Error creating user by admin", error.message);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}   
+
 
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await user.find().select("-password");
+        const users = await User.find();
         return  res.status(200).json(users);
     } catch (error) {
         console.log("Error fetching users", error.message);
@@ -14,7 +42,7 @@ export const getAllUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
     const { id } = req.params;
     try {
-        const foundUser = await user.findById(id).select("-password");
+        const foundUser = await User.findById(id);
         if(!foundUser) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -28,7 +56,7 @@ export const getUserById = async (req, res) => {
 export const deleteUser = async (req, res) => {
     const { id } = req.params;
     try {
-        const deletedUser = await user.findByIdAndDelete(id);
+        const deletedUser = await User.findByIdAndDelete(id);
         if(!deletedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -55,7 +83,7 @@ export const getUserBorrows = async (req, res) => {
 export const getMe = async (req, res) => {
     try {
         const userId = req.user.id;
-        const me = await user.findById(userId).select("-password");
+        const me = await User.findById(userId);
         if(!me) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -71,11 +99,11 @@ export const updateProfile = async (req, res) => {
         const userId = req.user.id;
         const { name, email } = req.body;
 
-        const updatedUser = await user.findByIdAndUpdate(
+        const updatedUser = await User.findByIdAndUpdate(
             userId,
             { name, email },
             { new: true, runValidators: true }
-        ).select("-password");
+        );
 
         if(!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
@@ -87,3 +115,4 @@ export const updateProfile = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
+

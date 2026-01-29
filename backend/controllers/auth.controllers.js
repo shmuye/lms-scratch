@@ -1,8 +1,10 @@
 import User from "../models/user.model.js";
-import bcrypt from "bcryptjs";
+import bcrypt, { compare } from "bcryptjs";
 import {generateAccessToken, generateRefreshToken } from "../utils/generateTokens.js"
 import jwt from "jsonwebtoken"
 import { ACCESS_COOKIE_OPTIONS, REFRESH_COOKIE_OPTIONS } from "../config/token-options.js";
+import { hash } from "../utils/hash.js";
+import { compareHash } from "../utils/hash.js";
 
 export const signUp = async (req, res) => {
     const { name, email, password } = req.body;
@@ -18,7 +20,7 @@ export const signUp = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' })
         }
-        const hashedPassword = await bcrypt.hash(password, 10)
+        const hashedPassword = hash(password);
 
         const user = await User.create({
             name,
@@ -54,7 +56,7 @@ export const signIn = async (req, res) => {
         if(!user) {
             return res.status(400).json({ message: 'Invalid credentials' })
         }
-        const validPassword = await bcrypt.compare(password, user.password)
+        const validPassword = compareHash(password, user.password);
         if(!validPassword) {
             return res.status(400).json({ message: 'Invalid credentials' })
         }

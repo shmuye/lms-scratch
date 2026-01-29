@@ -5,6 +5,7 @@ import path from 'path';
 import cors from 'cors';
 import authRoutes from './routes/auth.routes.js'
 import bookRoutes from './routes/book.routes.js';
+import userRoutes from './routes/user.routes.js';
 
 
 dotenv.config();
@@ -19,8 +20,9 @@ app.use(cookieParser());
 app.use('/uploads', express.static(path.join( process.cwd(), 'uploads')));
 
 //routes
-app.use('/auth', authRoutes);
-app.use('/books', bookRoutes);
+app.use('api/auth', authRoutes);
+app.use('api/books', bookRoutes);
+app.use('api/users', userRoutes);
 
 
 
