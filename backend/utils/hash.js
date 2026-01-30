@@ -1,7 +1,9 @@
+import bcrypt from "bcryptjs";
+
 export const hash = async(DataTransfer, saltRounds = 10) => {
     const salt = await bcrypt.genSalt(saltRounds);
-    const hashedData = await bcrypt.hash(DataTransfer, salt);
-    return hashedData;
+    return await bcrypt.hash(DataTransfer, salt);
+    
 }
 
 export const compareHash = async(DataTransfer, hashedData) => {
