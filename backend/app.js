@@ -20,9 +20,9 @@ app.use(cookieParser());
 app.use('/uploads', express.static(path.join( process.cwd(), 'uploads')));
 
 //routes
-app.use('api/auth', authRoutes);
-app.use('api/books', bookRoutes);
-app.use('api/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/books', bookRoutes);
+app.use('/api/users', userRoutes);
 
 
 
