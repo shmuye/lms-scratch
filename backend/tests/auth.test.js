@@ -2,17 +2,15 @@ import supertest from 'supertest'
 const request = supertest(app)
 import app from '../app.js'
 
-
-
 describe("Auth API", () => {
   
   it("should signup user", async () => {
     const res = await request
-      .post("/auth/register")
+      .post("api/auth/register")
       .send({
         name: "John",
         email: "john@test.com",
-        password: "123456",
+        password: "12345678",
       });
 
     expect(res.statusCode).toBe(201);
@@ -21,7 +19,7 @@ describe("Auth API", () => {
 
   it("should login user", async () => {
     const res = await request
-      .post("/auth/login")
+      .post("api/auth/login")
       .send({
         email: "john@test.com",
         password: "123456",
