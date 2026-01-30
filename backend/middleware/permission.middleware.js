@@ -1,7 +1,7 @@
 import { PERMISSIONS } from "../constants/permissions.js";
 import { ROLE_PERMISSIONS } from "../constants/role-permissions.js";
 
-const permissionMiddleware = (...requiredPermissions) => {
+const authorize = (...requiredPermissions) => {
   return (req, res, next) => {
     const userRole = req.user?.role;
 
@@ -28,4 +28,4 @@ const permissionMiddleware = (...requiredPermissions) => {
   };
 };
 
-export default permissionMiddleware;
+export default authorize;
