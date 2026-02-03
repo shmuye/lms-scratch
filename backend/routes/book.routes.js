@@ -3,7 +3,9 @@ import { createBook, updateBook, deleteBook, getBook, getBooks } from "../contro
 import { authenticate, authorize } from "../middleware/index.js";
 import { uploadBookCover } from "../utils/multer.js";
 import { validate } from '../middleware/validate.middleware.js'
-import { createBookSchema, updateBookSchema } from "../validations/index.js";
+import { createBookSchema } from '../validations/book.schema.js'
+import { updateBookSchema } from "../validations/book.schema.js";
+
 
 import express from "express";
 const router = express.Router();
@@ -17,7 +19,11 @@ router.post("/",
        
 router.get("/", authenticate, getBooks);
 router.get("/:id", authenticate, getBook);
-router.patch("/:id", authenticate, authorize(PERMISSIONS.BOOK_UPDATE), updateBook);
+router.patch("/:id", 
+       authenticate, 
+       authorize(PERMISSIONS.BOOK_UPDATE), 
+       validate(updateBookSchema),
+       updateBook);
 router.delete("/:id", authenticate, authorize(PERMISSIONS.BOOK_DELETE), deleteBook);
 
 export default router;
