@@ -48,9 +48,6 @@ export const signIn = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' })
         }
         const validPassword = await compareHash(password, user.password);
-
-        console.log(password)
-        console.log(user.password)
         
         if(!validPassword) {
             return res.status(400).json({ message: 'Invalid credentials' })

@@ -5,7 +5,7 @@ import { createUserByAdmin, getAllUsers, getUserById, getMe, getUserBorrows, upd
 import { authenticate , authorize } from "../middleware/index.js";
 import { PERMISSIONS } from '../constants/permissions.js';
 
-router.post('/', authenticate, authorize(PERMISSIONS.USER_CREATE), createUserByAdmin);
+router.post('/', authenticate, authorize(PERMISSIONS.SYSTEM_ALL), createUserByAdmin);
 router.get('/', authenticate, authorize(PERMISSIONS.USER_READ), getAllUsers);
 router.get('/me/borrows', authenticate, getUserBorrows);
 router.get('/me', authenticate, getMe);
