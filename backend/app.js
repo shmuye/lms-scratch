@@ -14,7 +14,13 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 // middleware
-app.use(cors());
+
+app.use(cors(
+    {
+        credentials: true
+    }
+));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join( process.cwd(), 'uploads')));
