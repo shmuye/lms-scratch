@@ -13,18 +13,18 @@ export const createBook = async (req, res) => {
     } = req.body;
 
     // 1. Validate body
-    if (
-      !title ||
-      !author ||
-      !category ||
-      !isbn ||
-      totalCopies == null ||
-      copiesAvailable == null
-    ) {
-      return res.status(400).json({
-        message: "Please fill all required fields",
-      });
-    }
+    // if (
+    //   !title ||
+    //   !author ||
+    //   !category ||
+    //   !isbn ||
+    //   totalCopies == null ||
+    //   copiesAvailable == null
+    // ) {
+    //   return res.status(400).json({
+    //     message: "Please fill all required fields",
+    //   });
+    // }
 
     // 2. Validate file
     if (!req.file) {
@@ -203,7 +203,12 @@ export const borrowBook = async (req, res) => {
 
     
    } catch (error) {
+    return res.status(500).json({
+      
+      message: "Internal server error",
+      error: error.message,
     
+    })
    } 
 }
 

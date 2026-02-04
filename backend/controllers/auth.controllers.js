@@ -8,19 +8,13 @@ import { compareHash } from "../utils/hash.js";
 
 export const signUp = async (req, res) => {
     const { name, email, password } = req.body;
-
-    if(!name || !email || !password) {
-        return res.status(400).json(
-            { message: 'Please provide all required fields' }
-        )
-    }
-
+    
     try {
         const existingUser = await User.findOne({ email })
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' })
         }
-        const hashedPassword = hash(password);
+        const hashedPassword = await hash(password);
 
         const user = await User.create({
             name,
@@ -46,9 +40,6 @@ export const signUp = async (req, res) => {
 
 export const signIn = async (req, res) => {
     const { email, password } = req.body;
-    if(!email || !password) {
-        return res.status(400).json({ message: 'Please provide email and password' })
-    }
 
     try {
 
@@ -56,7 +47,11 @@ export const signIn = async (req, res) => {
         if(!user) {
             return res.status(400).json({ message: 'Invalid credentials' })
         }
-        const validPassword = compareHash(password, user.password);
+        const validPassword = await compareHash(password, user.password);
+
+        console.log(password)
+        console.log(user.password)
+        
         if(!validPassword) {
             return res.status(400).json({ message: 'Invalid credentials' })
         }

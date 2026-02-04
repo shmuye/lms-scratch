@@ -6,6 +6,8 @@ export const PERMISSIONS = {
   BOOK_READ: "book:read",
   BOOK_BORROW: "book:borrow",
   BOOK_RETURN: "book:return",
+
+  USER_CREATE: "user:create",
   USER_READ: "user:read",
   USER_DELETE: "user:delete",
   USER_ROLE_UPDATE: "user:role:update",

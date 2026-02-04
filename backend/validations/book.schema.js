@@ -1,5 +1,17 @@
 import { z } from 'zod';
 
+export const categoryEnum =  [
+
+        "Fiction",
+        "Science",
+        "Technology",
+        "History",
+        "Education",
+        "Biography",
+        "Sport",
+
+    ]
+
 export const createBookSchema = z.object({
 
   title: z.string().min(3).max(100),
@@ -13,14 +25,13 @@ export const createBookSchema = z.object({
                   .int()
                   .min(0)
                   .max(new Date().getFullYear()),
-  category: z
-            .string()
-            .min(1)
-            .max(50),
+  category: z.enum(categoryEnum)
 
 });
 
-export const updateBookSchema = createBookSchema.partial()
+export const updateBookSchema = createBookSchema
+                                  .omit({isbn: true})
+                                  .partial()
 
 
 

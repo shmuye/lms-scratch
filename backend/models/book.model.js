@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { categoryEnum } from "../validations/book.schema.js";
 
 const bookSchema = new mongoose.Schema({
     title: {
@@ -29,15 +30,7 @@ const bookSchema = new mongoose.Schema({
     category: {
       type: String,
       required: true,
-      enum: [
-        "Fiction",
-        "Science",
-        "Technology",
-        "History",
-        "Education",
-        "Biography",
-        "Sport",
-      ],
+      enum: categoryEnum
     },
 
     description: {
