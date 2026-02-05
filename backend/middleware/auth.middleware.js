@@ -11,11 +11,11 @@ const authenticate = (req, res, next) => {
     }
 
     try {
-        const {userId, userRole} = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET)
+        const {userId, role} = jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET)
 
         req.user = {
             id: userId,
-            role: userRole
+            role,
         }
 
     next()
