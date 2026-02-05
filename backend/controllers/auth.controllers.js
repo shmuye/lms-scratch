@@ -14,6 +14,8 @@ export const signUp = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' })
         }
+
+        
         const hashedPassword = await hash(password);
 
         const user = await User.create({

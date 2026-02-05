@@ -116,3 +116,36 @@ export const updateProfile = async (req, res) => {
     }
 }
 
+
+export const updateAvatar = async (req, res) => {
+
+      if(!req.file) {
+        return res.status(400).json({
+            message: "Avatar image is required"
+        })
+      }
+
+      const avatarPath = `uploads/avatars/${req.file.filename}`
+      const userId = req.user.id
+      
+      const user = await User.findByIdAndUpdate(
+        userId, 
+        { avatar: avatarPath},
+        { new: true }
+    )
+
+    return res.status(201).json({
+        message: "avatar updated successfully",
+        avatar: user.avatar
+    })
+}
+
+export const deleteAvatar = async (req, res) => {
+
+      await User.findByIdAndDelete(
+        req.user.id,
+        { avatar: null}
+      )
+
+}
+

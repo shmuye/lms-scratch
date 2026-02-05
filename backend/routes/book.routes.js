@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post("/",
        authenticate, 
-       authorize(PERMISSIONS.BOOK_CREATE),
+       authorize(PERMISSIONS.SYSTEM_ALL),
        uploadBookCover.single('coverImage'),
        validate(createBookSchema),
        createBook);
