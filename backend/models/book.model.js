@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { categoryEnum } from "../validations/book.schema.js";
+import { categoryEnum } from "../../shared/validations/book.schema.js";
 
 const bookSchema = new mongoose.Schema({
     title: {

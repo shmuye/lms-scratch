@@ -3,8 +3,8 @@ import { createBook, updateBook, deleteBook, getBook, getBooks } from "../contro
 import { authenticate, authorize } from "../middleware/index.js";
 import { uploadBookCover } from "../utils/multer.js";
 import { validate } from '../middleware/validate.middleware.js'
-import { createBookSchema } from '../validations/book.schema.js'
-import { updateBookSchema } from "../validations/book.schema.js";
+import { createBookSchema } from "../../shared/validations/book.schema.js";
+import { updateBookSchema } from "../../shared/validations/book.schema.js";
 
 
 import express from "express";
