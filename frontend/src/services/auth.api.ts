@@ -16,3 +16,4 @@ export const login = async (data: LoginInput) => {
        )
     }
 }
+
