@@ -49,3 +49,20 @@ HTML forms
  ```js
 
  const EnhancedComponent = higherOrderComponent(WrappedComponent);
+
+ ```
+ #### ***Interceptors in react***
+
+ Interceptors are functions used with HTTP client libraries to globally manage and modify HTTP requests and responses
+
+*** use cases ***
+
+1) Authentication and Authorization
+
+2) Global error handling
+
+3) Token refresh machanism
+
+4) Logging and Monitoring
+
+5) Data Transformation
