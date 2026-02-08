@@ -4,7 +4,17 @@ export interface LoginInput {
   password: string;
 }
 
+
+export interface RegisterInput {
+
+  name: string,
+  email: string,
+  password: string,
+  
+}
+
 export interface AuthState {
+
   user: {
     id: string;
     email: string;
@@ -13,4 +23,5 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
   isAuthenticated: boolean;
+
 }
