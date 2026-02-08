@@ -141,11 +141,26 @@ export const updateAvatar = async (req, res) => {
 }
 
 export const deleteAvatar = async (req, res) => {
+      try {
 
-      await User.findByIdAndDelete(
+        const deletedAvatar =  await User.findByIdAndUpdate(
         req.user.id,
-        { avatar: null}
-      )
+        { avatar: null})
 
+        if(!deleteAvatar) {
+            return res.status(400).json({
+                message: "Avatar not found"
+            })
+        }
+
+        return res.status(200).json({
+            message: "Avatar deleted successfully"
+        })
+      } catch (error) {
+        return res.status(500).json({
+            message: "Internal server error"
+        })
+      }
+     
 }
 

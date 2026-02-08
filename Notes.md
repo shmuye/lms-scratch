@@ -17,7 +17,7 @@ It allows actions such as data validation, modification, logging on before the a
 
 ```
 
-*** every ***
+***every***
 
 an array method to check if all its elements satisfy a condition
 
@@ -76,14 +76,14 @@ additional state, prop or behaver
 
  by then or catch.
 
-*** use cases ***
+***use cases***
 
-1) Authentication and Authorization
+1. Authentication and Authorization
 
-2) Global error handling
+2. Global error handling
 
-3) Token refresh machanism
+3. Token refresh machanism
 
-4) Logging and Monitoring
+4. Logging and Monitoring
 
-5) Data Transformation
+5. Data Transformation

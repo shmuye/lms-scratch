@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+
 import axios, 
 {
   AxiosInstance,
@@ -40,8 +40,7 @@ api.interceptors.response.use(
     (error: AxiosError) => {
         if(error.response?.status === 401){
 
-            const navigate = useNavigate()
-            navigate('/login')
+            window.location.href = '/login'
             
         }
 

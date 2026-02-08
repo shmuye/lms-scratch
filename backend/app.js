@@ -3,9 +3,13 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import cors from 'cors';
+import morgan from 'morgan';
+
+
 import authRoutes from './routes/auth.routes.js'
 import bookRoutes from './routes/book.routes.js';
 import userRoutes from './routes/user.routes.js';
+
 
 
 dotenv.config();
@@ -18,11 +22,10 @@ const app = express();
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true,
-    allowedHeaders: {
-        "Content-Type": 'application/json'
-    }
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    allowedHeaders: ['Content-Type']
 }));
-
+app.use(morgan('dev'))
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join( process.cwd(), 'uploads')));
