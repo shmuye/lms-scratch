@@ -13,13 +13,18 @@ export interface RegisterInput {
   
 }
 
+export interface User {
+
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+
+}
+
 export interface AuthState {
 
-  user: {
-    id: string;
-    email: string;
-    role: string;
-  } | null;
+  user: User | null;
   loading: boolean;
   error: string | null;
   isAuthenticated: boolean;

@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
         enum: Object.values(ROLES),
         default: ROLES.READER
     },
+    isActive: {
+          type: Boolean,
+          default: true
+    },
     refreshToken: {
         type: String,
         default: null

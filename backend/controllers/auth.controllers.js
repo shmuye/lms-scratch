@@ -47,12 +47,12 @@ export const signIn = async (req, res) => {
 
         const user = await User.findOne({ email }).select("+password");
         if(!user) {
-            return res.status(400).json({ message: 'Invalid credentials' })
+            return res.status(400).json({ message: 'A user with this email does not exist' })
         }
         const validPassword = await compareHash(password, user.password);
         
         if(!validPassword) {
-            return res.status(400).json({ message: 'Invalid credentials' })
+            return res.status(400).json({ message: 'Invalid password' })
         }
 
         const accessToken = generateAccessToken(user._id, user.role)
@@ -60,7 +60,7 @@ export const signIn = async (req, res) => {
 
 
         // hash refresh token
-        user.refreshToken  = await bcrypt.hash(refreshToken, 10)
+        user.refreshToken  = await hash(refreshToken, 10)
         await user.save();
 
         // set cookies

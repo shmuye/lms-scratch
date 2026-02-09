@@ -1,7 +1,8 @@
 // authSlice.ts
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { AuthState } from "../../types/auth.types";
-import { loginUser } from "./auth.thunks";
+import { loginUser, registerUser, logoutUser, refreshToken } from "./auth.thunks";
+import { RootState } from "../../store/store";
 
 const initialState: AuthState = {
   user: null,
@@ -14,21 +15,34 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout(state) {
-      state.user = null;
-      state.isAuthenticated = false;
-    },
+    resetAuth: (state) => {
+        state.user = null,
+        state.isAuthenticated = false
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.pending, (state) => {
+      .addCase(registerUser.pending, (state) => {
+            state.loading = true
+      })
+      .addCase(registerUser.fulfilled, (state, action: PayloadAction<AuthState>) => {
+          state.loading = false,
+          state.error = null,
+          state.user = action.payload.user
+      }),
+
+      .addCase(registerUser.rejected, (state ,action: PayloadAction<AuthState>) => {
+          state.user = null,
+          state.isAuthenticated = false
+      })
+      .addCase(loginUser.pending, (state, action) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
+      .addCase(loginUser.fulfilled, (state, action: PayloadAction<>) => {
         state.loading = false;
         state.isAuthenticated = true;
-        state.user = action.payload.user; // depends on backend response
+        state.user = action.payload.user; 
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -39,3 +53,6 @@ const authSlice = createSlice({
 
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;
+
+export const isAuthenticated = ((state: RootState)=> state.auth.isAuthenticated)
+export const selectUser = ((state: RootState) => state.auth.user)

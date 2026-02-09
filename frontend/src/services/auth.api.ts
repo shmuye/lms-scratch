@@ -49,7 +49,7 @@ export const logout= async () => {
     }
 }
 
-export const referesh = async () => {
+export const refresh = async () => {
     try {
         const res = await api.post('auth/refresh')
         return res.data
