@@ -212,7 +212,7 @@ export const borrowBook = async (req, res) => {
    } 
 }
 
-export const returnBook = async (req, res) => {
+export const approveReturn = async (req, res) => {
     try {
       const userId = req.user.id;
       const bookId = req.params.id;
