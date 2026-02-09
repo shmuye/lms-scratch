@@ -4,6 +4,7 @@ import { loginSchema }  from '../../../shared/validations/auth.schema.js'
 import { LoginInput } from '../types/auth.types.js'
 import { useAppDispatch } from '../hooks/hooks.ts'
 import { loginUser } from '../features/auth/auth.thunks.js'
+import { useNavigate } from 'react-router-dom'
 
 
 const LoginForm = () => {
@@ -12,22 +13,32 @@ const LoginForm = () => {
       resolver: zodResolver(loginSchema)
     })
 
-   
-
+    const navigate = useNavigate()
+    
     const dispatch = useAppDispatch()
 
     const onSubmit = (data: LoginInput) => {
-         dispatch(loginUser(data))
+      try {
+
+        dispatch(loginUser(data)).unwrap()
+        navigate('/')
+        
+      } catch (error) {
+
+        throw new Error(`Error logging in, ${error}`)
+
+      }
+         
         }
 
   return (
-    <div className='p-4 max-w-[400px] w-full  h-[500px] mx-auto border-2 border-slate-500 bg-gradient-to-br from-blue-500 to-slate-500'>
-        <h1 className='text-center text-3xl text-white font-bold mb-16'>Login to your Account</h1>
+    <div className='p-4 max-w-[400px] w-full  h-[500px] mx-auto border-2 border-slate-500 rounded-md'>
+        <h1 className='text-center text-3xl font-bold mb-16'>Login</h1>
         <form 
          className='w-full flex flex-col gap-4 items-center'
          onSubmit={handleSubmit(onSubmit)}>
             <input 
-            className='w-full p-4 rounded-sm focus:ring-2 focus:ring-slate-800'
+            className='bg-slate-300 w-full p-4 rounded-md focus:ring-2 focus:ring-slate-800'
 
             {...register('email')} 
             placeholder='Email'/>
@@ -35,7 +46,7 @@ const LoginForm = () => {
               errors.email && <p>{errors.email.message}</p>
             }
             <input 
-            className='w-full p-4 rounded-sm focus:ring-2 focus:ring-slate-800'
+            className='bg-slate-300 w-full p-4 rounded-md focus:ring-2 focus:ring-slate-800'
             type='password'
             {...register('password')} 
             placeholder='Enter Password'/>
