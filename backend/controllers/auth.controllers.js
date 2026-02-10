@@ -70,7 +70,12 @@ export const signIn = async (req, res) => {
 
 
         return res.status(200).json(
-            {   status: true,
+            {   
+                user: {
+                    email: user.email,
+                    name: user.name
+                },
+                success: true,
                 message: 'Login successful'
             })
 

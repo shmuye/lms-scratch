@@ -1,6 +1,6 @@
 // authSlice.ts
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { AuthState } from "../../types/auth.types";
+import { AuthState, LoginInput } from "../../types/auth.types";
 import { loginUser, registerUser, logoutUser, refreshToken } from "./auth.thunks";
 import { RootState } from "../../store/store";
 
@@ -18,8 +18,9 @@ const authSlice = createSlice({
     resetAuth: (state) => {
         state.user = null,
         state.isAuthenticated = false
-    }
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -29,9 +30,8 @@ const authSlice = createSlice({
           state.loading = false,
           state.error = null,
           state.user = action.payload.user
-      }),
-
-      .addCase(registerUser.rejected, (state ,action: PayloadAction<AuthState>) => {
+      })
+      .addCase(registerUser.rejected, (state ,action) => {
           state.user = null,
           state.isAuthenticated = false
       })
@@ -39,10 +39,10 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action: PayloadAction<>) => {
+      .addCase(loginUser.fulfilled, (state, action: PayloadAction<LoginInput>) => {
+        
         state.loading = false;
         state.isAuthenticated = true;
-        state.user = action.payload.user; 
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -51,7 +51,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;
 
 export const isAuthenticated = ((state: RootState)=> state.auth.isAuthenticated)

@@ -4,7 +4,7 @@ import { loginSchema }  from '../../../shared/validations/auth.schema.js'
 import { LoginInput } from '../types/auth.types.js'
 import { useAppDispatch } from '../hooks/hooks.ts'
 import { loginUser } from '../features/auth/auth.thunks.js'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 
 const LoginForm = () => {
@@ -58,6 +58,11 @@ const LoginForm = () => {
             className='w-full rounded-full bg-blue-800 text-white p-4 cursor-pointer'
             type='submit'>Submit</button>
         </form>
+
+        <p>
+          Don't have an account ?
+          <Link to={'/signup'}>create account</Link>
+        </p>
     </div>
   )
 }
