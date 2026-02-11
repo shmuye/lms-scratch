@@ -16,7 +16,9 @@ const NavBar = () => {
           <ul className='flex justify-between  gap-4'>
                 {
                   navLinks.map((link) => (
-                    <li className='flex items-center gap-2'>
+                    <li 
+                       key={link.label}
+                       className='flex items-center gap-2'>
                        <button>
                          <link.icon />
                        </button>

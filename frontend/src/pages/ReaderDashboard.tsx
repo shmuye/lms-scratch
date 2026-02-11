@@ -1,8 +1,16 @@
-import React from 'react'
+import { Outlet, Link} from "react-router-dom"
 
 const ReaderDashboard = () => {
     return (
-        <div>ReaderDashboard</div>
+
+        <>
+        <nav>
+            <Link to="profile">Profile</Link>
+        </nav>
+        <Outlet />
+        </>
+        
+
     )
 }
 export default ReaderDashboard
