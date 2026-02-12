@@ -34,47 +34,100 @@ const RegisterForm = () => {
 }
 
   return (
-    <div className='p-4 max-w-[400px] w-full mx-auto rounded-md bg-gradient-to-br from-emerald-400 to-teal-500 shadow-md'>
-        <form 
-          className='w-full flex py-5 gap-4 flex-col items-center'
-          onSubmit={handleSubmit(onSubmit)}>
-             <input 
-            className='w-full p-4 rounded-md focus:ring-2 focus:ring-slate-800'
+   <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6">
 
-            {...register('name')} 
-            placeholder='Name '/>
-            {
-              errors.name && <p>{errors.name.message}</p>
-            }
-            
-            <input 
-            className='w-full p-4 rounded-md focus:ring-2 focus:ring-slate-800'
+  <div className="text-center">
+    <h1 className="text-2xl font-semibold text-gray-900">
+      Create your account
+    </h1>
+    <p className="text-sm text-gray-500 mt-1">
+      Start building your reading habit today.
+    </p>
+  </div>
 
-            {...register('email')} 
-            placeholder='Email'/>
-            {
-              errors.email && <p>{errors.email.message}</p>
-            }
-            <input 
-            className='w-full p-4 rounded-md focus:ring-2 focus:ring-slate-800'
-            type='password'
-            {...register('password')} 
-            placeholder='Password'/>
-            {
-              errors.password && <p>{errors.password.message}</p>
-            }
+  <form
+    className="flex flex-col gap-5 w-full"
+    onSubmit={handleSubmit(onSubmit)}
+  >
 
-            <button 
-            className='w-full rounded-full bg-blue-800 text-white p-4 cursor-pointer'
-            type='submit'>Register</button>
-
-        </form>
-        <p>
-            Already have an account?
-            <Link to={'/login'}>login</Link>
+    {/* Name */}
+    <div className="flex flex-col gap-1">
+      <input
+        {...register('name')}
+        placeholder="Full name"
+        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg
+                   outline-none text-gray-900 placeholder:text-gray-400
+                   focus:ring-2 focus:ring-indigo-500
+                   focus:border-indigo-500 transition"
+      />
+      {errors.name && (
+        <p className="text-sm text-red-500">
+          {errors.name.message}
         </p>
-        
+      )}
     </div>
+
+    {/* Email */}
+    <div className="flex flex-col gap-1">
+      <input
+        type="email"
+        {...register('email')}
+        placeholder="Email address"
+        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg
+                   outline-none text-gray-900 placeholder:text-gray-400
+                   focus:ring-2 focus:ring-indigo-500
+                   focus:border-indigo-500 transition"
+      />
+      {errors.email && (
+        <p className="text-sm text-red-500">
+          {errors.email.message}
+        </p>
+      )}
+    </div>
+
+    {/* Password */}
+    <div className="flex flex-col gap-1">
+      <input
+        type="password"
+        {...register('password')}
+        placeholder="Password"
+        className="w-full px-3 py-2.5 border border-gray-300 rounded-lg
+                   outline-none text-gray-900 placeholder:text-gray-400
+                   focus:ring-2 focus:ring-indigo-500
+                   focus:border-indigo-500 transition"
+      />
+      {errors.password && (
+        <p className="text-sm text-red-500">
+          {errors.password.message}
+        </p>
+      )}
+    </div>
+
+    <button
+      type="submit"
+      className="w-full py-2.5 rounded-lg bg-indigo-600
+                 text-white font-medium
+                 hover:bg-indigo-700
+                 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+                 transition"
+    >
+      Register
+    </button>
+  </form>
+
+  <p className="text-sm text-center text-gray-600">
+    Already have an account?
+    <Link
+      to="/login"
+      className="text-indigo-600 font-medium ml-1 hover:underline"
+    >
+      Login
+    </Link>
+  </p>
+
+</div>
+
+
   )
 }
 

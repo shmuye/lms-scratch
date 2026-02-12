@@ -3,6 +3,7 @@ import { NavBar } from "./components/index.js";
 import { Login, Signup,Home, LibrarianDashboard, ReaderDashboard } from "./pages/index.js";
 import Profile from "./components/Profile.js";
 import ProtectedRoutes from "./components/ProtectedRoutes.js";
+import AuthLayout from "./components/AuthLayout.js";
 
 const App = () => {
     return (
@@ -14,18 +15,11 @@ const App = () => {
                         <Home />
                     </>
                 } />
-                <Route path="/Login" element={
-                    <>
-                        <NavBar/>
-                        <Login/>
-                    </>
-                } />
-                <Route path="/signup" element={
-                    <>
-                        <NavBar/>
-                        <Signup/>
-                    </>
-                } />
+                <Route element={<AuthLayout />}>
+                     <Route path="/Login" element={ <Login/>} />
+                     <Route path="/signup" element={<Signup/>} />
+                </Route>
+                
                 <Route path="/dashboard" element={<LibrarianDashboard />} />
                   
                <Route element={<ProtectedRoutes />}>

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks.ts'
 import { loginUser } from '../features/auth/auth.thunks.js'
 import { useNavigate, Link } from 'react-router-dom'
 import { selectUser } from '../features/auth/auth.slice.ts'
-import { LogIn, Lock, Mail} from 'lucide-react'
+import { LogIn, Lock, Mail, Divide} from 'lucide-react'
 
 
 const LoginForm = () => {
@@ -37,55 +37,75 @@ const LoginForm = () => {
         }
 
   return (
-    <div className='bg-gradient-to-tr from-blue-cyan-300 to-violet-800 to-flex flex-col items-center gap-4 max-w-[400px] w-full mx-auto shadow-lg p-4 rounded-lg'>
-        <div className='w-[80%]'>
-           <LogIn />
-           <h1 className='text-xl text-white font-bold text-center'>Sign in with email</h1>
-           <p className='text-center text-gray-300'>make reading your habit, get access to world class books.</p>
-        </div>
-        <form 
-         className='w-full flex flex-col gap-4 items-center'
-         onSubmit={handleSubmit(onSubmit)}>
+  
+  <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6">
 
-          <div className='bg-gray-300 p-2 flex items-center gap-2'>
+    <div className="flex flex-col items-center gap-3">
+      <div className="p-3 rounded-full bg-indigo-100">
+        <LogIn className="text-indigo-600" size={24} />
+      </div>
 
-            <Mail />
-
-            <input 
-            className='outline-none border-none'
-
-            {...register('email')} 
-            placeholder='Email'/>
-            {
-              errors.email && <p>{errors.email.message}</p>
-            }
-
-          </div>
-
-          <div className='bg-gray-300 p-2 flex items-center gap-2'>
-            <Lock />
-              <input 
-            className='outline-none border-none'
-            type='password'
-            {...register('password')} 
-            placeholder='Enter Password'/>
-            {
-              errors.password && <p>{errors.password.message}</p>
-            }
-          </div>
-            
-            
-
-            <button 
-            className='w-full rounded-full text-white bg-slate-800 p-2S cursor-pointer'
-            type='submit'>Login</button>
-        </form>
-
-        <p>
-          Don't have an account ?
-          <Link to={'/signup'}>create account</Link>
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold text-gray-900">
+          Sign in to your account
+        </h1>
+        <p className="text-sm text-gray-500 mt-1">
+          Make reading your habit. Get access to world class books.
         </p>
+      </div>
     </div>
+
+    <form className="flex flex-col gap-5 w-full">
+
+      {/* Email */}
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2
+                        focus-within:ring-2 focus-within:ring-indigo-500
+                        focus-within:border-indigo-500 transition">
+          <Mail className="text-gray-400" size={18} />
+          <input
+            type="email"
+            className="flex-1 bg-transparent outline-none text-gray-900
+                       placeholder:text-gray-400
+                       autofill:bg-transparent"
+            placeholder="Email"
+          />
+        </div>
+      </div>
+
+      {/* Password */}
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2
+                        focus-within:ring-2 focus-within:ring-indigo-500
+                        focus-within:border-indigo-500 transition">
+          <Lock className="text-gray-400" size={18} />
+          <input
+            type="password"
+            className="flex-1 bg-transparent outline-none text-gray-900
+                       placeholder:text-gray-400"
+            placeholder="Password"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full py-2.5 rounded-lg bg-indigo-600
+                   text-white font-medium
+                   hover:bg-indigo-700
+                   focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+                   transition">
+        Login
+      </button>
+    </form>
+
+    <p className="text-sm text-center text-gray-600">
+      Don’t have an account?
+      <Link className="text-indigo-600 font-medium ml-1 hover:underline" to="/signup">
+        Create account
+      </Link>
+    </p>
+  </div>
   )
 }
 
