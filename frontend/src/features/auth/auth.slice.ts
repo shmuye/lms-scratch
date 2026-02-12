@@ -9,6 +9,7 @@ const initialState: AuthState = {
   loading: false,
   error: null,
   isAuthenticated: false,
+  success: false
 };
 
 const authSlice = createSlice({
@@ -16,24 +17,25 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     resetAuth: (state) => {
-        state.user = null,
-        state.isAuthenticated = false
+        state.user = null;
+        state.isAuthenticated = false;
     },
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
-            state.loading = true
+            state.loading = true;
+            state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state, action: PayloadAction<AuthState>) => {
-          state.loading = false,
-          state.error = null,
-          state.user = action.payload.user
-      })
-      .addCase(registerUser.rejected, (state ,action) => {
-          state.user = null,
-          state.isAuthenticated = false
+      .addCase(registerUser.fulfilled, (state, { payload }) => {
+          state.success = true;
+          state.loading = false;
+          state.error = null;
+        })
+      .addCase(registerUser.rejected, (state ,{ payload }) => {
+          state.loading = false;
+          state.error = payload as string | null;
       })
       .addCase(loginUser.pending, (state, action) => {
         state.loading = true;

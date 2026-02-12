@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { NavBar } from "./components/index.js";
 import { Login, Signup,Home, LibrarianDashboard, ReaderDashboard } from "./pages/index.js";
 import Profile from "./components/Profile.js";
-import ProtectedRoutes from "./components/ProtectedRoutes.js";
+import ProtectedRoutes from "./routes/ProtectedRoutes.js";
 import AuthLayout from "./components/AuthLayout.js";
 
 const App = () => {
