@@ -6,7 +6,8 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks.ts";
 import { loginUser } from "../features/auth/auth.thunks.js";
 import { useNavigate, Link } from "react-router-dom";
 import { selectUser } from "../features/auth/auth.slice.ts";
-import { LogIn, Lock, Mail, Divide } from "lucide-react";
+import { LogIn, Lock, Mail } from "lucide-react";
+import { useEffect } from "react";
 
 const LoginForm = () => {
   const {
@@ -19,14 +20,22 @@ const LoginForm = () => {
 
   const user = useAppSelector(selectUser);
   const navigate = useNavigate();
-  console.log(user);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!user) return;
+
+    const redirectURL = {
+      ADMIN: "/admin",
+      READER: "/reader",
+      LIBRARIAN: "/librarian",
+    };
+    navigate(redirectURL[user.role], { replace: true });
+  }, [user, navigate]);
 
   const onSubmit = async (data: LoginInput) => {
     try {
-      const result = await dispatch(loginUser(data)).unwrap();
-      console.log(result);
-      navigate("/");
+      await dispatch(loginUser(data)).unwrap();
     } catch (error) {
       throw new Error(`Error logging in, ${error}`);
     }
