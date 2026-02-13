@@ -1,7 +1,12 @@
 // authSlice.ts
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { AuthState, LoginInput } from "../../types/auth.types";
-import { loginUser, registerUser, logoutUser, refreshToken } from "./auth.thunks";
+import {
+  loginUser,
+  registerUser,
+  logoutUser,
+  refreshToken,
+} from "./auth.thunks";
 import { RootState } from "../../store/store";
 
 const initialState: AuthState = {
@@ -9,7 +14,7 @@ const initialState: AuthState = {
   loading: false,
   error: null,
   isAuthenticated: false,
-  success: false
+  success: false,
 };
 
 const authSlice = createSlice({
@@ -17,36 +22,36 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     resetAuth: (state) => {
-        state.user = null;
-        state.isAuthenticated = false;
+      state.user = null;
+      state.isAuthenticated = false;
     },
   },
 
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
-            state.loading = true;
-            state.error = null;
+        state.loading = true;
+        state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state, { payload }) => {
-          state.success = true;
-          state.loading = false;
-          state.error = null;
-        })
-      .addCase(registerUser.rejected, (state ,{ payload }) => {
-          state.loading = false;
-          state.error = payload as string | null;
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.success = true;
+        state.loading = false;
+        state.error = null;
+        state.user = action.payload.user;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string | null;
       })
       .addCase(loginUser.pending, (state, action) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginUser.fulfilled, (state, action: PayloadAction<LoginInput>) => {
-        
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.isAuthenticated = true;
-        
-})
+        ((state.user = action.payload.user), (state.isAuthenticated = true));
+        state.success = true;
+      })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
@@ -56,5 +61,5 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const isAuthenticated = ((state: RootState)=> state.auth.isAuthenticated)
-export const selectUser = ((state: RootState) => state.auth.user)
+export const isAuthenticated = (state: RootState) => state.auth.isAuthenticated;
+export const selectUser = (state: RootState) => state.auth.user;
