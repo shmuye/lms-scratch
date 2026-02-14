@@ -1,6 +1,9 @@
 export interface Book {
-    title: string,
-    description?: string,
-    isbn: number,
-    author: string;
+  title: string;
+  totalCopies: number;
+  rating: number;
+  copiesAvailable: number;
+  isbn: number;
+  author: string;
+  coverPage: string;
 }
