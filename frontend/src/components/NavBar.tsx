@@ -9,14 +9,13 @@ const NavBar = () => {
   console.log(authenticated, user);
 
   return (
-    <header className="flex justify-between items-center h-16 p-4 border-b border-slate-500 mb-4">
-      <h1 className="text-xl font-bold text-gradient-to-r from-blue-500 to-yellow-500">
-        ReadSphere
-      </h1>
+    <header className="flex justify-between items-center p-4 border-b border-slate-500">
+      <h1 className="text-xl font-bold">ReadSphere</h1>
+      <SearchBar />
       <nav>
         <ul className="flex items-center  gap-4">
           <li>
-            <Link to="/">Browse Books</Link>
+            <Link to="/books">Browse Books</Link>
           </li>
           {!authenticated && (
             <>
@@ -41,7 +40,6 @@ const NavBar = () => {
           )}
         </ul>
       </nav>
-      <SearchBar />
     </header>
   );
 };

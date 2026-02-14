@@ -6,6 +6,7 @@ import {
   Home,
   LibrarianDashboard,
   ReaderDashboard,
+  Books,
 } from "./pages/index.js";
 import Profile from "./components/Profile.js";
 import ProtectedRoutes from "./routes/ProtectedRoutes.js";
@@ -23,6 +24,15 @@ const App = () => {
             <>
               <NavBar />
               <Home />
+            </>
+          }
+        />
+        <Route
+          path="/books"
+          element={
+            <>
+              <NavBar />
+              <Books />
             </>
           }
         />

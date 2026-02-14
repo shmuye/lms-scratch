@@ -1,5 +1,6 @@
-export { default as Home } from './HomePage.js';
-export { default as Login } from './LoginPage.js';
-export { default as Signup } from './SignupPage.js';
-export { default as LibrarianDashboard } from './LibrarianDashboard.js';
-export { default as ReaderDashboard } from './ReaderDashboard.js';
+export { default as Home } from "./HomePage";
+export { default as Login } from "./LoginPage";
+export { default as Signup } from "./SignupPage";
+export { default as LibrarianDashboard } from "./LibrarianDashboard";
+export { default as ReaderDashboard } from "./ReaderDashboard";
+export { default as Books } from "./Books";
