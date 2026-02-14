@@ -5,6 +5,8 @@ import { isAuthenticated, selectUser } from "../features/auth/auth.slice";
 
 const NavBar = () => {
   const authenticated = useAppSelector(isAuthenticated);
+  const user = useAppSelector(selectUser);
+  console.log(authenticated, user);
 
   return (
     <header className="flex justify-between items-center h-16 p-4 border-b border-slate-500 mb-4">

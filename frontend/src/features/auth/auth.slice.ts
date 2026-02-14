@@ -1,19 +1,13 @@
 // authSlice.ts
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { AuthState, LoginInput } from "../../types/auth.types";
-import {
-  loginUser,
-  registerUser,
-  logoutUser,
-  refreshToken,
-} from "./auth.thunks";
+import { createSlice } from "@reduxjs/toolkit";
+import { AuthState } from "../../types/auth.types";
+import { loginUser, registerUser } from "./auth.thunks";
 import { RootState } from "../../store/store";
 
 const initialState: AuthState = {
   user: null,
   loading: false,
   error: null,
-  isAuthenticated: false,
   success: false,
 };
 
@@ -23,7 +17,6 @@ const authSlice = createSlice({
   reducers: {
     resetAuth: (state) => {
       state.user = null;
-      state.isAuthenticated = false;
     },
   },
 
@@ -49,7 +42,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        ((state.user = action.payload.user), (state.isAuthenticated = true));
+        state.user = action.payload.user;
         state.success = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -61,5 +54,5 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const isAuthenticated = (state: RootState) => state.auth.isAuthenticated;
+export const isAuthenticated = (state: RootState) => !!state.auth.user;
 export const selectUser = (state: RootState) => state.auth.user;
