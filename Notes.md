@@ -1,8 +1,8 @@
-# Library Management System 
+# Library Management System
 
 ## Backend
 
-### what is pre('save') hook in mongoose 
+### what is pre('save') hook in mongoose
 
 A mongoose middleware function that runs authomatically before a document is saved.
 
@@ -12,16 +12,15 @@ It allows actions such as data validation, modification, logging on before the a
 
 ### Express middleware shape
 
-```js 
-    (req, res, next) => {}
-
+```js
+(req, res, next) => {};
 ```
 
-***every***
+**_every_**
 
 an array method to check if all its elements satisfy a condition
 
-### multer 
+### multer
 
 - middleware for handling multipart/ form-data
 
@@ -29,21 +28,21 @@ an array method to check if all its elements satisfy a condition
 
 ### difference between jest and supertest
 
-- **Jest** is a complete test frame work for javascript 
+- **Jest** is a complete test frame work for javascript
 
 - **supertest** is specifically for api testing
 
-### multipart/form-data 
+### multipart/form-data
 
 multer is an HTTP content type (MIME type) user to send data to a server when a request includes
 
-multiple indepent parts.It is the standard method for uploading files via 
+multiple indepent parts.It is the standard method for uploading files via
 
 HTML forms
 
-#### mongoose lean query 
+#### mongoose lean query
 
-A mongoose lean query is an optimization technique that tell mongoose to return plain javascript 
+A mongoose lean query is an optimization technique that tell mongoose to return plain javascript
 
 objects instead of full mongoose document objects. This significantly improves performance and reduces
 
@@ -55,28 +54,27 @@ memory usage.
 
 ### Higher Order components
 
-HOC are an advanced react pattern for reusing component logic. 
+HOC are an advanced react pattern for reusing component logic.
 
 It is a function that takes existing component as an argument and returns a new enhanced component with
 
-additional state, prop or behaver 
+additional state, prop or behaver
 
- ```js
+```js
+const EnhancedComponent = higherOrderComponent(WrappedComponent);
+```
 
- const EnhancedComponent = higherOrderComponent(WrappedComponent);
+### Interceptors in react
 
- ```
- ### Interceptors in react
+Interceptors are functions used with HTTP client libraries to **_globally_** manage and modify HTTP
 
- Interceptors are functions used with HTTP client libraries to ***globally*** manage and modify HTTP
+requests and responses.
 
- requests and responses.
+Request and Response interceptors allows you to intercept request and responses before they are handled
 
- Request and Response interceptors allows you to intercept request and responses before they are handled
+by then or catch.
 
- by then or catch.
-
-***use cases***
+**_use cases_**
 
 1. Authentication and Authorization
 
@@ -87,3 +85,7 @@ additional state, prop or behaver
 4. Logging and Monitoring
 
 5. Data Transformation
+
+### Redux
+
+redux state is memory only

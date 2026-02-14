@@ -2,11 +2,16 @@ import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../hooks/hooks";
 import { isAuthenticated, selectUser } from "../features/auth/auth.slice";
+import { useEffect } from "react";
 
 const NavBar = () => {
   const authenticated = useAppSelector(isAuthenticated);
   const user = useAppSelector(selectUser);
   console.log(authenticated, user);
+
+  useEffect(() => {
+    if (!user) return;
+  });
 
   return (
     <header className="flex justify-between items-center p-4 border-b border-slate-500">

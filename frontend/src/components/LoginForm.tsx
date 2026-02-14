@@ -19,6 +19,7 @@ const LoginForm = () => {
   });
 
   const user = useAppSelector(selectUser);
+  console.log(user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

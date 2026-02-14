@@ -1,11 +1,13 @@
 // authSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthState } from "../../types/auth.types";
+import { AuthState, User } from "../../types/auth.types";
 import { loginUser, registerUser } from "./auth.thunks";
 import { RootState } from "../../store/store";
 
+const storedUser = localStorage.getItem("user");
+
 const initialState: AuthState = {
-  user: null,
+  user: storedUser ? JSON.parse(storedUser) : null,
   loading: false,
   error: null,
   success: false,
@@ -44,6 +46,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.success = true;
+
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
