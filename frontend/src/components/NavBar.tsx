@@ -23,7 +23,7 @@ const NavBar = () => {
         : "/reader";
 
   return (
-    <header className="flex justify-between items-center p-4 border-b border-slate-500">
+    <header className="h-16 px-4 flex justify-between items-center border-b border-slate-500">
       <h1 className="text-xl font-bold">ReadSphere</h1>
       <SearchBar />
       <nav>

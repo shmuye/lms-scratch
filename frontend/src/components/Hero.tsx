@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <div
-      className="h-screen flex flex-col items-center justify-center text-white text-center px-4 bg-cover bg-center relative"
+      className={`
+        flex flex-1 flex-col items-center justify-center text-white text-center px-4 bg-cover bg-center relative
+        `}
       style={{
         backgroundImage: `url(${homeImage})`,
       }}

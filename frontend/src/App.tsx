@@ -7,7 +7,7 @@ import {
   LibrarianDashboard,
   ReaderDashboard,
   Books,
-} from "./pages/index.js";
+} from "./pages/index.ts";
 import Profile from "./components/Profile.js";
 import ProtectedRoutes from "./routes/ProtectedRoutes.js";
 import AuthLayout from "./components/AuthLayout.js";
@@ -18,15 +18,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <NavBar />
-              <Home />
-            </>
-          }
-        />
+        <Route path="/" element={<Home />} />
         <Route
           path="/books"
           element={

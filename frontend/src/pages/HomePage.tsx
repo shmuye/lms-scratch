@@ -1,7 +1,12 @@
-import Hero from "../components/Hero";
+import { NavBar, Hero } from "../components";
 
 const HomePage = () => {
-  return <Hero />;
+  return (
+    <div className="h-screen flex flex-col">
+      <NavBar />
+      <Hero />
+    </div>
+  );
 };
 
 export default HomePage;
