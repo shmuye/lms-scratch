@@ -1,13 +1,13 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import DashboardSidebar from "../components/DashboardSidebar";
+import { NavBar } from "../components";
 
 const ReaderDashboard = () => {
   return (
-    <>
-      <nav>
-        <Link to="profile">Profile</Link>
-      </nav>
+    <div className="relative">
+      <DashboardSidebar />
       <Outlet />
-    </>
+    </div>
   );
 };
 export default ReaderDashboard;
