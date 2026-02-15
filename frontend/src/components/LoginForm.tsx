@@ -19,19 +19,18 @@ const LoginForm = () => {
   });
 
   const user = useAppSelector(selectUser);
-  console.log(user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!user) return;
 
-    const redirectURL = {
-      ADMIN: "/admin",
-      READER: "/reader",
-      LIBRARIAN: "/librarian",
-    };
-    navigate(redirectURL[user.role], { replace: true });
+    // const redirectURL = {
+    //   ADMIN: "/admin",
+    //   READER: "/reader",
+    //   LIBRARIAN: "/librarian",
+    // };
+    navigate("/", { replace: true });
   }, [user, navigate]);
 
   const onSubmit = async (data: LoginInput) => {

@@ -1,17 +1,26 @@
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { isAuthenticated, selectUser } from "../features/auth/auth.slice";
 import { useEffect } from "react";
+import { logoutUser } from "../features/auth/auth.thunks";
 
 const NavBar = () => {
   const authenticated = useAppSelector(isAuthenticated);
   const user = useAppSelector(selectUser);
   console.log(authenticated, user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!user) return;
   });
+
+  const dashboardRedirectUrl =
+    user?.role === "ADMIN"
+      ? "/admin"
+      : user?.role === "LIBRARIAN"
+        ? "/librarian"
+        : "/reader";
 
   return (
     <header className="flex justify-between items-center p-4 border-b border-slate-500">
@@ -36,10 +45,11 @@ const NavBar = () => {
           {authenticated && (
             <>
               <li>
-                <Link to="/user-dashboard">Dashboard</Link>
+                <Link to={dashboardRedirectUrl}>Dashboard</Link>
               </li>
+
               <li>
-                <button>Logout</button>
+                <button onClick={() => dispatch(logoutUser())}>Logout</button>
               </li>
             </>
           )}
