@@ -5,6 +5,7 @@ import { NavBar } from "../components";
 const ReaderDashboard = () => {
   return (
     <div className="relative">
+      <NavBar />
       <DashboardSidebar />
       <Outlet />
     </div>
