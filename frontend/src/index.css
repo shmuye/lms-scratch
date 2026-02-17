@@ -12,3 +12,13 @@ body,
 body {
   background-color: rgb(240, 234, 234);
 }
+
+@layer components {
+  .input {
+    @apply border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition;
+  }
+
+  .error {
+    @apply text-red-500 text-sm mt-1;
+  }
+}

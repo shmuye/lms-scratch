@@ -1,9 +1,13 @@
 import api from "./axios";
 import { Book } from "../types/book.types";
 
-export const createBook = async (data: Book) => {
+export const createBook = async (formdata: FormData) => {
   try {
-    const response = await api.post("/books", data);
+    const response = await api.post("/books", formdata, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error(`Error creating a book, ${error}`);

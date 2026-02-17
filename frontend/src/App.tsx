@@ -13,6 +13,7 @@ import ProtectedRoutes from "./routes/ProtectedRoutes.js";
 import AuthLayout from "./components/AuthLayout.js";
 import AdminDashboard from "./components/AdminDashboard.js";
 import AdminRoutes from "./routes/AdminRoutes.js";
+import CreateBookPage from "./pages/CreateBookPage.tsx";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route element={<AdminRoutes />}>
             <Route path="/admin" element={<AdminDashboard />} />
           </Route>
+          <Route element={<CreateBookPage />} path="/create-book" />
         </Route>
 
         <Route path="*" element={<h1>404</h1>} />

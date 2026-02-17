@@ -44,10 +44,14 @@ const NavBar = () => {
 
           {authenticated && (
             <>
+              {(user?.role === "ADMIN" || user?.role === "LIBRARIAN") && (
+                <li>
+                  <Link to={"/create-book"}>Create Book</Link>
+                </li>
+              )}
               <li>
                 <Link to={dashboardRedirectUrl}>Dashboard</Link>
               </li>
-
               <li>
                 <button onClick={() => dispatch(logoutUser())}>Logout</button>
               </li>
