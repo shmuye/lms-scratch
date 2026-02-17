@@ -26,7 +26,7 @@ const CreateBook = () => {
       reset();
     },
   });
-  const onSubmit = (data: Book) => {
+  const handleCreateBook = (data: Book) => {
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
@@ -48,7 +48,7 @@ const CreateBook = () => {
         </h2>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleCreateBook)}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {/* Title */}
@@ -102,7 +102,7 @@ const CreateBook = () => {
             </label>
             <input
               type="number"
-              {...register("totalCopies")}
+              {...register("totalCopies", { valueAsNumber: true })}
               className="input"
             />
             {errors.totalCopies && (
@@ -117,7 +117,7 @@ const CreateBook = () => {
             </label>
             <input
               type="number"
-              {...register("copiesAvailable")}
+              {...register("copiesAvailable", { valueAsNumber: true })}
               className="input"
             />
             {errors.copiesAvailable && (
@@ -132,7 +132,7 @@ const CreateBook = () => {
             </label>
             <input
               type="number"
-              {...register("publishedYear")}
+              {...register("publishedYear", { valueAsNumber: true })}
               className="input"
             />
             {errors.publishedYear && (
@@ -155,8 +155,8 @@ const CreateBook = () => {
               file:bg-blue-50 file:text-blue-600
               hover:file:bg-blue-100"
             />
-            {errors.coverPage && (
-              <p className="error">{errors.coverPage.message}</p>
+            {errors.coverPage?.message && (
+              <p className="error">{String(errors.coverPage.message)}</p>
             )}
           </div>
 
@@ -180,7 +180,7 @@ const CreateBook = () => {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold
+              className="cursor-pointer w-full bg-blue-600 text-white py-3 rounded-xl font-semibold
               hover:bg-blue-700 transition duration-200
               disabled:opacity-50 disabled:cursor-not-allowed"
             >

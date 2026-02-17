@@ -6,10 +6,7 @@ export const createBookSchema = z.object({
   author: z.string().min(3).max(100),
 
   description: z.string().max(200).optional(),
-
-  coverPage: z
-    .any()
-    .refine((file) => file instanceof File, "Cover image is required"),
+  coverPage: z.any(),
 
   copiesAvailable: z.coerce.number().int().min(0),
   totalCopies: z.coerce.number().int().min(1),
