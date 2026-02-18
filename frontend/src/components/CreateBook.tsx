@@ -45,7 +45,7 @@ const CreateBook = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Create New Book
