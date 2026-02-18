@@ -8,8 +8,8 @@ export const createBookSchema = z.object({
   description: z.string().max(200).optional(),
   coverPage: z.any(),
 
-  copiesAvailable: z.coerce.number().int().min(0),
-  totalCopies: z.coerce.number().int().min(1),
+  copiesAvailable: z.number().int().min(0),
+  totalCopies: z.number().int().min(1),
 
   isbn: z.string().min(10).max(13),
 

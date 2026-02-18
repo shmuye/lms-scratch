@@ -30,7 +30,11 @@ const CreateBook = () => {
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value as any);
+      if (key === "coverPage") {
+        formData.append("coverPage", value[0]); // extract single file
+      } else {
+        formData.append(key, String(value));
+      }
     });
 
     mutate(formData);
@@ -147,7 +151,26 @@ const CreateBook = () => {
             </label>
             <input
               type="file"
-              {...register("coverPage")}
+              accept="image/"
+              {...register("coverPage", {
+                validate: (files) => {
+                  if (!files || files.length === 0) {
+                    return "Cover image is required";
+                  }
+
+                  const file = files[0];
+
+                  if (!file.type.startsWith("image/")) {
+                    return "Only image files are allowed";
+                  }
+
+                  if (file.size > 5 * 1024 * 1024) {
+                    return "Image must be less than 5MB";
+                  }
+
+                  return true;
+                },
+              })}
               className="block w-full text-sm text-gray-600
               file:mr-4 file:py-2 file:px-4
               file:rounded-lg file:border-0

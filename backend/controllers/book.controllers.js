@@ -2,6 +2,7 @@ import Book from "../models/book.model.js";
 import Borrow from "../models/borrow.model.js";
 
 export const createBook = async (req, res) => {
+  console.log(req.body);
   try {
     const { title, author, category, isbn, totalCopies, copiesAvailable } =
       req.body;
