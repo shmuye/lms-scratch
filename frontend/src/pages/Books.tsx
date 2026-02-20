@@ -30,6 +30,9 @@ const Books = () => {
           title={book.title}
           author={book.author}
           coverPage={book.coverPage}
+          description={book?.description}
+          totalCopies={book.totalCopies}
+          copiesAvailable={book.copiesAvailable}
         />
       ))}
     </div>
