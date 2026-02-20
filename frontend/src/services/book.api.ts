@@ -8,9 +8,11 @@ export const createBook = async (formdata: FormData) => {
         "Content-Type": "multipart/form-data",
       },
     });
+    console.log(response.data);
     return response.data;
-  } catch (error) {
-    throw new Error(`Error creating a book, ${error}`);
+  } catch (error: any) {
+    console.log("Backend response", error.response?.data);
+    throw error.response?.data || error;
   }
 };
 

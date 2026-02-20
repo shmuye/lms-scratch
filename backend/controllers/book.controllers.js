@@ -3,16 +3,24 @@ import Borrow from "../models/borrow.model.js";
 
 export const createBook = async (req, res) => {
   console.log(req.body);
+  console.log(req.file);
   try {
-    const { title, author, category, isbn, totalCopies, copiesAvailable } =
-      req.body;
+    const {
+      title,
+      author,
+      category,
+      isbn,
+      totalCopies,
+      copiesAvailable,
+      description,
+    } = req.body;
 
     if (!req.file) {
       return res.status(400).json({
         message: "Cover image is required",
       });
     }
-
+    console.log(copiesAvailable, totalCopies);
     // 3. Business rule
     if (copiesAvailable > totalCopies) {
       return res.status(400).json({
@@ -28,6 +36,7 @@ export const createBook = async (req, res) => {
       isbn,
       totalCopies,
       copiesAvailable,
+      description,
       coverPage: `${req.protocol}://${req.get("host")}/uploads/coverImages/${req.file.filename}`,
     });
 

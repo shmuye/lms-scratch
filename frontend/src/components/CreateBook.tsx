@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { categoryEnum } from "../../../shared/constants/bookCategory.js";
 import { useQueryClient } from "@tanstack/react-query";
 
-export type Book = z.infer<typeof createBookSchema>;
+export type Book = z.input<typeof createBookSchema>;
 
 const CreateBook = () => {
   const queryClient = useQueryClient();
@@ -41,7 +41,14 @@ const CreateBook = () => {
   };
 
   if (error) {
-    return <div>{`Error creating book, ${error}`}</div>;
+    console.log(`Axios Error`, error);
+    return (
+      <div>
+        {`Error creating book: ${
+          (error as any)?.response?.data?.message || error.message
+        }`}
+      </div>
+    );
   }
 
   return (
