@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { MoreVertical } from "lucide-react";
+import PrivilegedActions from "./PrivilegedActions.tsx"; // your dropdown card
 
 type BookProps = {
   title: string;
@@ -17,33 +19,64 @@ const Book: React.FC<BookProps> = ({
   totalCopies,
   copiesAvailable,
 }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   return (
-    <div className="w-fit flex flex-col items-center">
-      <div className="w-full md:w-[300px] h-[300px] bg-white shadow-md rounded-md m-2 gap-2 grid grid-cols-2 items-center">
-        <img className="h-full w-full" src={coverPage} alt="book coverpage" />
-        <div className="self-start p-2 space-y-1">
-          <h1 className="text-xl">
-            <span className="font-bold mr-2">Title</span>
-            {title}
-          </h1>
-          <p className="text-sm">
-            <span className="font-bold mr-2">author</span> {author}
-          </p>
-          <p>
-            <span className="font-bold mr-2">description</span> {description}
-          </p>
-          <p>
-            <span className="font-bold mr-2">total copies</span> {totalCopies}
-          </p>
-          <p>
-            <span className="font-bold mr-2">copies Available</span>{" "}
-            {copiesAvailable}
-          </p>
-        </div>
+    <div className="relative w-full md:w-[300px] bg-white shadow-md rounded-lg overflow-hidden m-2 group">
+      {/* Book top section */}
+      <div className="relative h-[300px]">
+        <img
+          className="w-full h-full object-cover"
+          src={coverPage}
+          alt="book coverpage"
+        />
+
+        {/* Three-dot menu button */}
+        <button
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+          className="absolute top-2 right-2 p-2 rounded-full bg-white opacity-0 group-hover:opacity-100 hover:bg-gray-100 transition-opacity duration-200 shadow"
+        >
+          <MoreVertical size={20} />
+        </button>
+
+        {/* Dropdown card */}
+        <PrivilegedActions
+          isOpen={dropdownOpen}
+          onClose={() => setDropdownOpen(false)}
+        />
       </div>
-      <div className="flex justify-between">
-        <button className="button">Borrow Book</button>
-        <button className="button">Return Book</button>
+
+      {/* Book details */}
+      <div className="p-4 flex flex-col gap-1">
+        <h2 className="text-lg font-semibold">{title}</h2>
+        <p className="text-sm text-gray-600">
+          <span className="font-bold">Author: </span>
+          {author}
+        </p>
+        {description && (
+          <p className="text-sm text-gray-600">
+            <span className="font-bold">Description: </span>
+            {description}
+          </p>
+        )}
+        <p className="text-sm text-gray-600">
+          <span className="font-bold">Total Copies: </span>
+          {totalCopies}
+        </p>
+        <p className="text-sm text-gray-600">
+          <span className="font-bold">Available: </span>
+          {copiesAvailable}
+        </p>
+      </div>
+
+      {/* Action buttons */}
+      <div className="p-4 flex justify-between gap-2">
+        <button className="flex-1 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
+          Borrow Book
+        </button>
+        <button className="flex-1 bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition">
+          Return Book
+        </button>
       </div>
     </div>
   );
