@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { MoreVertical } from "lucide-react";
 import PrivilegedActions from "./PrivilegedActions.tsx"; // your dropdown card
+import { useAppSelector } from "../hooks/hooks.ts";
+import { selectUser } from "../features/auth/auth.slice.ts";
 
 type BookProps = {
   title: string;
@@ -21,6 +23,10 @@ const Book: React.FC<BookProps> = ({
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
+  const user = useAppSelector(selectUser);
+  console.log(user);
+  const hasAccess = user?.role === "ADMIN" || user?.role === "LIBRARIAN";
+
   return (
     <div className="relative w-full md:w-[300px] bg-white shadow-md rounded-lg overflow-hidden m-2 group">
       {/* Book top section */}
@@ -32,12 +38,14 @@ const Book: React.FC<BookProps> = ({
         />
 
         {/* Three-dot menu button */}
-        <button
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="absolute top-2 right-2 p-2 rounded-full bg-white opacity-0 group-hover:opacity-100 hover:bg-gray-100 transition-opacity duration-200 shadow"
-        >
-          <MoreVertical size={20} />
-        </button>
+        {hasAccess && (
+          <button
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className="absolute top-2 right-2 p-2 rounded-full bg-white opacity-0 group-hover:opacity-100 hover:bg-gray-100 transition-opacity duration-200 shadow"
+          >
+            <MoreVertical size={20} />
+          </button>
+        )}
 
         {/* Dropdown card */}
         <PrivilegedActions
