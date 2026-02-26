@@ -30,7 +30,7 @@ const Book: React.FC<BookProps> = ({
   return (
     <div className="relative w-full md:w-[300px] bg-white shadow-md rounded-lg overflow-hidden m-2 group">
       {/* Book top section */}
-      <div className="relative h-[300px]">
+      <div className="relative h-[250px]">
         <img
           className="w-full h-full object-cover"
           src={coverPage}

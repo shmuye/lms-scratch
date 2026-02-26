@@ -25,11 +25,6 @@ const LoginForm = () => {
   useEffect(() => {
     if (!user) return;
 
-    // const redirectURL = {
-    //   ADMIN: "/admin",
-    //   READER: "/reader",
-    //   LIBRARIAN: "/librarian",
-    // };
     navigate("/", { replace: true });
   }, [user, navigate]);
 
