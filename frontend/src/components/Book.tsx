@@ -11,6 +11,7 @@ type BookProps = {
   description?: string;
   totalCopies: number;
   copiesAvailable: number;
+  category: string;
 };
 
 const Book: React.FC<BookProps> = ({
@@ -20,6 +21,7 @@ const Book: React.FC<BookProps> = ({
   description,
   totalCopies,
   copiesAvailable,
+  category,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -74,6 +76,10 @@ const Book: React.FC<BookProps> = ({
         <p className="text-sm text-gray-600">
           <span className="font-bold">Available: </span>
           {copiesAvailable}
+        </p>
+        <p className="text-sm text-gray-600">
+          <span className="font-bold">Category: </span>
+          {category}
         </p>
       </div>
 

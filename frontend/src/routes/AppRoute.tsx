@@ -1,6 +1,6 @@
 import { Home } from "../pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { FilterBooks, NavBar } from "../components";
+import { NavBar } from "../components";
 import {
   Books,
   LibrarianDashboard,
@@ -28,10 +28,7 @@ const AppRouter = () => {
           element={
             <>
               <NavBar />
-              <BooksPageLayout>
-                <FilterBooks />
-                <Books />
-              </BooksPageLayout>
+              <Books />
             </>
           }
         />
