@@ -1,6 +1,6 @@
 import { Home } from "../pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { NavBar } from "../components";
+import { FilterBooks, NavBar } from "../components";
 import {
   Books,
   LibrarianDashboard,
@@ -8,11 +8,14 @@ import {
   ReaderDashboard,
   Signup,
 } from "../pages";
-import AuthLayout from "../components/AuthLayout";
+import {
+  BooksPageLayout,
+  AuthLayout,
+  Profile,
+  AdminDashboard,
+} from "../components";
 import ProtectedRoutes from "./ProtectedRoutes";
-import Profile from "../components/Profile";
 import AdminRoutes from "./AdminRoutes";
-import AdminDashboard from "../components/AdminDashboard";
 import CreateBookPage from "../pages/CreateBookPage";
 
 const AppRouter = () => {
@@ -25,7 +28,10 @@ const AppRouter = () => {
           element={
             <>
               <NavBar />
-              <Books />
+              <BooksPageLayout>
+                <FilterBooks />
+                <Books />
+              </BooksPageLayout>
             </>
           }
         />
