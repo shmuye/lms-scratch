@@ -8,12 +8,7 @@ import {
   ReaderDashboard,
   Signup,
 } from "../pages";
-import {
-  BooksPageLayout,
-  AuthLayout,
-  Profile,
-  AdminDashboard,
-} from "../components";
+import { AuthLayout, Profile, AdminDashboard } from "../components";
 import ProtectedRoutes from "./ProtectedRoutes";
 import AdminRoutes from "./AdminRoutes";
 import CreateBookPage from "../pages/CreateBookPage";
@@ -43,7 +38,15 @@ const AppRouter = () => {
           </Route>
           <Route path="/librarian" element={<LibrarianDashboard />} />
           <Route element={<AdminRoutes />}>
-            <Route path="/admin" element={<AdminDashboard />} />
+            <Route
+              path="/admin"
+              element={
+                <>
+                  <NavBar />
+                  <AdminDashboard />
+                </>
+              }
+            />
           </Route>
           <Route element={<CreateBookPage />} path="/create-book" />
         </Route>
