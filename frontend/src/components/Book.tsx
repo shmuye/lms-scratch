@@ -30,9 +30,9 @@ const Book: React.FC<BookProps> = ({
   const hasAccess = user?.role === "ADMIN" || user?.role === "LIBRARIAN";
 
   return (
-    <div className="relative w-full md:max-w-[300px] bg-white shadow-md rounded-lg overflow-hidden m-2 group">
+    <div className="bookCard group">
       {/* Book top section */}
-      <div className="relative h-[250px]">
+      <div className="relative h-62.5">
         <img
           className="w-full h-full object-cover"
           src={coverPage}
@@ -84,7 +84,7 @@ const Book: React.FC<BookProps> = ({
       </div>
 
       {/* Action buttons */}
-      <div className="p-4 flex justify-between gap-2">
+      <div className="p-4 flex justify-between gap-2 shrink-0">
         <button className="flex-1 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
           Borrow Book
         </button>

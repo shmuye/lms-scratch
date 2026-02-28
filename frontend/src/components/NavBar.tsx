@@ -26,7 +26,12 @@ const NavBar = () => {
 
   return (
     <header className="h-16 px-4 flex justify-between items-center border-b border-slate-500">
-      <h1 className="text-xl text-primary-500 font-bold">ReadSphere</h1>
+      <Link to={`/`}>
+        <h1 className="text-xl text-primary-500 font-bold cursor-pointer">
+          ReadSphere
+        </h1>
+      </Link>
+
       <SearchBar />
       <nav className="hidden md:flex">
         <ul className="flex items-center  gap-4">

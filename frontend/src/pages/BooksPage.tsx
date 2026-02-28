@@ -42,7 +42,7 @@ const Books = () => {
   }
 
   return (
-    <div className="flex">
+    <div className="flex flex-col md:flex-row">
       <FilterBooks
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}

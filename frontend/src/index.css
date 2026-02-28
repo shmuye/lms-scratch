@@ -61,16 +61,20 @@ body,
     @apply border border-primary-100 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 transition;
   }
 
+  .bookCard {
+    @apply relative w-full md:max-w-75 bg-white shadow-md hover:border-2 border-primary-600 rounded-lg overflow-hidden m-4;
+  }
+
   .danger {
-    @apply text-danger-500 bg-danger-100 text-sm mt-1;
+    @apply px-3 py-2 text-danger-500 bg-danger-100 text-sm mt-1;
   }
   .success {
-    @apply text-success-500 bg-success-100 text-sm mt-1;
+    @apply px-3 py-2 text-success-500 bg-success-100 text-sm mt-1;
   }
   .warning {
-    @apply text-warning-500 bg-warning-100 text-sm mt-1;
+    @apply px-3 py-2 text-warning-500 bg-warning-100 text-sm mt-1;
   }
   .info {
-    @apply text-info-500 bg-info-100 text-sm mt-1;
+    @apply px-3 py-2 text-info-500 bg-info-100 text-sm mt-1;
   }
 }

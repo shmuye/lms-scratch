@@ -11,7 +11,7 @@ const FilterBooks = ({
   setSelectedCategory,
 }: FilterBookProps) => {
   return (
-    <div className="w-full max-w-[200px] px-4 py-3 overflow-x-auto">
+    <div className="w-full md:w-50 px-4 py-3 overflow-x-auto">
       <div className="flex md:mb-0 md:flex-col gap-4 whitespace-nowrap">
         <button
           onClick={() => setSelectedCategory("")}
