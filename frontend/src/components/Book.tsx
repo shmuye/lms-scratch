@@ -30,7 +30,7 @@ const Book: React.FC<BookProps> = ({
   const hasAccess = user?.role === "ADMIN" || user?.role === "LIBRARIAN";
 
   return (
-    <div className="relative w-full md:w-[300px] bg-white shadow-md rounded-lg overflow-hidden m-2 group">
+    <div className="relative w-full md:max-w-[300px] bg-white shadow-md rounded-lg overflow-hidden m-2 group">
       {/* Book top section */}
       <div className="relative h-[250px]">
         <img

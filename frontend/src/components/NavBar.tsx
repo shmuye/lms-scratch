@@ -26,7 +26,7 @@ const NavBar = () => {
 
   return (
     <header className="h-16 px-4 flex justify-between items-center border-b border-slate-500">
-      <h1 className="text-xl font-bold">ReadSphere</h1>
+      <h1 className="text-xl text-primary-500 font-bold">ReadSphere</h1>
       <SearchBar />
       <nav className="hidden md:flex">
         <ul className="flex items-center  gap-4">
@@ -70,7 +70,7 @@ const NavBar = () => {
       </button>
       {menuOpen && (
         <nav className="md:hidden">
-          <ul className="absolute z-[100] bg-gray-200 top-15 right-5 w-full max-w-[400px] h-[500px] rounded-sm flex flex-col items-center  gap-4">
+          <ul className="p-4 absolute z-[100] bg-slate-600 top-15 right-0 w-full rounded-sm shadow-md text-white flex flex-col items-center  gap-4">
             <li>
               <Link to="/books">Browse Books</Link>
             </li>

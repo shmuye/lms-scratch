@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
 html,
@@ -6,22 +7,70 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-body {
-  background-color: rgb(240, 234, 234);
+@theme {
+  /* primary Brand Scale */
+  --color-primary-50: #ecfeff;
+  --color-primary-100: #cffafe;
+  --color-primary-200: #a5f3fc;
+  --color-primary-300: #67e8f9;
+  --color-primary-400: #22d3ee;
+  --color-primary-500: #06b6d4; /* Main Brand */
+  --color-primary-600: #0891b2; /* Hover */
+  --color-primary-700: #0e7490; /* Active */
+  --color-primary-800: #155e75;
+  --color-primary-900: #164e63;
+  --color-primary-950: #083344; /* Very Dark */
+
+  --color-success-100: #dcfce7; /* Light background */
+  --color-success-500: #22c55e; /* Main success */
+  --color-success-700: #15803d; /* Dark / strong text */
+
+  --color-danger-100: #fee2e2; /* Light background */
+  --color-danger-500: #ef4444; /* Main error */
+  --color-danger-700: #b91c1c; /* Strong / text */
+
+  --color-warning-100: #fef3c7; /* Light background */
+  --color-warning-500: #f59e0b; /* Main warning */
+  --color-warning-700: #b45309; /* Strong / text */
+
+  --color-info-100: #dbeafe;
+  --color-info-500: #3b82f6;
+  --color-info-700: #1d4ed8;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-100;
+    font-family: Poppins, sans-serif;
+  }
 }
 
 @layer components {
   .button {
-    @apply px-4 py-2 whitespace-nowrap rounded-full cursor-pointer w-full md:w-fit bg-blue-400;
+    @apply px-4 py-2 whitespace-nowrap rounded-full cursor-pointer w-full md:w-fit bg-primary-500 hover:bg-primary-600;
   }
   .input {
-    @apply border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition;
+    @apply border border-primary-100 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 transition;
   }
 
-  .error {
-    @apply text-red-500 text-sm mt-1;
+  .danger {
+    @apply text-danger-500 bg-danger-100 text-sm mt-1;
+  }
+  .success {
+    @apply text-success-500 bg-success-100 text-sm mt-1;
+  }
+  .warning {
+    @apply text-warning-500 bg-warning-100 text-sm mt-1;
+  }
+  .info {
+    @apply text-info-500 bg-info-100 text-sm mt-1;
   }
 }
