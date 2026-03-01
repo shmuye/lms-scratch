@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import { MoreVertical } from "lucide-react";
-import PrivilegedActions from "./PrivilegedActions.tsx"; // your dropdown card
 import { useAppSelector } from "../hooks/hooks.ts";
 import { selectUser } from "../features/auth/auth.slice.ts";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteBook } from "../services/book.api.ts";
+import { MoreVertical } from "lucide-react";
+import EditModal from "./EditModal.tsx";
+import DeleteModal from "./DeleteModal.tsx";
+import Actions from "./Actions.tsx";
 
 type BookProps = {
+  id: string;
   title: string;
   author: string;
   coverPage: string;
@@ -15,6 +20,7 @@ type BookProps = {
 };
 
 const Book: React.FC<BookProps> = ({
+  id,
   title,
   author,
   coverPage,
@@ -23,11 +29,24 @@ const Book: React.FC<BookProps> = ({
   copiesAvailable,
   category,
 }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const [openDropDown, setOpenDropDown] = useState<boolean>(false);
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: () => deleteBook(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["books"],
+      });
+    },
+  });
 
   const user = useAppSelector(selectUser);
   console.log(user);
   const hasAccess = user?.role === "ADMIN" || user?.role === "LIBRARIAN";
+
+  const handleDelete = (id: string) => {
+    mutate(id);
+  };
 
   return (
     <div className="bookCard group">
@@ -39,24 +58,15 @@ const Book: React.FC<BookProps> = ({
           alt="book coverpage"
         />
 
-        {/* Three-dot menu button */}
-        {hasAccess && (
-          <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="absolute top-2 right-2 p-2 rounded-full bg-white opacity-0 group-hover:opacity-100 hover:bg-gray-100 transition-opacity duration-200 shadow"
-          >
-            <MoreVertical size={20} />
-          </button>
-        )}
+        <button
+          className="absolute top-5 right-5"
+          onClick={() => setOpenDropDown(!openDropDown)}
+        >
+          <MoreVertical size={24} className="text-gray-300" />
+        </button>
 
-        {/* Dropdown card */}
-        <PrivilegedActions
-          isOpen={dropdownOpen}
-          onClose={() => setDropdownOpen(false)}
-        />
+        {openDropDown && <Actions />}
       </div>
-
-      {/* Book details */}
       <div className="p-4 flex flex-col gap-1">
         <h2 className="text-lg font-semibold">{title}</h2>
         <p className="text-sm text-gray-600">

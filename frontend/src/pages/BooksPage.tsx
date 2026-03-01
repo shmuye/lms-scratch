@@ -1,7 +1,7 @@
 import { FilterBooks } from "../components";
 import Book from "../components/Book";
-import { getBooks } from "../services/book.api";
-import { useQuery } from "@tanstack/react-query";
+import { deleteBook, getBooks } from "../services/book.api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export type BookCategory =
@@ -14,6 +14,7 @@ export type BookCategory =
   | "Sport";
 
 const Books = () => {
+  const queryClient = useQueryClient();
   const {
     data: books,
     isLoading,
@@ -30,8 +31,6 @@ const Books = () => {
   const filteredBooks = selectedCategory
     ? books?.filter((book) => book.category === selectedCategory)
     : books;
-
-  console.log(books);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -51,6 +50,7 @@ const Books = () => {
         {filteredBooks?.map((book) => (
           <Book
             key={book.isbn}
+            id={book._id}
             title={book.title}
             author={book.author}
             coverPage={book.coverPage}

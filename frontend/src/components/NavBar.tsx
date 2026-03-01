@@ -74,8 +74,8 @@ const NavBar = () => {
         )}
       </button>
       {menuOpen && (
-        <nav className="md:hidden">
-          <ul className="p-4 absolute z-[100] bg-slate-600 top-15 right-0 w-full rounded-sm shadow-md text-white flex flex-col items-center  gap-4">
+        <nav className="md:hidden sidebar">
+          <ul className="flex flex-col items-center gap-8">
             <li>
               <Link to="/books">Browse Books</Link>
             </li>

@@ -11,15 +11,15 @@ const FilterBooks = ({
   setSelectedCategory,
 }: FilterBookProps) => {
   return (
-    <div className="w-full md:w-50 px-4 py-3 overflow-x-auto">
+    <div className="w-full md:h-screen md:w-50 px-4 py-3 overflow-x-auto md:bg-primary-900">
       <div className="flex md:mb-0 md:flex-col gap-4 whitespace-nowrap">
         <button
           onClick={() => setSelectedCategory("")}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition 
+          className={`px-4 py-2 rounded-sm text-sm font-medium transition 
             ${
               selectedCategory === ""
-                ? "bg-black text-white"
-                : "bg-gray-200 hover:bg-gray-300"
+                ? "bg-primary-500 text-white"
+                : "bg-primary-50 hover:bg-primary-100"
             }`}
         >
           All
@@ -29,11 +29,11 @@ const FilterBooks = ({
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition
+            className={`px-4 py-2 rounded-sm text-sm font-medium transition
               ${
                 selectedCategory === category
-                  ? "bg-black text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  ? "bg-primary-500 text-white"
+                  : "bg-primary-50 hover:bg-primary-100"
               }`}
           >
             {category}
