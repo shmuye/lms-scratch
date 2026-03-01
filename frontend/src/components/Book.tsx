@@ -32,7 +32,7 @@ const Book: React.FC<BookProps> = ({
   const queryClient = useQueryClient();
   const [openDropDown, setOpenDropDown] = useState<boolean>(false);
   const { mutate, isPending, isError } = useMutation({
-    mutationFn: () => deleteBook(id),
+    mutationFn: (bookId: string) => deleteBook(bookId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["books"],
