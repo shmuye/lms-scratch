@@ -30,6 +30,8 @@ const Book: React.FC<BookProps> = ({
   category,
 }) => {
   const queryClient = useQueryClient();
+  // states
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [openDropDown, setOpenDropDown] = useState<boolean>(false);
   const { mutate, isPending, isError } = useMutation({
     mutationFn: (bookId: string) => deleteBook(bookId),
@@ -59,13 +61,22 @@ const Book: React.FC<BookProps> = ({
         />
 
         <button
-          className="absolute top-5 right-5"
+          className="flex items-center justify-center absolute w-8 h-8 top-5 right-5 rounded-full bg-gray-600"
           onClick={() => setOpenDropDown(!openDropDown)}
         >
-          <MoreVertical size={24} className="text-gray-300" />
+          <MoreVertical className="text-white w-4 h-4" />
         </button>
 
-        {openDropDown && <Actions />}
+        {openDropDown && <Actions setOpenDeleteModal={setOpenDeleteModal} />}
+      </div>
+      <div>
+        {openDeleteModal && (
+          <DeleteModal
+            bookId={id}
+            setOpenDeleteModal={setOpenDeleteModal}
+            onDelete={handleDelete}
+          />
+        )}
       </div>
       <div className="p-4 flex flex-col gap-1">
         <h2 className="text-lg font-semibold">{title}</h2>
