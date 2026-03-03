@@ -25,3 +25,5 @@ export interface Book {
   createdAt: string;
   updatedAt: string;
 }
+
+export type updateBookRequest = Partial<Book>;

@@ -58,6 +58,7 @@ const Books = () => {
             totalCopies={book.totalCopies}
             copiesAvailable={book.copiesAvailable}
             category={book.category}
+            publishedYear={book.publishedYear}
           />
         ))}
       </div>

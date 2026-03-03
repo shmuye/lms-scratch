@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAppSelector } from "../hooks/hooks.ts";
 import { selectUser } from "../features/auth/auth.slice.ts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteBook } from "../services/book.api.ts";
+import { deleteBook, updateBook } from "../services/book.api.ts";
 import { MoreVertical } from "lucide-react";
 import EditModal from "./EditModal.tsx";
 import DeleteModal from "./DeleteModal.tsx";
@@ -17,6 +17,7 @@ type BookProps = {
   totalCopies: number;
   copiesAvailable: number;
   category: string;
+  publishedYear: number;
 };
 
 const Book: React.FC<BookProps> = ({
@@ -28,11 +29,14 @@ const Book: React.FC<BookProps> = ({
   totalCopies,
   copiesAvailable,
   category,
+  publishedYear,
 }) => {
   const queryClient = useQueryClient();
   // states
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [openDropDown, setOpenDropDown] = useState<boolean>(false);
+
   const { mutate, isPending, isError } = useMutation({
     mutationFn: (bookId: string) => deleteBook(bookId),
     onSuccess: () => {
@@ -67,14 +71,36 @@ const Book: React.FC<BookProps> = ({
           <MoreVertical className="text-white w-4 h-4" />
         </button>
 
-        {openDropDown && <Actions setOpenDeleteModal={setOpenDeleteModal} />}
+        {openDropDown && (
+          <Actions
+            setOpenDropDown={setOpenDropDown}
+            setOpenDeleteModal={setOpenDeleteModal}
+            setOpenEditModal={setOpenEditModal}
+          />
+        )}
       </div>
       <div>
         {openDeleteModal && (
           <DeleteModal
             bookId={id}
+            setOpenDropDown={setOpenDropDown}
             setOpenDeleteModal={setOpenDeleteModal}
             onDelete={handleDelete}
+          />
+        )}
+      </div>
+      <div>
+        {openEditModal && (
+          <EditModal
+            bookId={id}
+            title={title}
+            description={description}
+            author={author}
+            coverPage={coverPage}
+            totalCopies={totalCopies}
+            publishedYear={publishedYear}
+            setOpenDropDown={setOpenDropDown}
+            setOpenEditModal={setOpenEditModal}
           />
         )}
       </div>

@@ -3,12 +3,14 @@ import React from "react";
 type DeleteModalProps = {
   onDelete: (id: string) => void;
   setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenDropDown: React.Dispatch<React.SetStateAction<boolean>>;
   bookId: string;
 };
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
   onDelete,
   setOpenDeleteModal,
+  setOpenDropDown,
   bookId,
 }) => {
   return (
@@ -26,7 +28,10 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
         {/* Buttons */}
         <div className="flex justify-end gap-3">
           <button
-            onClick={() => setOpenDeleteModal(false)}
+            onClick={() => {
+              setOpenDeleteModal(false);
+              setOpenDropDown(false);
+            }}
             className="px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300 transition"
           >
             Cancel
@@ -35,6 +40,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
             onClick={() => {
               onDelete(bookId);
               setOpenDeleteModal(false);
+              setOpenDropDown(false);
             }}
             className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition"
           >

@@ -1,5 +1,5 @@
 import api from "./axios";
-import { Book } from "../types/book.types";
+import { Book, updateBookRequest } from "../types/book.types";
 
 export const createBook = async (formdata: FormData) => {
   try {
@@ -33,7 +33,7 @@ export const getBooks = async (): Promise<Book[] | null> => {
     throw new Error(`Error fetching books, ${error}`);
   }
 };
-export const updateBook = async (id: string, data: Book) => {
+export const updateBook = async (id: string, data: updateBookRequest) => {
   try {
     const response = await api.patch(`/books/${id}`, data);
     return response.data;
