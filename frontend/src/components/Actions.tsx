@@ -12,7 +12,7 @@ const Actions: React.FC<actionProps> = ({
   setOpenDropDown,
 }) => {
   return (
-    <div className="absolute right-0 top-12 w-40 rounded-xl bg-white shadow-lg border border-gray-100 p-2 animate-in fade-in zoom-in-95">
+    <div className="absolute right-0 top-12 z-40 w-40 rounded-xl bg-white shadow-lg border border-gray-100 p-2 animate-in fade-in zoom-in-95">
       <button
         onClick={() => {
           setOpenEditModal(true);

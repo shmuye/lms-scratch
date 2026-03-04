@@ -3,19 +3,15 @@ import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { isAuthenticated, selectUser } from "../features/auth/auth.slice";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { logoutUser } from "../features/auth/auth.thunks";
+import Protected from "./Protected";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const authenticated = useAppSelector(isAuthenticated);
   const user = useAppSelector(selectUser);
-  console.log(authenticated, user);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!user) return;
-  });
 
   const dashboardRedirectUrl =
     user?.role === "ADMIN"
@@ -51,11 +47,12 @@ const NavBar = () => {
 
           {authenticated && (
             <>
-              {(user?.role === "ADMIN" || user?.role === "LIBRARIAN") && (
+              <Protected allowedRoles={["ADMIN", "LIBRARIAN"]}>
                 <li>
                   <Link to={"/create-book"}>Create Book</Link>
                 </li>
-              )}
+              </Protected>
+
               <li>
                 <Link to={dashboardRedirectUrl}>Dashboard</Link>
               </li>
@@ -66,12 +63,11 @@ const NavBar = () => {
           )}
         </ul>
       </nav>
-      <button className="md:hidden">
-        {menuOpen ? (
-          <X onClick={() => setMenuOpen(false)} />
-        ) : (
-          <Menu onClick={() => setMenuOpen(true)} />
-        )}
+      <button
+        onClick={() => setMenuOpen((prev) => !prev)}
+        className="md:hidden"
+      >
+        {menuOpen ? <X /> : <Menu />}
       </button>
       {menuOpen && (
         <nav className="md:hidden sidebar">
@@ -92,11 +88,11 @@ const NavBar = () => {
 
             {authenticated && (
               <>
-                {(user?.role === "ADMIN" || user?.role === "LIBRARIAN") && (
+                <Protected allowedRoles={["ADMIN", "LIBRARIAN"]}>
                   <li>
                     <Link to={"/create-book"}>Create Book</Link>
                   </li>
-                )}
+                </Protected>
                 <li>
                   <Link to={dashboardRedirectUrl}>Dashboard</Link>
                 </li>

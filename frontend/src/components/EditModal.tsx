@@ -34,7 +34,7 @@ const EditModal: React.FC<editProps> = ({
   const [newAuthor, setNewAuthor] = useState<string>(author);
   const [newDescription, setNewDescription] = useState<string>(description);
   const [newCategory, setNewCategory] =
-    useState<updateBookRequest["category"]>("Fiction");
+    useState<updateBookRequest["category"]>(category);
   const [newPublishedYear, setNewPublishedYear] = useState<number | undefined>(
     publishedYear,
   );
@@ -75,49 +75,142 @@ const EditModal: React.FC<editProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-xl w-96 space-y-4">
-        <h2 className="text-xl font-bold">Edit Book</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={() => setOpenEditModal(false)}
+      />
 
-        <input
-          className="input"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-        />
+      {/* Modal */}
+      <div className="relative bg-white w-full max-w-2xl rounded-2xl shadow-2xl p-8 max-h-[90vh] overflow-y-auto">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Book</h2>
 
-        <input
-          className="input"
-          value={newAuthor}
-          onChange={(e) => setNewAuthor(e.target.value)}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Title */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-600 mb-1">
+              Title
+            </label>
+            <input
+              className="input"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+            />
+          </div>
 
-        <textarea
-          className="input"
-          value={newDescription}
-          onChange={(e) => setNewDescription(e.target.value)}
-        />
+          {/* Author */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-600 mb-1">
+              Author
+            </label>
+            <input
+              className="input"
+              value={newAuthor}
+              onChange={(e) => setNewAuthor(e.target.value)}
+            />
+          </div>
 
-        <input
-          type="number"
-          className="input"
-          value={newtotalCopies}
-          onChange={(e) => setNewTotalCopies(Number(e.target.value))}
-        />
+          {/* Category */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-600 mb-1">
+              Category
+            </label>
+            <select
+              className="input"
+              value={newCategory}
+              onChange={(e) =>
+                setNewCategory(e.target.value as updateBookRequest["category"])
+              }
+            >
+              <option value="Fiction">Fiction</option>
+              <option value="Science">Science</option>
+              <option value="Technology">Technology</option>
+              <option value="History">History</option>
+              <option value="Education">Education</option>
+              <option value="Biography">Biography</option>
+              <option value="Sport">Sport</option>
+            </select>
+          </div>
 
-        <div className="flex gap-2">
+          {/* Published Year */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-600 mb-1">
+              Published Year
+            </label>
+            <input
+              type="number"
+              className="input"
+              value={newPublishedYear}
+              onChange={(e) =>
+                setNewPublishedYear(
+                  e.target.value ? Number(e.target.value) : undefined,
+                )
+              }
+            />
+          </div>
+
+          {/* Total Copies */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-600 mb-1">
+              Total Copies
+            </label>
+            <input
+              type="number"
+              className="input"
+              value={newtotalCopies}
+              onChange={(e) => setNewTotalCopies(Number(e.target.value))}
+            />
+          </div>
+
+          {/* Cover Image */}
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-600 mb-1">
+              Change Cover
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setNewCover(e.target.files?.[0] || null)}
+            />
+
+            {/* Preview */}
+            <img
+              src={newCover ? URL.createObjectURL(newCover) : coverPage}
+              alt="Preview"
+              className="mt-3 h-32 object-cover rounded-lg border"
+            />
+          </div>
+
+          {/* Description Full Width */}
+          <div className="flex flex-col md:col-span-2">
+            <label className="text-sm font-medium text-gray-600 mb-1">
+              Description
+            </label>
+            <textarea
+              rows={3}
+              className="input resize-none"
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex justify-end gap-4 mt-8">
           <button
-            onClick={handleSubmit}
-            disabled={isPending}
-            className="flex-1 bg-blue-600 text-white py-2 rounded"
+            onClick={() => setOpenEditModal(false)}
+            className="px-6 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition"
           >
-            {isPending ? "Updating..." : "Update"}
+            Cancel
           </button>
 
           <button
-            onClick={() => setOpenEditModal(false)}
-            className="flex-1 bg-gray-300 py-2 rounded"
+            onClick={handleSubmit}
+            disabled={isPending}
+            className="px-6 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50"
           >
-            Cancel
+            {isPending ? "Updating..." : "Update Book"}
           </button>
         </div>
       </div>

@@ -1,18 +1,37 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
+import { deleteBook } from "../services/book.api";
 
 type DeleteModalProps = {
-  onDelete: (id: string) => void;
   setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenDropDown: React.Dispatch<React.SetStateAction<boolean>>;
   bookId: string;
 };
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
-  onDelete,
   setOpenDeleteModal,
   setOpenDropDown,
   bookId,
 }) => {
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: (bookId: string) => deleteBook(bookId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["books"],
+      });
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    mutate(id);
+  };
+
+  if (isError) {
+    <div>Error Deleting book</div>;
+  }
+
   return (
     // Backdrop
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -38,13 +57,13 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
           </button>
           <button
             onClick={() => {
-              onDelete(bookId);
+              handleDelete(bookId);
               setOpenDeleteModal(false);
               setOpenDropDown(false);
             }}
             className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition"
           >
-            Confirm
+            {isPending ? "Deleting" : "Confirm"}
           </button>
         </div>
       </div>
