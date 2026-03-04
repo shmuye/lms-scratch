@@ -1,11 +1,12 @@
 import SearchBar from "./SearchBar";
-import { Menu, Sidebar, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { isAuthenticated, selectUser } from "../features/auth/auth.slice";
 import { useState } from "react";
 import { logoutUser } from "../features/auth/auth.thunks";
 import Protected from "./Protected";
+import Sidebar from "./Sidebar";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -23,11 +24,11 @@ const NavBar = () => {
 
   return (
     <>
-      <header className="h-16 px-4 flex justify-between items-center border-b border-slate-500">
+      <header className="sticky top-0 h-16 px-4 flex justify-between items-center border-b border-slate-500">
         <div className="h-full flex justify-center items-center gap-1">
           <button
             className="w-10 h-10 cursor-pointer"
-            onClick={() => setOpenSidebar(!openSidebar)}
+            onClick={() => setOpenSidebar((prev) => !prev)}
           >
             <Menu />
           </button>

@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { categoryEnum } from "../../../shared/constants/bookCategory.js";
 import { useQueryClient } from "@tanstack/react-query";
+import { showError, showSuccess } from "../utils.js";
 
 export type Book = z.input<typeof createBookSchema>;
 
@@ -23,6 +24,7 @@ const CreateBook = () => {
     mutationFn: createBook,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
+      showSuccess("Book Created Successfully");
       reset();
     },
   });
@@ -41,14 +43,7 @@ const CreateBook = () => {
   };
 
   if (error) {
-    console.log(`Axios Error`, error);
-    return (
-      <div>
-        {`Error creating book: ${
-          (error as any)?.response?.data?.message || error.message
-        }`}
-      </div>
-    );
+    return showError("Error Creating book, Try again");
   }
 
   return (

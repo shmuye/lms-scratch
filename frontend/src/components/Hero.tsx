@@ -5,7 +5,10 @@ const Hero = () => {
   return (
     <div
       className={`
-        flex flex-1 flex-col items-center justify-center text-white text-center px-4 bg-cover bg-center relative
+             h-[calc(100vh-4rem)]
+    flex flex-col items-center justify-center
+    text-white text-center px-4
+    bg-cover bg-center relative
         `}
       style={{
         backgroundImage: `url(${homeImage})`,
