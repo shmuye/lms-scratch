@@ -1,6 +1,5 @@
 import { Home } from "../pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { NavBar } from "../components";
 import {
   Books,
   LibrarianDashboard,
@@ -8,47 +7,42 @@ import {
   ReaderDashboard,
   Signup,
 } from "../pages";
-import { AuthLayout, Profile, AdminDashboard } from "../components";
+import { Profile, AdminDashboard } from "../components";
 import ProtectedRoutes from "./ProtectedRoutes";
 import AdminRoutes from "./AdminRoutes";
 import CreateBookPage from "../pages/CreateBookPage";
+import PublicLayout from "../layouts/PublicLayout";
+import AppLayout from "../layouts/AppLayout";
+import AuthLayout from "../layouts/AuthLayout";
 
 const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/books"
-          element={
-            <>
-              <NavBar />
-              <Books />
-            </>
-          }
-        />
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/books" element={<Books />} />
+        </Route>
+
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
 
         <Route element={<ProtectedRoutes />}>
-          <Route path="/reader" element={<ReaderDashboard />}>
-            <Route path="profile" element={<Profile />} />
+          <Route element={<AppLayout />}>
+            <Route path="/reader" element={<ReaderDashboard />}>
+              <Route path="profile" element={<Profile />} />
+            </Route>
+
+            <Route path="/librarian" element={<LibrarianDashboard />} />
+
+            <Route element={<AdminRoutes />}>
+              <Route path="/admin" element={<AdminDashboard />} />
+            </Route>
+
+            <Route path="/create-book" element={<CreateBookPage />} />
           </Route>
-          <Route path="/librarian" element={<LibrarianDashboard />} />
-          <Route element={<AdminRoutes />}>
-            <Route
-              path="/admin"
-              element={
-                <>
-                  <NavBar />
-                  <AdminDashboard />
-                </>
-              }
-            />
-          </Route>
-          <Route element={<CreateBookPage />} path="/create-book" />
         </Route>
 
         <Route path="*" element={<h1>404</h1>} />
