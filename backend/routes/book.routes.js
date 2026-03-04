@@ -33,6 +33,7 @@ router.patch(
   "/:id",
   authenticate,
   authorize(PERMISSIONS.BOOK_UPDATE),
+  uploadBookCover.single("coverPage"),
   validate(updateBookSchema),
   updateBook,
 );

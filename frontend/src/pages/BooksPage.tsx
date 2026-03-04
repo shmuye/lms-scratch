@@ -1,7 +1,7 @@
 import { FilterBooks } from "../components";
 import Book from "../components/Book";
-import { deleteBook, getBooks } from "../services/book.api";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getBooks } from "../services/book.api";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 export type BookCategory =
@@ -14,7 +14,6 @@ export type BookCategory =
   | "Sport";
 
 const Books = () => {
-  const queryClient = useQueryClient();
   const {
     data: books,
     isLoading,

@@ -84,7 +84,14 @@ export const getBook = async (req, res) => {
 export const updateBook = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedBook = await Book.findByIdAndUpdate(id, req.body, {
+    const updateData = { ...req.body };
+
+    if (req.file) {
+      updateData.coverPage = `${req.protocol}://${req.get(
+        "host",
+      )}/uploads/coverImages/${req.file.filename}`;
+    }
+    const updatedBook = await Book.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
     });

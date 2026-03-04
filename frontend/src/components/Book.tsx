@@ -17,7 +17,7 @@ type BookProps = {
   totalCopies: number;
   copiesAvailable: number;
   category: string;
-  publishedYear: number;
+  publishedYear?: number;
 };
 
 const Book: React.FC<BookProps> = ({
@@ -94,7 +94,8 @@ const Book: React.FC<BookProps> = ({
           <EditModal
             bookId={id}
             title={title}
-            description={description}
+            description={description ?? ""}
+            category={category}
             author={author}
             coverPage={coverPage}
             totalCopies={totalCopies}

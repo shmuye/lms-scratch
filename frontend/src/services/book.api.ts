@@ -1,5 +1,5 @@
 import api from "./axios";
-import { Book, updateBookRequest } from "../types/book.types";
+import { Book } from "../types/book.types";
 
 export const createBook = async (formdata: FormData) => {
   try {
@@ -33,9 +33,13 @@ export const getBooks = async (): Promise<Book[] | null> => {
     throw new Error(`Error fetching books, ${error}`);
   }
 };
-export const updateBook = async (id: string, data: updateBookRequest) => {
+export const updateBook = async (id: string, data: FormData) => {
   try {
-    const response = await api.patch(`/books/${id}`, data);
+    const response = await api.patch(`/books/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error(`Error updating book, ${error}`);
