@@ -39,8 +39,8 @@ const LoginForm = () => {
   return (
     <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6">
       <div className="flex flex-col items-center gap-3">
-        <div className="p-3 rounded-full bg-indigo-100">
-          <LogIn className="text-indigo-600" size={24} />
+        <div className="p-3 rounded-full bg-primary-100">
+          <LogIn className="text-primary-600" size={24} />
         </div>
 
         <div className="text-center">
@@ -61,8 +61,8 @@ const LoginForm = () => {
         <div className="flex flex-col gap-1">
           <div
             className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2
-                      focus-within:ring-2 focus-within:ring-indigo-500
-                      focus-within:border-indigo-500 transition"
+                      focus-within:ring-2 focus-within:ring-primary-500
+                      focus-within:border-primary-500 transition"
           >
             <Mail className="text-gray-400" size={18} />
             <input
@@ -86,8 +86,8 @@ const LoginForm = () => {
         <div className="flex flex-col gap-1">
           <div
             className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2
-                      focus-within:ring-2 focus-within:ring-indigo-500
-                      focus-within:border-indigo-500 transition"
+                      focus-within:ring-2 focus-within:ring-primary-500
+                      focus-within:border-primary-500 transition"
           >
             <Lock className="text-gray-400" size={18} />
             <input
@@ -108,10 +108,10 @@ const LoginForm = () => {
 
         <button
           type="submit"
-          className="w-full py-2.5 rounded-lg bg-indigo-600
+          className="w-full py-2.5 rounded-lg bg-primary-600
                  text-white font-medium
-                 hover:bg-indigo-700
-                 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+                 hover:bg-primary-700
+                 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
                  transition"
         >
           Login
@@ -121,7 +121,7 @@ const LoginForm = () => {
       <p className="text-sm text-center text-gray-600">
         Don’t have an account?
         <Link
-          className="text-indigo-600 font-medium ml-1 hover:underline"
+          className="text-primary-600 font-medium ml-1 hover:underline"
           to="/signup"
         >
           Create account

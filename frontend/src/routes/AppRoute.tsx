@@ -14,6 +14,7 @@ import CreateBookPage from "../pages/CreateBookPage";
 import PublicLayout from "../layouts/PublicLayout";
 import AppLayout from "../layouts/AppLayout";
 import AuthLayout from "../layouts/AuthLayout";
+import Notfound from "../components/Notfound";
 
 const AppRouter = () => {
   return (
@@ -45,7 +46,7 @@ const AppRouter = () => {
           </Route>
         </Route>
 
-        <Route path="*" element={<h1>404</h1>} />
+        <Route path="*" element={<Notfound />} />
       </Routes>
     </Router>
   );

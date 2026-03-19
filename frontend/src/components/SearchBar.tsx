@@ -5,7 +5,7 @@ const SearchBar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex justify-between items-center p-2 max-w-[400px] border-1 border-gray-300 rounded-full">
+    <div className="flex justify-between items-center p-2 max-w-100 border border-gray-300 rounded-md focus-within:ring-2 focus-within:ring-primary-500">
       <input
         type="text"
         className={`${isOpen ? "flex" : "hidden"} md:flex border-none outline-none`}
@@ -13,7 +13,7 @@ const SearchBar = () => {
       />
       <Search
         onClick={() => setIsOpen((prev) => !prev)}
-        className="cursor-pointer"
+        className="cursor-pointer text-primary-500"
         size={24}
       />
     </div>

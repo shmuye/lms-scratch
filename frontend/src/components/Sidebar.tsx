@@ -15,7 +15,7 @@ const Sidebar = () => {
         : "/reader";
 
   return (
-    <nav className="fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-primary-900 text-white">
+    <nav className="z-50 fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-primary-900 text-white">
       <ul className="p-4 flex flex-col items-center  gap-4">
         <li>
           <Link to="/books">Browse Books</Link>

@@ -51,8 +51,8 @@ const RegisterForm = () => {
             placeholder="Full name"
             className="w-full px-3 py-2.5 border border-gray-300 rounded-lg
                    outline-none text-gray-900 placeholder:text-gray-400
-                   focus:ring-2 focus:ring-indigo-500
-                   focus:border-indigo-500 transition"
+                   focus:ring-2 focus:ring-primary-500
+                   focus:border-primary-500 transition"
           />
           {errors.name && (
             <p className="text-sm text-red-500">{errors.name.message}</p>
@@ -67,8 +67,8 @@ const RegisterForm = () => {
             placeholder="Email address"
             className="w-full px-3 py-2.5 border border-gray-300 rounded-lg
                    outline-none text-gray-900 placeholder:text-gray-400
-                   focus:ring-2 focus:ring-indigo-500
-                   focus:border-indigo-500 transition"
+                   focus:ring-2 focus:ring-primary-500
+                   focus:border-primary-500 transition"
           />
           {errors.email && (
             <p className="text-sm text-red-500">{errors.email.message}</p>
@@ -83,8 +83,8 @@ const RegisterForm = () => {
             placeholder="Password"
             className="w-full px-3 py-2.5 border border-gray-300 rounded-lg
                    outline-none text-gray-900 placeholder:text-gray-400
-                   focus:ring-2 focus:ring-indigo-500
-                   focus:border-indigo-500 transition"
+                   focus:ring-2 focus:ring-primary-500
+                   focus:border-primary-500 transition"
           />
           {errors.password && (
             <p className="text-sm text-red-500">{errors.password.message}</p>
@@ -93,10 +93,10 @@ const RegisterForm = () => {
 
         <button
           type="submit"
-          className="w-full py-2.5 rounded-lg bg-indigo-600
+          className="w-full py-2.5 rounded-lg bg-primary-600
                  text-white font-medium
-                 hover:bg-indigo-700
-                 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+                 hover:bg-primary-700
+                 focus:ring-2 focus:primary-primary-500 focus:ring-offset-2
                  transition"
         >
           Register
@@ -107,7 +107,7 @@ const RegisterForm = () => {
         Already have an account?
         <Link
           to="/login"
-          className="text-indigo-600 font-medium ml-1 hover:underline"
+          className="text-primary-500 font-medium ml-1 hover:underline"
         >
           Login
         </Link>

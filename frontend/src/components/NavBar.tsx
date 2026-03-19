@@ -24,7 +24,7 @@ const NavBar = () => {
 
   return (
     <>
-      <header className="sticky top-0 h-16 px-4 flex justify-between items-center border-b border-slate-500">
+      <header className="bg-primary-100 sticky top-0 h-16 px-4 flex justify-between shadow-sm shadow-primary-300 items-center z-50">
         <div className="h-full flex justify-center items-center gap-1">
           <button
             className="w-10 h-10 cursor-pointer"

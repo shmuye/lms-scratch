@@ -1,5 +1,5 @@
-import { createBook } from "../services/book.api";
 import z from "zod";
+import { createBook } from "../services/book.api";
 import { useForm } from "react-hook-form";
 import { createBookSchema } from "../../../shared/validations/book.schema.js";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,13 +27,16 @@ const CreateBook = () => {
       showSuccess("Book Created Successfully");
       reset();
     },
+    onError: () => {
+      showError("Error Creating book, Try again");
+    },
   });
   const handleCreateBook = (data: Book) => {
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
       if (key === "coverPage") {
-        formData.append("coverPage", value[0]); // extract single file
+        formData.append("coverPage", value[0]);
       } else {
         formData.append(key, String(value));
       }
@@ -42,49 +45,52 @@ const CreateBook = () => {
     mutate(formData);
   };
 
-  if (error) {
-    return showError("Error Creating book, Try again");
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-          Create New Book
-        </h2>
-
         <form
           onSubmit={handleSubmit(handleCreateBook)}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {/* Title */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-600 mb-1">
               Title
             </label>
-            <input type="text" {...register("title")} className="input" />
+            <input
+              placeholder="Enter Title"
+              type="text"
+              {...register("title")}
+              className="input"
+            />
             {errors.title && <p className="error">{errors.title.message}</p>}
           </div>
 
-          {/* Author */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-600 mb-1">
               Author
             </label>
-            <input type="text" {...register("author")} className="input" />
+            <input
+              placeholder="Author"
+              type="text"
+              {...register("author")}
+              className="input"
+            />
             {errors.author && <p className="error">{errors.author.message}</p>}
           </div>
 
-          {/* ISBN */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-600 mb-1">
               ISBN
             </label>
-            <input type="text" {...register("isbn")} className="input" />
+            <input
+              placeholder="Enter ISBN"
+              type="text"
+              {...register("isbn")}
+              className="input"
+            />
             {errors.isbn && <p className="error">{errors.isbn.message}</p>}
           </div>
 
-          {/* Category */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-600 mb-1">
               Category
@@ -101,12 +107,12 @@ const CreateBook = () => {
             )}
           </div>
 
-          {/* Total Copies */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-600 mb-1">
               Total Copies
             </label>
             <input
+              placeholder="Enter Total Copies"
               type="number"
               {...register("totalCopies", { valueAsNumber: true })}
               className="input"
@@ -116,12 +122,12 @@ const CreateBook = () => {
             )}
           </div>
 
-          {/* Copies Available */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-600 mb-1">
               Copies Available
             </label>
             <input
+              placeholder="Copies Available"
               type="number"
               {...register("copiesAvailable", { valueAsNumber: true })}
               className="input"
@@ -131,12 +137,12 @@ const CreateBook = () => {
             )}
           </div>
 
-          {/* Published Year */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-600 mb-1">
               Published Year
             </label>
             <input
+              placeholder="Published Year"
               type="number"
               {...register("publishedYear", { valueAsNumber: true })}
               className="input"
@@ -146,7 +152,6 @@ const CreateBook = () => {
             )}
           </div>
 
-          {/* Cover Image */}
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-600 mb-1">
               Cover Image
@@ -177,7 +182,7 @@ const CreateBook = () => {
               file:mr-4 file:py-2 file:px-4
               file:rounded-lg file:border-0
               file:text-sm file:font-semibold
-              file:bg-blue-50 file:text-blue-600
+              file:bg-blue-50 file:text-primary-600
               hover:file:bg-blue-100"
             />
             {errors.coverPage?.message && (
@@ -185,7 +190,6 @@ const CreateBook = () => {
             )}
           </div>
 
-          {/* Description - Full Width */}
           <div className="flex flex-col md:col-span-2">
             <label className="text-sm font-medium text-gray-600 mb-1">
               Description
@@ -200,13 +204,12 @@ const CreateBook = () => {
             )}
           </div>
 
-          {/* Submit Button */}
           <div className="md:col-span-2 mt-4">
             <button
               type="submit"
               disabled={isPending}
-              className="cursor-pointer w-full bg-blue-600 text-white py-3 rounded-xl font-semibold
-              hover:bg-blue-700 transition duration-200
+              className="cursor-pointer w-full bg-primary-600 text-white py-3 rounded-xl font-semibold
+              hover:bg-primary-700 transition duration-200
               disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isPending ? "Creating..." : "Create Book"}

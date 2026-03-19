@@ -1,7 +1,8 @@
 import { FilterBooks } from "../components";
 import Book from "../components/Book";
+import Loader from "../components/Loader";
 import { getBooks } from "../services/book.api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
 export type BookCategory =
@@ -32,7 +33,7 @@ const Books = () => {
     : books;
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error instanceof Error) {
@@ -40,7 +41,7 @@ const Books = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col items-center">
       <FilterBooks
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
