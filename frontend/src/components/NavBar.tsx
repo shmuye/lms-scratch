@@ -6,11 +6,13 @@ import { isAuthenticated, selectUser } from "../features/auth/auth.slice";
 import { useState } from "react";
 import { logoutUser } from "../features/auth/auth.thunks";
 import Protected from "./Protected";
-import Sidebar from "./Sidebar";
 
-const NavBar = () => {
+interface NavBarProps {
+  setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const NavBar = ({ setOpenSidebar }: NavBarProps) => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [openSidebar, setOpenSidebar] = useState<boolean>(false);
   const authenticated = useAppSelector(isAuthenticated);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -117,7 +119,6 @@ const NavBar = () => {
           </nav>
         )}
       </header>
-      {openSidebar && <Sidebar />}
     </>
   );
 };
