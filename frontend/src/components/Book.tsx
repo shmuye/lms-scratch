@@ -4,6 +4,10 @@ import EditModal from "./EditModal.tsx";
 import DeleteModal from "./DeleteModal.tsx";
 import Actions from "./Actions.tsx";
 import Protected from "./Protected.tsx";
+import { useMutation } from "@tanstack/react-query";
+import { borrowBook } from "../services/borrow.api.ts";
+import { showError, showSuccess } from "../utils.ts";
+import { useQueryClient } from "@tanstack/react-query";
 
 type BookProps = {
   id: string;
@@ -31,6 +35,22 @@ const Book: React.FC<BookProps> = ({
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [openDropDown, setOpenDropDown] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (id: string) => borrowBook(id),
+    onSuccess: () => {
+      showSuccess(
+        "Book borrowed successfully, Make sure to take it with in the next 24 hours",
+      );
+      queryClient.invalidateQueries({
+        queryKey: ["books"],
+      });
+    },
+    onError: () => {
+      showError("An Error Occurred , Please Try again");
+    },
+  });
 
   return (
     <div className="bookCard group">
@@ -86,7 +106,11 @@ const Book: React.FC<BookProps> = ({
 
       {/* Action buttons */}
       <div className="p-4 flex justify-between gap-2 shrink-0">
-        <button className="flex-1 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
+        <button
+          onClick={() => mutate(id)}
+          disabled={isPending || copiesAvailable === 0}
+          className="flex-1 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
+        >
           Borrow Book
         </button>
         <button className="flex-1 bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition">
