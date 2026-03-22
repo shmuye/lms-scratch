@@ -14,14 +14,14 @@ const links = [
   },
 ];
 
-const DashboardSidebar = () => {
+const UserMenu = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
 
   const firstLetter = user?.name ? user.name.charAt(0).toUpperCase() : "?";
 
   return (
-    <div className="absolute right-2 top-16 w-60 bg-white py-6 px-6 rounded-lg shadow-md flex flex-col gap-4">
+    <div className="absolute right-2 top-20 w-60 bg-white py-6 px-6 rounded-lg shadow-md flex flex-col gap-4">
       {/* Avatar Section */}
       {user?.avatar ? (
         <img
@@ -60,4 +60,4 @@ const DashboardSidebar = () => {
   );
 };
 
-export default DashboardSidebar;
+export default UserMenu;

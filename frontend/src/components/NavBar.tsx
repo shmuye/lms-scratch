@@ -1,11 +1,12 @@
 import SearchBar from "./SearchBar";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { isAuthenticated, selectUser } from "../features/auth/auth.slice";
 import { useState } from "react";
 import { logoutUser } from "../features/auth/auth.thunks";
 import Protected from "./Protected";
+import UserMenu from "./UserMenu";
 
 interface NavBarProps {
   setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,6 +14,7 @@ interface NavBarProps {
 
 const NavBar = ({ setOpenSidebar }: NavBarProps) => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [openUserMenu, setOpenUserMenu] = useState<boolean>(false);
   const authenticated = useAppSelector(isAuthenticated);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -69,7 +71,13 @@ const NavBar = ({ setOpenSidebar }: NavBarProps) => {
                   <Link to={dashboardRedirectUrl}>Dashboard</Link>
                 </li>
                 <li>
-                  <button onClick={() => dispatch(logoutUser())}>Logout</button>
+                  <button
+                    className="cursor-pointer"
+                    onClick={() => setOpenUserMenu((prev) => !prev)}
+                  >
+                    <User />
+                  </button>
+                  {openUserMenu && <UserMenu />}
                 </li>
               </>
             )}
