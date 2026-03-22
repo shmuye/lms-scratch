@@ -6,7 +6,7 @@ import { selectUser } from "../features/auth/auth.slice";
 const links = [
   {
     label: "Profile",
-    redirectUrl: "/profile",
+    redirectUrl: "/reader/profile",
   },
   {
     label: "Settings",
