@@ -1,25 +1,14 @@
 import SearchBar from "./SearchBar";
-import { Menu, X, User } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { isAuthenticated, selectUser } from "../features/auth/auth.slice";
-import { useState } from "react";
-import Protected from "./Protected";
-import UserMenu from "./UserMenu";
-
+import { useAppSelector } from "../hooks/hooks";
+import { isAuthenticated } from "../features/auth/auth.slice";
 interface NavBarProps {
   setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const NavBar = ({ setOpenSidebar }: NavBarProps) => {
   const authenticated = useAppSelector(isAuthenticated);
-
-  // const dashboardRedirectUrl =
-  //   user?.role === "ADMIN"
-  //     ? "/admin"
-  //     : user?.role === "LIBRARIAN"
-  //       ? "/librarian"
-  //       : "/reader";
 
   return (
     <>
@@ -57,49 +46,6 @@ const NavBar = ({ setOpenSidebar }: NavBarProps) => {
             )}
           </ul>
         </nav>
-        {/* <button
-          onClick={() => setMenuOpen((prev) => !prev)}
-          className="md:hidden"
-        >
-          {menuOpen ? <X /> : <Menu />}
-        </button>
-        {menuOpen && (
-          <nav className="md:hidden sidebar">
-            <ul className="flex flex-col items-center gap-8">
-              <li>
-                <Link to="/books">Browse Books</Link>
-              </li>
-              {!authenticated && (
-                <>
-                  <li>
-                    <Link to="/login">Sign In</Link>
-                  </li>
-                  <li>
-                    <Link to="/signup">Sign Up</Link>
-                  </li>
-                </>
-              )}
-
-              {authenticated && (
-                <>
-                  <Protected allowedRoles={["ADMIN", "LIBRARIAN"]}>
-                    <li>
-                      <Link to={"/create-book"}>Create Book</Link>
-                    </li>
-                  </Protected>
-                  <li>
-                    <Link to={dashboardRedirectUrl}>Dashboard</Link>
-                  </li>
-                  <li>
-                    <button onClick={() => dispatch(logoutUser())}>
-                      Logout
-                    </button>
-                  </li>
-                </>
-              )}
-            </ul>
-          </nav>
-        )} */}
       </header>
     </>
   );

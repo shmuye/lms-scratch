@@ -11,6 +11,8 @@ const BorrowedBooks = () => {
     queryFn: getAllBorrows,
   });
 
+  console.log(borrowedBooks);
+
   if (isLoading) {
     return <div>Loading</div>;
   }

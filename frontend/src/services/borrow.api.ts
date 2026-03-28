@@ -12,8 +12,9 @@ export const borrowBook = async (id: string) => {
 
 export const getAllBorrows = async () => {
   try {
-    const response = await api.get("/books/me/borrows");
+    const response = await api.get("/users/me/borrows");
     return response.data;
+    console.log(response);
   } catch (error) {
     throw new Error("Can't get All book borrows");
   }

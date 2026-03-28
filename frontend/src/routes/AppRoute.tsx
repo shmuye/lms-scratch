@@ -15,6 +15,7 @@ import PublicLayout from "../layouts/PublicLayout";
 import AppLayout from "../layouts/AppLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import Notfound from "../components/Notfound";
+import BorrowedBooks from "../components/BorrowedBooks";
 
 const AppRouter = () => {
   return (
@@ -34,6 +35,7 @@ const AppRouter = () => {
           <Route element={<AppLayout />}>
             <Route path="/reader" element={<ReaderDashboard />}>
               <Route path="profile" element={<Profile />} />
+              <Route path="borrowed" element={<BorrowedBooks />} />
             </Route>
 
             <Route path="/librarian" element={<LibrarianDashboard />} />
