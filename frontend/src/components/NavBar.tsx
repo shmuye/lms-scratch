@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { isAuthenticated, selectUser } from "../features/auth/auth.slice";
 import { useState } from "react";
-import { logoutUser } from "../features/auth/auth.thunks";
 import Protected from "./Protected";
 import UserMenu from "./UserMenu";
 
@@ -13,29 +12,27 @@ interface NavBarProps {
 }
 
 const NavBar = ({ setOpenSidebar }: NavBarProps) => {
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const [openUserMenu, setOpenUserMenu] = useState<boolean>(false);
   const authenticated = useAppSelector(isAuthenticated);
-  const user = useAppSelector(selectUser);
-  const dispatch = useAppDispatch();
 
-  const dashboardRedirectUrl =
-    user?.role === "ADMIN"
-      ? "/admin"
-      : user?.role === "LIBRARIAN"
-        ? "/librarian"
-        : "/reader";
+  // const dashboardRedirectUrl =
+  //   user?.role === "ADMIN"
+  //     ? "/admin"
+  //     : user?.role === "LIBRARIAN"
+  //       ? "/librarian"
+  //       : "/reader";
 
   return (
     <>
       <header className="bg-primary-100 sticky top-0 h-16 px-4 flex justify-between shadow-sm shadow-primary-300 items-center z-50">
         <div className="h-full flex justify-center items-center gap-1">
-          <button
-            className="w-10 h-10 cursor-pointer"
-            onClick={() => setOpenSidebar((prev) => !prev)}
-          >
-            <Menu />
-          </button>
+          {
+            <button
+              className="md:hidden w-10 h-10 cursor-pointer"
+              onClick={() => setOpenSidebar((prev) => !prev)}
+            >
+              <Menu />
+            </button>
+          }
           <Link to={`/`}>
             <h1 className="text-xl text-primary-500 font-bold cursor-pointer m-0">
               ReadSphere
@@ -58,32 +55,9 @@ const NavBar = ({ setOpenSidebar }: NavBarProps) => {
                 </li>
               </>
             )}
-
-            {authenticated && (
-              <>
-                <Protected allowedRoles={["ADMIN", "LIBRARIAN"]}>
-                  <li>
-                    <Link to={"/create-book"}>Create Book</Link>
-                  </li>
-                </Protected>
-
-                <li>
-                  <Link to={dashboardRedirectUrl}>Dashboard</Link>
-                </li>
-                <li>
-                  <button
-                    className="cursor-pointer"
-                    onClick={() => setOpenUserMenu((prev) => !prev)}
-                  >
-                    <User />
-                  </button>
-                  {openUserMenu && <UserMenu />}
-                </li>
-              </>
-            )}
           </ul>
         </nav>
-        <button
+        {/* <button
           onClick={() => setMenuOpen((prev) => !prev)}
           className="md:hidden"
         >
@@ -125,7 +99,7 @@ const NavBar = ({ setOpenSidebar }: NavBarProps) => {
               )}
             </ul>
           </nav>
-        )}
+        )} */}
       </header>
     </>
   );

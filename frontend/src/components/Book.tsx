@@ -21,7 +21,7 @@ type BookProps = {
   publishedYear?: number;
 };
 
-const Book: React.FC<BookProps> = ({
+const Book = ({
   id,
   title,
   author,
@@ -31,7 +31,7 @@ const Book: React.FC<BookProps> = ({
   copiesAvailable,
   category,
   publishedYear,
-}) => {
+}: BookProps) => {
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [openDropDown, setOpenDropDown] = useState<boolean>(false);
