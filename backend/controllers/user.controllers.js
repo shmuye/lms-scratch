@@ -75,9 +75,9 @@ export const getUserBorrows = async (req, res) => {
   const userId = req.user.id;
   try {
     const borrows = await Borrow.find({ user: userId })
-      .populate("book", "title author isbn")
+      .populate("book", "coverPage description title author isbn category")
       .exec();
-    console.log(borrows);
+    console.log("Fetched borrows for user", userId, borrows);
     return res.status(200).json(borrows);
   } catch (error) {
     console.log("Error fetching user borrows", error.message);
