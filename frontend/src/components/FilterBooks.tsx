@@ -11,7 +11,7 @@ const FilterBooks = ({
   setSelectedCategory,
 }: FilterBookProps) => {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-6">
+    <div className="flex flex-col md:flex-row items-center justify-center gap-3 my-4">
       {/* Label */}
       <h2 className="text-lg font-semibold text-gray-700">
         Filter by Category
