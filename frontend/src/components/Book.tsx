@@ -5,7 +5,7 @@ import DeleteModal from "./DeleteModal.tsx";
 import Actions from "./Actions.tsx";
 import Protected from "./Protected.tsx";
 import { useMutation } from "@tanstack/react-query";
-import { borrowBook } from "../services/borrow.api.ts";
+import { borrowBook, requestReturn } from "../services/borrow.api.ts";
 import { showError, showSuccess } from "../utils.ts";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -58,6 +58,17 @@ const Book = ({
     },
     onError: () => {
       showError("An Error Occurred , Please Try again");
+    },
+  });
+
+  const { mutate: requestReturnMutate, isPending: isReturning } = useMutation({
+    mutationFn: (id: string) => requestReturn(id),
+    onSuccess: () => {
+      showSuccess("Return request sent. Wait for approval.");
+      queryClient.invalidateQueries({ queryKey: ["borrows"] });
+    },
+    onError: () => {
+      showError("Failed to request return");
     },
   });
 
@@ -152,8 +163,14 @@ const Book = ({
         )}
 
         {mode === "borrowed" && (
-          <button className="flex-1 bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition cursor-pointer">
-            Return Book
+          <button
+            onClick={() => requestReturnMutate(id)}
+            disabled={isReturning || status !== "Borrowed"}
+            className="flex-1 bg-primary-500 text-white py-2 rounded-md hover:bg-primary-600 transition disabled:opacity-50"
+          >
+            {status === "Return Requested"
+              ? "Pending Approval"
+              : "Request Return"}
           </button>
         )}
       </div>

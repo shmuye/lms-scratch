@@ -7,6 +7,7 @@ import {
   getBooks,
   borrowBook,
   approveReturn,
+  requestReturn,
 } from "../controllers/book.controllers.js";
 import { authenticate, authorize } from "../middleware/index.js";
 import { uploadBookCover } from "../utils/multer.js";
@@ -46,6 +47,7 @@ router.delete(
 );
 
 router.post("/:id/borrow", authenticate, authorize(), borrowBook);
-router.post("/:id/return", authenticate, authorize(), approveReturn);
+router.post("/:id/return-request", authenticate, authorize(), requestReturn);
+router.post("/:id/return-approve", authenticate, authorize(), approveReturn);
 
 export default router;

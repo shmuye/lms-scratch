@@ -187,12 +187,11 @@ export const borrowBook = async (req, res) => {
   }
 };
 
-export const approveReturn = async (req, res) => {
+export const requestReturn = async (req, res) => {
   try {
     const userId = req.user.id;
     const bookId = req.params.id;
 
-    // 1. Find active borrow record
     const borrowRecord = await Borrow.findOne({
       user: userId,
       book: bookId,
@@ -200,37 +199,62 @@ export const approveReturn = async (req, res) => {
     });
 
     if (!borrowRecord) {
-      return res
-        .status(404)
-        .json({ message: "No active borrow record found for this book" });
+      return res.status(404).json({
+        message: "No active borrow record found",
+      });
+    }
+
+    borrowRecord.status = "Return Requested";
+    await borrowRecord.save();
+
+    return res.status(200).json({
+      message: "Return request submitted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const approveReturn = async (req, res) => {
+  try {
+    const bookId = req.params.id;
+
+    const borrowRecord = await Borrow.findOne({
+      book: bookId,
+      status: "Return Requested",
+    });
+
+    if (!borrowRecord) {
+      return res.status(404).json({
+        message: "No return request found",
+      });
     }
 
     const now = new Date();
-
     let status = "Returned";
 
     if (now > borrowRecord.dueDate) {
       status = "Overdue";
     }
-    // 2. Update borrow record
+
     borrowRecord.returnDate = now;
     borrowRecord.status = status;
     await borrowRecord.save();
-
-    // 3. Update book availability
 
     await Book.findByIdAndUpdate(bookId, {
       $inc: { copiesAvailable: 1 },
       isAvailable: true,
     });
 
-    return res
-      .status(200)
-      .json({ message: "Book returned successfully", borrowRecord });
+    return res.status(200).json({
+      message: "Return approved successfully",
+      borrowRecord,
+    });
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",
-      error: error.message,
     });
   }
 };
