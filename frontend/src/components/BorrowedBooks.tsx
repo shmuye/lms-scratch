@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllBorrows } from "../services/borrow.api";
+import Book from "./Book";
 
 const BorrowedBooks = () => {
   const {
@@ -20,7 +21,13 @@ const BorrowedBooks = () => {
   if (isError) {
     return <div>Error Loading Borrowed books</div>;
   }
-  return <div>{borrowedBooks?.map(() => {})}</div>;
+  return (
+    <div>
+      {borrowedBooks?.map((book: any) => (
+        <Book key={book._id} book={book} />
+      ))}
+    </div>
+  );
 };
 
 export default BorrowedBooks;

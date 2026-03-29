@@ -72,11 +72,12 @@ export const deleteUser = async (req, res) => {
 };
 
 export const getUserBorrows = async (req, res) => {
-  const { id } = req.params;
+  const userId = req.user.id;
   try {
-    const borrows = await Borrow.find({ user: id })
+    const borrows = await Borrow.find({ user: userId })
       .populate("book", "title author isbn")
       .exec();
+    console.log(borrows);
     return res.status(200).json(borrows);
   } catch (error) {
     console.log("Error fetching user borrows", error.message);
