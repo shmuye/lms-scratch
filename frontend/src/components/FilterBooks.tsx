@@ -10,48 +10,24 @@ const FilterBooks = ({
   selectedCategory,
   setSelectedCategory,
 }: FilterBookProps) => {
-  // return (
-  //   <div className="w-full md:h-screen md:w-50 px-4 py-3 overflow-x-auto md:bg-primary-900">
-  //     <div className="flex md:mb-0 md:flex-col gap-4 whitespace-nowrap">
-  //       <button
-  //         onClick={() => setSelectedCategory("")}
-  //         className={`px-4 py-2 rounded-sm text-sm font-medium transition
-  //           ${
-  //             selectedCategory === ""
-  //               ? "bg-primary-500 text-white"
-  //               : "bg-primary-50 hover:bg-primary-100"
-  //           }`}
-  //       >
-  //         All
-  //       </button>
-
-  //       {categoryEnum.map((category) => (
-  //         <button
-  //           key={category}
-  //           onClick={() => setSelectedCategory(category)}
-  //           className={`px-4 py-2 rounded-sm text-sm font-medium transition
-  //             ${
-  //               selectedCategory === category
-  //                 ? "bg-primary-500 text-white"
-  //                 : "bg-primary-50 hover:bg-primary-100"
-  //             }`}
-  //         >
-  //           {category}
-  //         </button>
-  //       ))}
-  //     </div>
-  //   </div>
-  // );
   return (
-    <div className="flex gap-1 items-center justify-center">
-      <h1>Filter Books</h1>
-      <div className="w-full m-2 rounded-sm md:w-50 md:bg-primary-900">
+    <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-6">
+      {/* Label */}
+      <h2 className="text-lg font-semibold text-gray-700">
+        Filter by Category
+      </h2>
+
+      {/* Select Wrapper */}
+      <div className="relative w-full md:w-64">
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value as BookCategory)}
-          className="w-full px-4 py-2 rounded-sm text-sm font-medium bg-primary-50 hover:bg-primary-100 focus:outline-none"
+          className="w-full appearance-none px-4 py-2 pr-10 rounded-lg text-sm font-medium 
+          bg-white border border-primary-100 
+          focus:outline-none focus:ring-2 focus:ring-primary-500 
+          shadow-sm transition"
         >
-          <option value="">All</option>
+          <option value="">All Categories</option>
 
           {categoryEnum.map((category) => (
             <option key={category} value={category}>
@@ -59,6 +35,11 @@ const FilterBooks = ({
             </option>
           ))}
         </select>
+
+        {/* Custom dropdown icon */}
+        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-primary-500">
+          ▼
+        </div>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 type BookProps = {
   id: string;
   title: string;
+  mode?: "default" | "borrowed";
   author: string;
   coverPage: string;
   description?: string;
@@ -19,18 +20,26 @@ type BookProps = {
   copiesAvailable: number;
   category: string;
   publishedYear?: number;
+
+  borrowDate?: string;
+  dueDate?: string;
+  status?: string;
 };
 
 const Book = ({
   id,
   title,
   author,
+  mode = "default",
   coverPage,
   description,
   totalCopies,
   copiesAvailable,
   category,
   publishedYear,
+  borrowDate,
+  dueDate,
+  status,
 }: BookProps) => {
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
@@ -90,32 +99,63 @@ const Book = ({
             {description}
           </p>
         )}
-        <p className="text-sm text-gray-600">
-          <span className="font-bold">Total Copies: </span>
-          {totalCopies}
-        </p>
-        <p className="text-sm text-gray-600">
-          <span className="font-bold">Available: </span>
-          {copiesAvailable}
-        </p>
+        {mode !== "borrowed" && (
+          <>
+            <p className="text-sm text-gray-600">
+              <span className="font-bold">Total Copies: </span>
+              {totalCopies}
+            </p>
+            <p className="text-sm text-gray-600">
+              <span className="font-bold">Available: </span>
+              {copiesAvailable}
+            </p>
+          </>
+        )}
         <p className="text-sm text-gray-600">
           <span className="font-bold">Category: </span>
           {category}
         </p>
+
+        {mode === "borrowed" && (
+          <>
+            <p className="text-sm text-gray-600">
+              <span className="font-bold">Borrowed: </span>
+              {new Date(borrowDate!).toLocaleDateString()}
+            </p>
+
+            <p className="text-sm text-gray-600">
+              <span className="font-bold">Due Date: </span>
+              {new Date(dueDate!).toLocaleDateString()}
+            </p>
+
+            <p
+              className={`text-sm font-semibold ${
+                status === "Borrowed" ? "text-yellow-600" : "text-green-600"
+              }`}
+            >
+              Status: {status}
+            </p>
+          </>
+        )}
       </div>
 
       {/* Action buttons */}
       <div className="p-4 flex justify-between gap-2 shrink-0">
-        <button
-          onClick={() => mutate(id)}
-          disabled={isPending || copiesAvailable === 0}
-          className="flex-1 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
-        >
-          Borrow Book
-        </button>
-        <button className="flex-1 bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition">
-          Return Book
-        </button>
+        {mode !== "borrowed" && (
+          <button
+            onClick={() => mutate(id)}
+            disabled={isPending || copiesAvailable === 0}
+            className="flex-1 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition cursor-pointer"
+          >
+            Borrow Book
+          </button>
+        )}
+
+        {mode === "borrowed" && (
+          <button className="flex-1 bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition cursor-pointer">
+            Return Book
+          </button>
+        )}
       </div>
 
       {openDeleteModal && (
