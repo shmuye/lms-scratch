@@ -19,6 +19,15 @@ export const getAllBorrows = async () => {
   }
 };
 
+export const getReturnRequests = async () => {
+  try {
+    const response = await api.get("/books/borrows/return-requests");
+    return response.data;
+  } catch (error: any) {
+    throw new Error("Failed to fetch return requests");
+  }
+};
+
 export const requestReturn = async (id: string) => {
   try {
     const response = await api.post(`/books/${id}/return-request`);

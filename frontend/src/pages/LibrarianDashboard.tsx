@@ -1,8 +1,11 @@
-import React from 'react'
+import ReturnRequests from "../components/ReturnRequest";
 
 const LibrarianDashboard = () => {
-    return (
-        <div>LibrarianDashboard</div>
-    )
-}
-export default LibrarianDashboard
+  return (
+    <div className="ml-64">
+      <ReturnRequests />
+    </div>
+  );
+};
+
+export default LibrarianDashboard;

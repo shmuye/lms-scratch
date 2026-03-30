@@ -258,3 +258,20 @@ export const approveReturn = async (req, res) => {
     });
   }
 };
+
+// GET /borrows/return-requests
+export const getReturnRequests = async (req, res) => {
+  try {
+    const borrows = await Borrow.find({
+      status: "Return Requested",
+    })
+      .populate("book", "title author coverPage")
+      .populate("user", "name email");
+
+    return res.status(200).json(borrows);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
