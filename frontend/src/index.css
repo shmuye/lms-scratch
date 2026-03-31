@@ -62,7 +62,7 @@ body,
   }
 
   .bookCard {
-    @apply z-20 relative w-full md:max-w-75 bg-white hover:shadow-md rounded-sm overflow-hidden m-4;
+    @apply relative w-full md:max-w-75 bg-white hover:shadow-md rounded-sm overflow-hidden m-4;
   }
 
   .sidebar {
