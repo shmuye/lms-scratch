@@ -11,38 +11,29 @@ const FilterBooks = ({
   setSelectedCategory,
 }: FilterBookProps) => {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center gap-3 my-4">
-      {/* Label */}
-      <h2 className="text-lg font-semibold text-gray-700">
-        Filter by Category
-      </h2>
+    <div className="w-full sm:max-w-xs relative">
+      <select
+        value={selectedCategory}
+        onChange={(e) => setSelectedCategory(e.target.value as BookCategory)}
+        className="w-full appearance-none px-4 py-2 pr-10 rounded-lg text-sm 
+        bg-gray-50 border border-primary-100 
+        focus:outline-none focus:ring-2 focus:ring-primary-500 
+        shadow-sm transition"
+      >
+        <option value="">All Categories</option>
 
-      {/* Select Wrapper */}
-      <div className="relative w-full md:w-64">
-        <select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value as BookCategory)}
-          className="w-full appearance-none px-4 py-2 pr-10 rounded-lg text-sm font-medium 
-          bg-white border border-primary-100 
-          focus:outline-none focus:ring-2 focus:ring-primary-500 
-          shadow-sm transition"
-        >
-          <option value="">All Categories</option>
+        {categoryEnum.map((category) => (
+          <option key={category} value={category}>
+            {category}
+          </option>
+        ))}
+      </select>
 
-          {categoryEnum.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
-
-        {/* Custom dropdown icon */}
-        <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-primary-500">
-          ▼
-        </div>
+      {/* Dropdown icon */}
+      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-primary-500">
+        ▼
       </div>
     </div>
   );
 };
-
 export default FilterBooks;

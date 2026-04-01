@@ -33,11 +33,9 @@ const NavBar = ({ setOpenSidebar }: NavBarProps) => {
           </h1>
         </Link>
       </div>
-
-      {/* Center */}
-      <div className="hidden md:block w-full max-w-md">
+      {/* <div className="hidden md:block w-full max-w-md">
         <SearchBar />
-      </div>
+      </div> */}
 
       {/* Right */}
       <nav className="hidden md:flex items-center">
