@@ -82,3 +82,14 @@ body,
     @apply px-3 py-2 text-info-500 bg-info-100 text-sm mt-1;
   }
 }
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

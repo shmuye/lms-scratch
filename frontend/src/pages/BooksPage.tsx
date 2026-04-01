@@ -4,6 +4,7 @@ import Loader from "../components/Loader";
 import { getBooks } from "../services/book.api";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import SearchBar from "../components/SearchBar";
 
 export type BookCategory =
   | "Fiction"
@@ -15,13 +16,14 @@ export type BookCategory =
   | "Sport";
 
 const Books = () => {
+  const [search, setSearch] = useState("");
   const {
     data: books,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["books"],
-    queryFn: getBooks,
+    queryKey: ["books", search],
+    queryFn: () => getBooks(search),
   });
 
   const [selectedCategory, setSelectedCategory] = useState<BookCategory | "">(
@@ -42,6 +44,7 @@ const Books = () => {
 
   return (
     <div className="flex flex-col items-center">
+      <SearchBar search={search} setSearch={setSearch} />
       <FilterBooks
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}

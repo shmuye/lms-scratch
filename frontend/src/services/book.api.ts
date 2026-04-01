@@ -25,9 +25,11 @@ export const getBook = async (id: string) => {
   }
 };
 
-export const getBooks = async (): Promise<Book[] | null> => {
+export const getBooks = async (search?: string): Promise<Book[] | null> => {
   try {
-    const response = await api.get("/books");
+    const response = await api.get("/books", {
+      params: { search },
+    });
     return response.data;
   } catch (error) {
     throw new Error(`Error fetching books, ${error}`);

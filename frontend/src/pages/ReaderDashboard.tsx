@@ -5,26 +5,20 @@ const ReaderDashboard = () => {
   const location = useLocation();
 
   const tabs = [
-    {
-      label: "Profile",
-      path: "/reader/profile",
-      icon: User,
-    },
-    {
-      label: "Borrowed Books",
-      path: "/reader/borrowed",
-      icon: BookOpen,
-    },
+    { label: "Profile", path: "/reader/profile", icon: User },
+    { label: "Borrowed Books", path: "/reader/borrowed", icon: BookOpen },
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6">
       {/* Title */}
-      <h2 className="text-2xl font-bold text-center mb-6">Reader Dashboard</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-center mb-6">
+        Reader Dashboard
+      </h2>
 
       {/* Tabs */}
       <div className="flex justify-center mb-6">
-        <div className="flex gap-2 bg-white p-2 rounded-xl shadow-sm border border-primary-100">
+        <div className="flex gap-2 bg-white p-2 rounded-xl shadow-sm border border-primary-100 overflow-x-auto no-scrollbar">
           {tabs.map((tab) => {
             const isActive = location.pathname === tab.path;
             const Icon = tab.icon;
@@ -34,7 +28,8 @@ const ReaderDashboard = () => {
                 key={tab.path}
                 to={tab.path}
                 className={`
-                  flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition
+                  flex items-center gap-2 px-3 sm:px-4 py-2 
+                  rounded-lg text-sm font-medium whitespace-nowrap transition
                   ${
                     isActive
                       ? "bg-primary-500 text-white shadow-md"
@@ -51,7 +46,7 @@ const ReaderDashboard = () => {
       </div>
 
       {/* Content */}
-      <div className="bg-white rounded-xl p-4 shadow-sm border border-primary-100 min-h-75">
+      <div className="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-primary-100 min-h-[300px] sm:min-h-[400px]">
         <Outlet />
       </div>
     </div>

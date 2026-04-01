@@ -16,8 +16,8 @@ const authorize = (...requiredPermissions) => {
       return next();
     }
 
-    const hasPermission = requiredPermissions.every(permission =>
-      userPermissions.includes(permission)
+    const hasPermission = requiredPermissions.every((permission) =>
+      userPermissions.includes(permission),
     );
 
     if (!hasPermission) {

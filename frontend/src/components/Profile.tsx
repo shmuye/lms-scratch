@@ -5,31 +5,33 @@ const Profile = () => {
   const user = useAppSelector(selectUser);
 
   return (
-    <div className="mx-auto p-4 w-fit flex flex-col gap-4">
-      <div className="flex flex-col gap-1">
-        <label htmlFor="name" className="font-bold text-gray-600">
-          Your Name
-        </label>
-        <input
-          id="name"
-          type="text"
-          value={user?.name || ""}
-          readOnly
-          className="border rounded-md px-3 py-2 bg-gray-100 text-gray-700"
-        />
-      </div>
+    <div className="w-full flex justify-center">
+      <div className="w-full max-w-md bg-white border border-primary-100 rounded-xl shadow-sm p-6 flex flex-col gap-5">
+        <h3 className="text-lg font-semibold text-gray-800 text-center">
+          Your Profile
+        </h3>
 
-      <div className="flex flex-col gap-1">
-        <label htmlFor="email" className="font-bold text-gray-600">
-          Your Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          value={user?.email || ""}
-          readOnly
-          className="border rounded-md px-3 py-2 bg-gray-100 text-gray-700"
-        />
+        {/* Name */}
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-500">Name</label>
+          <input
+            type="text"
+            value={user?.name || ""}
+            readOnly
+            className="input bg-gray-50"
+          />
+        </div>
+
+        {/* Email */}
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-500">Email</label>
+          <input
+            type="email"
+            value={user?.email || ""}
+            readOnly
+            className="input bg-gray-50"
+          />
+        </div>
       </div>
     </div>
   );

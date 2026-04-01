@@ -54,7 +54,14 @@ export const createBook = async (req, res) => {
 
 export const getBooks = async (req, res) => {
   try {
-    const books = await Book.find().lean();
+    const { search } = req.query;
+    const query = {};
+
+    if (search) {
+      query.title = { $regex: search, $options: "i" }; // case-insensitive
+    }
+
+    const books = await Book.find(query).lean();
     return res.status(200).json(books);
   } catch (error) {
     return res.status(500).json({
