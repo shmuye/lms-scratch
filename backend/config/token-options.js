@@ -2,7 +2,7 @@ export const ACCESS_COOKIE_OPTIONS = {
   httpOnly: true,
   secure: false,
   sameSite: "lax",
-  maxAge: 1000 * 60 * 15, // 15 minutes,
+  maxAge: 1000 * 60 * 5, // 15 minutes,
 };
 
 export const REFRESH_COOKIE_OPTIONS = {

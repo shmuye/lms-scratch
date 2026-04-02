@@ -27,7 +27,7 @@ const ReturnRequests = () => {
   if (isError) return <p>Error loading requests</p>;
 
   return (
-    <div className="p-6">
+    <div className="w-[80%] mx-auto p-6">
       <h2 className="text-xl font-bold mb-6">Return Requests</h2>
 
       {data.length === 0 ? (

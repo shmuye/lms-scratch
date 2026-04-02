@@ -109,7 +109,7 @@ export const refresh = async (req, res) => {
     const newAccessToken = generateAccessToken(user._id, user.role);
     const newRefreshToken = generateRefreshToken(user._id);
 
-    user.refreshToken = await bcrypt.hash(newRefreshToken, 10);
+    user.refreshToken = await hash(newRefreshToken);
     await user.save();
 
     // set cookies

@@ -10,8 +10,7 @@ const authorize = (...requiredPermissions) => {
     }
 
     const userPermissions = ROLE_PERMISSIONS[userRole] || [];
-
-    // Admin shortcut
+    
     if (userPermissions.includes(PERMISSIONS.SYSTEM_ALL)) {
       return next();
     }
