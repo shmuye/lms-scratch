@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "../../../shared/validations/auth.schema.js";
 import { RegisterInput } from "../types/auth.types.ts";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks.ts";
+import { useAppDispatch } from "../hooks/hooks.ts";
 import { registerUser } from "../features/auth/auth.thunks.ts";
 import { useNavigate, Link } from "react-router-dom";
 

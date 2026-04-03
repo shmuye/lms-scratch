@@ -20,7 +20,7 @@ const CreateBook = () => {
   } = useForm<Book>({
     resolver: zodResolver(createBookSchema),
   });
-  const { mutate, isPending, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: createBook,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["books"] });

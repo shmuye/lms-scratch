@@ -6,7 +6,7 @@ type ProtectedProps = {
   children: React.ReactNode;
 };
 
-const Protected: React.FC<ProtectedProps> = ({ allowedRoles, children }) => {
+const Protected = ({ allowedRoles, children }: ProtectedProps) => {
   const user = useAppSelector(selectUser);
   if (!user) return;
   if (!allowedRoles.includes(user.role)) return null;

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllBorrows } from "../services/borrow.api";
 import Book from "./Book.tsx";
+import Loader from "./Loader.tsx";
 
 const BorrowedBooks = () => {
   const {
@@ -13,13 +14,24 @@ const BorrowedBooks = () => {
   });
 
   if (isLoading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return <Loader />;
   }
 
   if (isError) {
     return (
       <div className="text-center text-danger-500 py-10">
         Error loading borrowed books
+      </div>
+    );
+  }
+
+  if (!borrowedBooks || borrowedBooks.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 text-center">
+        <h2 className="text-xl font-semibold mb-2">No borrowed books yet</h2>
+        <p className="text-gray-500">
+          You haven’t borrowed any books. Start exploring and borrow one!
+        </p>
       </div>
     );
   }
