@@ -5,6 +5,7 @@ import {
   RegisterInput,
 } from "../../types/auth.types";
 import { login, logout, refresh, register } from "../../services/auth.api";
+import { getProfileInfo } from "../../services/users.api";
 
 export const registerUser = createAsyncThunk<
   AuthResponse,
@@ -37,6 +38,18 @@ export const logoutUser = createAsyncThunk(
       return await logout();
     } catch (error: any) {
       return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const fetchCurrentUser = createAsyncThunk(
+  "auth/me",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getProfileInfo();
+      return data;
+    } catch (error) {
+      return rejectWithValue("Not authenticated");
     }
   },
 );

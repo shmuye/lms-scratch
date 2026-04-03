@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../services/users.api";
 import { User } from "../types/auth.types";
+import Loader from "./Loader";
 
 const Users = () => {
   const {
@@ -13,7 +14,7 @@ const Users = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error instanceof Error) {

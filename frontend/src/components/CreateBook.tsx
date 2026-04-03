@@ -12,6 +12,7 @@ export type Book = z.input<typeof createBookSchema>;
 
 const CreateBook = () => {
   const queryClient = useQueryClient();
+
   const {
     register,
     handleSubmit,
@@ -20,6 +21,7 @@ const CreateBook = () => {
   } = useForm<Book>({
     resolver: zodResolver(createBookSchema),
   });
+
   const { mutate, isPending } = useMutation({
     mutationFn: createBook,
     onSuccess: () => {
@@ -31,6 +33,7 @@ const CreateBook = () => {
       showError("Error Creating book, Try again");
     },
   });
+
   const handleCreateBook = (data: Book) => {
     const formData = new FormData();
 
@@ -46,55 +49,48 @@ const CreateBook = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-8">
+    <div className="flex justify-center">
+      <div className="w-full max-w-4xl bg-white shadow-lg rounded-2xl p-4 sm:p-6 md:p-8">
         <form
           onSubmit={handleSubmit(handleCreateBook)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6"
         >
+          {/* Title */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Title
-            </label>
+            <label className="label">Title</label>
             <input
-              placeholder="Enter Title"
-              type="text"
               {...register("title")}
+              placeholder="Enter Title"
               className="input"
             />
             {errors.title && <p className="error">{errors.title.message}</p>}
           </div>
 
+          {/* Author */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Author
-            </label>
+            <label className="label">Author</label>
             <input
-              placeholder="Author"
-              type="text"
               {...register("author")}
+              placeholder="Author"
               className="input"
             />
             {errors.author && <p className="error">{errors.author.message}</p>}
           </div>
 
+          {/* ISBN */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              ISBN
-            </label>
+            <label className="label">ISBN</label>
             <input
-              placeholder="Enter ISBN"
-              type="text"
               {...register("isbn")}
+              placeholder="Enter ISBN"
               className="input"
             />
             {errors.isbn && <p className="error">{errors.isbn.message}</p>}
           </div>
 
+          {/* Category */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Category
-            </label>
+            <label className="label">Category</label>
             <select {...register("category")} className="input">
               {categoryEnum.map((category) => (
                 <option key={category} value={category}>
@@ -107,12 +103,10 @@ const CreateBook = () => {
             )}
           </div>
 
+          {/* Total Copies */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Total Copies
-            </label>
+            <label className="label">Total Copies</label>
             <input
-              placeholder="Enter Total Copies"
               type="number"
               {...register("totalCopies", { valueAsNumber: true })}
               className="input"
@@ -122,12 +116,10 @@ const CreateBook = () => {
             )}
           </div>
 
+          {/* Copies Available */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Copies Available
-            </label>
+            <label className="label">Copies Available</label>
             <input
-              placeholder="Copies Available"
               type="number"
               {...register("copiesAvailable", { valueAsNumber: true })}
               className="input"
@@ -137,12 +129,10 @@ const CreateBook = () => {
             )}
           </div>
 
+          {/* Published Year */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Published Year
-            </label>
+            <label className="label">Published Year</label>
             <input
-              placeholder="Published Year"
               type="number"
               {...register("publishedYear", { valueAsNumber: true })}
               className="input"
@@ -152,13 +142,12 @@ const CreateBook = () => {
             )}
           </div>
 
+          {/* Cover Image */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Cover Image
-            </label>
+            <label className="label">Cover Image</label>
             <input
               type="file"
-              accept="image/"
+              accept="image/*"
               {...register("coverPage", {
                 validate: (files) => {
                   if (!files || files.length === 0) {
@@ -179,23 +168,22 @@ const CreateBook = () => {
                 },
               })}
               className="block w-full text-sm text-gray-600
-              file:mr-4 file:py-2 file:px-4
-              file:rounded-lg file:border-0
-              file:text-sm file:font-semibold
-              file:bg-blue-50 file:text-primary-600
-              hover:file:bg-blue-100"
+                file:mr-3 file:py-2 file:px-4
+                file:rounded-lg file:border-0
+                file:text-sm file:font-medium
+                file:bg-primary-50 file:text-primary-600
+                hover:file:bg-primary-100 transition"
             />
             {errors.coverPage?.message && (
               <p className="error">{String(errors.coverPage.message)}</p>
             )}
           </div>
 
-          <div className="flex flex-col md:col-span-2">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Description
-            </label>
+          {/* Description */}
+          <div className="flex flex-col sm:col-span-2">
+            <label className="label">Description</label>
             <textarea
-              rows={3}
+              rows={4}
               {...register("description")}
               className="input resize-none"
             />
@@ -204,13 +192,14 @@ const CreateBook = () => {
             )}
           </div>
 
-          <div className="md:col-span-2 mt-4">
+          {/* Submit */}
+          <div className="sm:col-span-2 mt-2">
             <button
               type="submit"
               disabled={isPending}
-              className="cursor-pointer w-full bg-primary-600 text-white py-3 rounded-xl font-semibold
-              hover:bg-primary-700 transition duration-200
-              disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold
+                hover:bg-primary-700 transition
+                disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isPending ? "Creating..." : "Create Book"}
             </button>
@@ -220,5 +209,4 @@ const CreateBook = () => {
     </div>
   );
 };
-
 export default CreateBook;

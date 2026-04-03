@@ -10,7 +10,7 @@ const ReaderDashboard = () => {
   ];
 
   return (
-    <div className="p-4 sm:p-6">
+    <div className="">
       {/* Title */}
       <h2 className="text-xl sm:text-2xl font-bold text-center mb-6">
         Reader Dashboard
@@ -18,7 +18,7 @@ const ReaderDashboard = () => {
 
       {/* Tabs */}
       <div className="flex justify-center mb-6">
-        <div className="flex gap-2 bg-white p-2 rounded-xl shadow-sm border border-primary-100 overflow-x-auto no-scrollbar">
+        <div className="w-full flex gap-2 p-2 rounded-xl border border-primary-100 no-scrollbar">
           {tabs.map((tab) => {
             const isActive = location.pathname === tab.path;
             const Icon = tab.icon;

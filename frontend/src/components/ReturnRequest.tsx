@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getReturnRequests, approveReturn } from "../services/borrow.api";
 import { CheckCircle } from "lucide-react";
 import { showSuccess, showError } from "../utils";
+import Loader from "./Loader";
 
 const ReturnRequests = () => {
   const queryClient = useQueryClient();
@@ -23,7 +24,7 @@ const ReturnRequests = () => {
     },
   });
 
-  if (isLoading) return <p>Loading requests...</p>;
+  if (isLoading) return <Loader />;
   if (isError) return <p>Error loading requests</p>;
 
   return (

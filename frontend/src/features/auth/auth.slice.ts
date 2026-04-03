@@ -1,7 +1,12 @@
 // authSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthState, User } from "../../types/auth.types";
-import { loginUser, registerUser, logoutUser } from "./auth.thunks";
+import {
+  loginUser,
+  registerUser,
+  logoutUser,
+  fetchCurrentUser,
+} from "./auth.thunks";
 import { RootState } from "../../store/store";
 
 const initialState: AuthState = {
@@ -51,6 +56,19 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
+      })
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.success = true;
+        state.loading = false;
+      })
+      .addCase(fetchCurrentUser.rejected, (state) => {
+        state.user = null;
+        state.success = false;
+        state.loading = false;
       });
   },
 });
