@@ -19,7 +19,7 @@ export type BookCategory =
 const Books = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearch] = useDebounce(search, 500);
-
+  const [finalSearch, setFinalSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<BookCategory | "">(
     "",
   );
@@ -47,11 +47,19 @@ const Books = () => {
     );
   }
 
+  const handleSearch = () => {
+    setFinalSearch(debouncedSearch);
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 py-6 flex flex-col gap-6">
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between bg-white p-3 rounded-xl border border-primary-100 shadow-sm">
-        <SearchBar search={search} setSearch={setSearch} />
+        <SearchBar
+          search={search}
+          setSearch={setSearch}
+          onSearch={handleSearch}
+        />
 
         <FilterBooks
           selectedCategory={selectedCategory}
