@@ -13,6 +13,26 @@ dotenv.config();
 
 const app = express();
 
+// ✅ Ensure uploads folders exist
+const ensureUploadFolders = () => {
+  const basePath = path.join(process.cwd(), "uploads");
+
+  const folders = [
+    basePath,
+    path.join(basePath, "coverImages"),
+    path.join(basePath, "avatars"),
+  ];
+
+  folders.forEach((folder) => {
+    if (!fs.existsSync(folder)) {
+      fs.mkdirSync(folder, { recursive: true });
+      console.log(`📁 Created folder: ${folder}`);
+    }
+  });
+};
+
+ensureUploadFolders();
+
 // middleware
 
 app.use(
@@ -26,6 +46,7 @@ app.use(
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
+
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 //routes

@@ -5,7 +5,7 @@ import {
   loginUser,
   registerUser,
   logoutUser,
-  fetchCurrentUser,
+  // fetchCurrentUser,
 } from "./auth.thunks";
 import { RootState } from "../../store/store";
 
@@ -56,20 +56,20 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
-      })
-      .addCase(fetchCurrentUser.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.success = true;
-        state.loading = false;
-      })
-      .addCase(fetchCurrentUser.rejected, (state) => {
-        state.user = null;
-        state.success = false;
-        state.loading = false;
       });
+    // .addCase(fetchCurrentUser.pending, (state) => {
+    //   state.loading = true;
+    // })
+    // .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+    //   state.user = action.payload;
+    //   state.success = true;
+    //   state.loading = false;
+    // })
+    // .addCase(fetchCurrentUser.rejected, (state) => {
+    //   state.user = null;
+    //   state.success = false;
+    //   state.loading = false;
+    // });
   },
 });
 

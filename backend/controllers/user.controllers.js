@@ -74,7 +74,10 @@ export const deleteUser = async (req, res) => {
 export const getUserBorrows = async (req, res) => {
   const userId = req.user.id;
   try {
-    const borrows = await Borrow.find({ user: userId })
+    const borrows = await Borrow.find({
+      user: userId,
+      status: ["Borrowed", "Return Requested", "Overdue"],
+    })
       .populate("book", "coverPage description title author isbn category")
       .exec();
     return res.status(200).json(borrows);
