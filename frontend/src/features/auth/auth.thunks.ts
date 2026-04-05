@@ -42,17 +42,17 @@ export const logoutUser = createAsyncThunk(
   },
 );
 
-// export const fetchCurrentUser = createAsyncThunk(
-//   "auth/me",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const data = await getProfileInfo();
-//       return data;
-//     } catch (error) {
-//       return rejectWithValue("Not authenticated");
-//     }
-//   },
-// );
+export const fetchCurrentUser = createAsyncThunk(
+  "auth/me",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getProfileInfo();
+      return data;
+    } catch (error) {
+      return rejectWithValue("Not authenticated");
+    }
+  },
+);
 
 export const refreshToken = createAsyncThunk(
   `/auth/refresh`,
