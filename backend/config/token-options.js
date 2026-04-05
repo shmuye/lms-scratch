@@ -9,5 +9,5 @@ export const REFRESH_COOKIE_OPTIONS = {
   httpOnly: true,
   sameSite: "lax",
   secure: false,
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
 };

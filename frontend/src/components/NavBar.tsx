@@ -1,4 +1,3 @@
-import SearchBar from "./SearchBar";
 import { Menu, BookOpen, LogIn, UserPlus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../hooks/hooks";

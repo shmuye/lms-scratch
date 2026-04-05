@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import path from "path";
+import fs from "fs";
 import cors from "cors";
 import morgan from "morgan";
 

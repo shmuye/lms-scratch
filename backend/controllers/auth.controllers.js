@@ -1,5 +1,4 @@
 import User from "../models/user.model.js";
-import bcrypt from "bcryptjs";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -93,7 +92,7 @@ export const refresh = async (req, res) => {
     }
 
     const userId = payload.userId;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("+refreshToken");
     if (!user || !user.refreshToken) {
       return res.status(401).json({ message: "unAuthorized" });
     }
