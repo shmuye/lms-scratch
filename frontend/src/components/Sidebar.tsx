@@ -95,7 +95,7 @@ const Sidebar = () => {
                 <span>Dashboard</span>
               </Link>
 
-              <Link to="/reader/profile" className={linkClass}>
+              <Link to="/librarian/profile" className={linkClass}>
                 <User size={18} />
                 <span>Profile</span>
               </Link>

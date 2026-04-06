@@ -6,8 +6,9 @@ import {
   Login,
   ReaderDashboard,
   Signup,
+  AdminDashboard,
 } from "../pages";
-import { Profile, AdminDashboard } from "../components";
+import { Profile } from "../components";
 import ProtectedRoutes from "./ProtectedRoutes";
 import AdminRoutes from "./AdminRoutes";
 import CreateBookPage from "../pages/CreateBookPage";
