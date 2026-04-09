@@ -18,8 +18,7 @@ export type BookCategory =
 
 const Books = () => {
   const [search, setSearch] = useState("");
-  const [debouncedSearch] = useDebounce(search, 500);
-  const [finalSearch, setFinalSearch] = useState("");
+  const [debouncedSearch] = useDebounce(search, 2000);
   const [selectedCategory, setSelectedCategory] = useState<BookCategory | "">(
     "",
   );
