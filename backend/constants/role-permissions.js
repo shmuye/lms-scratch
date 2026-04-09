@@ -1,11 +1,9 @@
 // constants/role-permissions.js
-import { PERMISSIONS } from './permissions.js';
-import { ROLES } from './roles.js';
+import { PERMISSIONS } from "./permissions.js";
+import { ROLES } from "./roles.js";
 
 export const ROLE_PERMISSIONS = {
-  [ROLES.ADMIN]: [
-    PERMISSIONS.SYSTEM_ALL
-  ],
+  [ROLES.ADMIN]: [PERMISSIONS.SYSTEM_ALL],
   [ROLES.LIBRARIAN]: [
     PERMISSIONS.BOOK_CREATE,
     PERMISSIONS.BOOK_UPDATE,
@@ -16,5 +14,5 @@ export const ROLE_PERMISSIONS = {
     PERMISSIONS.BOOK_READ,
     PERMISSIONS.BOOK_BORROW,
     PERMISSIONS.BOOK_RETURN,
-  ]
+  ],
 };

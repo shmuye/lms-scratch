@@ -1,20 +1,20 @@
 import { PersistGate } from "redux-persist/integration/react";
 import AppRouter from "./routes/AppRoute.tsx";
 import { Toaster } from "react-hot-toast";
-// import { persistor } from "./store/store.ts";
+import { persistor } from "./store/store.ts";
 import { useEffect } from "react";
-// import { fetchCurrentUser } from "./features/auth/auth.thunks.ts";
+import { fetchCurrentUser } from "./features/auth/auth.thunks.ts";
 import { useAppDispatch } from "./hooks/hooks.ts";
 
-// const AppInit = () => {
-//   const dispatch = useAppDispatch();
+const AppInit = () => {
+  const dispatch = useAppDispatch();
 
-//   useEffect(() => {
-//     dispatch(fetchCurrentUser());
-//   }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
-//   return null;
-// };
+  return null;
+};
 
 const App = () => {
   return (

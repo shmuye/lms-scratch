@@ -71,6 +71,42 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+export const deactivateUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { isActive: false },
+      { new: true },
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json({ message: "User deactivated successfully" });
+  } catch (error) {
+    console.log("Error deactivating user", error.message);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const activateUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { isActive: true },
+      { new: true },
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json({ message: "User activated successfully" });
+  } catch (error) {
+    console.log("Error activating user", error.message);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const getUserBorrows = async (req, res) => {
   const userId = req.user.id;
   try {

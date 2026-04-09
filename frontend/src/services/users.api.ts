@@ -65,6 +65,24 @@ export const updateAvatar = async (avatar: URL) => {
   }
 };
 
+export const deleteAvatar = async () => {
+  try {
+    const response = await api.delete("/users/me/avatar");
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error deleting avatar, ${error}`);
+  }
+};
+
+export const deactivateUser = async () => {
+  try {
+    const response = await api.post("/users/:id/deactivate");
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error deactivating user, ${error}`);
+  }
+};
+
 export const deleteUser = async () => {
   try {
     const response = await api.delete("/users/:id");
@@ -74,11 +92,11 @@ export const deleteUser = async () => {
   }
 };
 
-export const deleteAvatar = async () => {
+export const activateUser = async () => {
   try {
-    const response = await api.delete("/users/me/avatar");
+    const response = await api.post("/users/:id/activate");
     return response.data;
   } catch (error) {
-    throw new Error(`Error deleting avatar, ${error}`);
+    throw new Error(`Error activating user, ${error}`);
   }
 };

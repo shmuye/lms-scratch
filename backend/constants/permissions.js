@@ -1,5 +1,4 @@
 export const PERMISSIONS = {
-  
   BOOK_CREATE: "book:create",
   BOOK_UPDATE: "book:update",
   BOOK_DELETE: "book:delete",
@@ -10,7 +9,7 @@ export const PERMISSIONS = {
   USER_CREATE: "user:create",
   USER_READ: "user:read",
   USER_DELETE: "user:delete",
+  USER_DEACTIVATE: "user:deactivate",
   USER_ROLE_UPDATE: "user:role:update",
   SYSTEM_ALL: "*",
-
 };
