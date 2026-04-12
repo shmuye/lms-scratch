@@ -1,8 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { updateBook } from "../services/book.api";
 import { updateBookRequest } from "../types/book.types";
-import { useQueryClient } from "@tanstack/react-query";
 
 type editProps = {
   setOpenEditModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,29 +29,31 @@ const EditModal: React.FC<editProps> = ({
   publishedYear,
 }) => {
   const queryClient = useQueryClient();
-  const [newTitle, setNewTitle] = useState<string>(title);
-  const [newAuthor, setNewAuthor] = useState<string>(author);
-  const [newDescription, setNewDescription] = useState<string>(description);
+
+  const [newTitle, setNewTitle] = useState(title);
+  const [newAuthor, setNewAuthor] = useState(author);
+  const [newDescription, setNewDescription] = useState(description);
   const [newCategory, setNewCategory] =
     useState<updateBookRequest["category"]>(category);
   const [newPublishedYear, setNewPublishedYear] = useState<number | undefined>(
     publishedYear,
   );
-  const [newtotalCopies, setNewTotalCopies] = useState<number>(totalCopies);
+  const [newtotalCopies, setNewTotalCopies] = useState(totalCopies);
   const [newCover, setNewCover] = useState<File | null>(null);
+
   const { mutate, isPending, isError } = useMutation<
     any,
     unknown,
     { bookId: string; data: FormData }
   >({
-    mutationFn: ({ bookId, data }: { bookId: string; data: FormData }) =>
-      updateBook(bookId, data),
+    mutationFn: ({ bookId, data }) => updateBook(bookId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["books"] });
       setOpenEditModal(false);
       setOpenDropDown(false);
     },
   });
+
   const handleSubmit = () => {
     const formData = new FormData();
 
@@ -70,28 +71,26 @@ const EditModal: React.FC<editProps> = ({
     mutate({ bookId, data: formData });
   };
 
-  if (isError) {
-    return <div>Error editing book</div>;
-  }
+  if (isError) return <div>Error editing book</div>;
 
   return (
-    <div className="fixed inset-0 z-999 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-2 sm:px-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition"
         onClick={() => setOpenEditModal(false)}
       />
 
       {/* Modal */}
-      <div className="relative bg-white w-full max-w-2xl rounded-2xl shadow-2xl p-8 max-h-[90vh] overflow-y-auto">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Book</h2>
+      <div className="relative w-[92%] sm:w-[90%] md:max-w-2xl bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-h-[85vh] overflow-y-auto custom-scrollbar">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-800">
+          Edit Book
+        </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {/* Title */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Title
-            </label>
+          <div>
+            <label className="label">Title</label>
             <input
               className="input"
               value={newTitle}
@@ -100,10 +99,8 @@ const EditModal: React.FC<editProps> = ({
           </div>
 
           {/* Author */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Author
-            </label>
+          <div>
+            <label className="label">Author</label>
             <input
               className="input"
               value={newAuthor}
@@ -112,10 +109,8 @@ const EditModal: React.FC<editProps> = ({
           </div>
 
           {/* Category */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Category
-            </label>
+          <div>
+            <label className="label">Category</label>
             <select
               className="input"
               value={newCategory}
@@ -134,14 +129,12 @@ const EditModal: React.FC<editProps> = ({
           </div>
 
           {/* Published Year */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Published Year
-            </label>
+          <div>
+            <label className="label">Published Year</label>
             <input
               type="number"
               className="input"
-              value={newPublishedYear}
+              value={newPublishedYear || ""}
               onChange={(e) =>
                 setNewPublishedYear(
                   e.target.value ? Number(e.target.value) : undefined,
@@ -151,10 +144,8 @@ const EditModal: React.FC<editProps> = ({
           </div>
 
           {/* Total Copies */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Total Copies
-            </label>
+          <div>
+            <label className="label">Total Copies</label>
             <input
               type="number"
               className="input"
@@ -163,30 +154,26 @@ const EditModal: React.FC<editProps> = ({
             />
           </div>
 
-          {/* Cover Image */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Change Cover
-            </label>
+          {/* Cover */}
+          <div>
+            <label className="label">Change Cover</label>
             <input
               type="file"
               accept="image/*"
+              className="text-sm"
               onChange={(e) => setNewCover(e.target.files?.[0] || null)}
             />
 
-            {/* Preview */}
             <img
               src={newCover ? URL.createObjectURL(newCover) : coverPage}
               alt="Preview"
-              className="mt-3 h-32 object-cover rounded-lg border"
+              className="mt-3 h-28 w-full object-cover rounded-lg border"
             />
           </div>
 
-          {/* Description Full Width */}
-          <div className="flex flex-col md:col-span-2">
-            <label className="text-sm font-medium text-gray-600 mb-1">
-              Description
-            </label>
+          {/* Description */}
+          <div className="md:col-span-2">
+            <label className="label">Description</label>
             <textarea
               rows={3}
               className="input resize-none"
@@ -197,10 +184,10 @@ const EditModal: React.FC<editProps> = ({
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end gap-4 mt-8">
+        <div className="flex justify-end gap-3 mt-8">
           <button
             onClick={() => setOpenEditModal(false)}
-            className="px-6 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 transition"
+            className="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-sm transition"
           >
             Cancel
           </button>
@@ -208,9 +195,9 @@ const EditModal: React.FC<editProps> = ({
           <button
             onClick={handleSubmit}
             disabled={isPending}
-            className="px-6 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition disabled:opacity-50"
+            className="px-5 py-2 rounded-lg bg-primary-500 text-white hover:bg-primary-600 text-sm transition disabled:opacity-50"
           >
-            {isPending ? "Updating..." : "Update Book"}
+            {isPending ? "Updating..." : "Update"}
           </button>
         </div>
       </div>
