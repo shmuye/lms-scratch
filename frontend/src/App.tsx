@@ -8,26 +8,26 @@ import { useAppDispatch, useAppSelector } from "./hooks/hooks.ts";
 import Loader from "./components/Loader"; // your loader
 
 // ✅ Handles initial auth sync
-const AppInit = () => {
-  const dispatch = useAppDispatch();
+// const AppInit = () => {
+//   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, [dispatch]);
+//   useEffect(() => {
+//     dispatch(fetchCurrentUser());
+//   }, [dispatch]);
 
-  return null;
-};
+//   return null;
+// };
 
 // ✅ Gate UI until auth is ready
-const AppContent = () => {
-  const { loading } = useAppSelector((state) => state.auth);
+// const AppContent = () => {
+//   const { loading } = useAppSelector((state) => state.auth);
 
-  if (loading) {
-    return <Loader />; // prevents flicker
-  }
+//   if (loading) {
+//     return <Loader />; // prevents flicker
+//   }
 
-  return <AppRouter />;
-};
+//   return <AppRouter />;
+// };
 
 const App = () => {
   return (
@@ -41,8 +41,8 @@ const App = () => {
       />
 
       <PersistGate loading={<Loader />} persistor={persistor}>
-        <AppInit />
-        <AppContent />
+        {/* <AppInit /> */}
+        <AppRouter />
       </PersistGate>
     </>
   );
