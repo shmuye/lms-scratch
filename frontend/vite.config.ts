@@ -16,4 +16,10 @@ export default defineConfig({
       allow: [".."],
     },
   },
+
+  build: {
+    rollupOptions: {
+      external: [],
+    },
+  },
 });
