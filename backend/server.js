@@ -3,7 +3,7 @@ import { connectDB } from "./db/connectDB.js";
 
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (res) => {
+app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
