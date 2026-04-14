@@ -1,12 +1,20 @@
-import app from './app.js'
-import { connectDB } from './db/connectDB.js'
-// import swaggerDocs from './utils/swagger.js';
+import app from "./app.js";
+import { connectDB } from "./db/connectDB.js";
 
 const PORT = process.env.PORT || 3000;
 
-connectDB()
+const startServer = async () => {
+  try {
+    await connectDB();
+    console.log("Database connected");
 
-app.listen(PORT, (req, res) => {
-    console.log(`server is running on port ${PORT}`);
-    // swaggerDocs(app, PORT)
-});
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to connect DB:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

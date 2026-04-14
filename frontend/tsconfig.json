@@ -6,7 +6,9 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "allowJs": true,
-
+    "paths": {
+      "@shared/*": ["../shared/*"]
+    },
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
