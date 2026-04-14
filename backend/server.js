@@ -3,6 +3,10 @@ import { connectDB } from "./db/connectDB.js";
 
 const PORT = process.env.PORT || 3000;
 
+app.get("/", (res) => {
+  res.send("API is running...");
+});
+
 const startServer = async () => {
   try {
     await connectDB();

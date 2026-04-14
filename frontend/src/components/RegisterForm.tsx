@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "@shared/validations/auth.schema.js";
+import { registerSchema } from "@shared/validations/auth.schema";
 import { RegisterInput } from "../types/auth.types.ts";
 import { useAppDispatch } from "../hooks/hooks.ts";
 import { registerUser } from "../features/auth/auth.thunks.ts";

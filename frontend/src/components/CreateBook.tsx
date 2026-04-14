@@ -1,10 +1,10 @@
 import z from "zod";
 import { createBook } from "../services/book.api";
 import { useForm } from "react-hook-form";
-import { createBookSchema } from "../../../shared/validations/book.schema.js";
+import { createBookSchema } from "@shared/validations/book.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { categoryEnum } from "@shared/constants/bookCategory.js";
+import { categoryEnum } from "@shared/constants/bookCategory";
 import { useQueryClient } from "@tanstack/react-query";
 import { showError, showSuccess } from "../utils.js";
 
