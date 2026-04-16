@@ -32,10 +32,11 @@ const Books = () => {
     queryFn: () => getBooks(debouncedSearch),
   });
 
-  const filteredBooks = selectedCategory
-    ? books?.filter((book) => book.category === selectedCategory)
-    : books;
+  const safeBooks = Array.isArray(books) ? books : [];
 
+  const filteredBooks = selectedCategory
+    ? safeBooks?.filter((book) => book.category === selectedCategory)
+    : safeBooks;
   if (isLoading) return <Loader />;
 
   if (error instanceof Error) {
@@ -47,7 +48,7 @@ const Books = () => {
   }
 
   const handleSearch = () => {
-    setFinalSearch(debouncedSearch);
+    setSearch(debouncedSearch);
   };
 
   return (
@@ -84,20 +85,21 @@ const Books = () => {
             lg:grid-cols-4
             justify-items-center"
       >
-        {filteredBooks?.map((book) => (
-          <Book
-            key={book.isbn}
-            id={book._id}
-            title={book.title}
-            author={book.author}
-            coverPage={book.coverPage}
-            description={book?.description}
-            totalCopies={book.totalCopies}
-            copiesAvailable={book.copiesAvailable}
-            category={book.category}
-            publishedYear={book.publishedYear}
-          />
-        ))}
+        {filteredBooks.length > 0 &&
+          filteredBooks.map((book) => (
+            <Book
+              key={book.isbn}
+              id={book._id}
+              title={book.title}
+              author={book.author}
+              coverPage={book.coverPage}
+              description={book?.description}
+              totalCopies={book.totalCopies}
+              copiesAvailable={book.copiesAvailable}
+              category={book.category}
+              publishedYear={book.publishedYear}
+            />
+          ))}
       </div>
     </div>
   );
