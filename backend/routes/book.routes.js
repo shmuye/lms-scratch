@@ -28,7 +28,7 @@ router.post(
   createBook,
 );
 
-router.get("/", authenticate, getBooks);
+router.get("/", getBooks);
 router.get("/:id", authenticate, getBook);
 
 router.patch(
