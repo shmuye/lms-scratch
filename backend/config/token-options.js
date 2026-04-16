@@ -9,7 +9,9 @@ export const ACCESS_COOKIE_OPTIONS = {
 
 export const REFRESH_COOKIE_OPTIONS = {
   httpOnly: true,
-  sameSite: "lax",
-  secure: false,
+  // sameSite: "lax",
+  // secure: false,
+  secure: true,
+  sameSite: "none",
   maxAge: 24 * 60 * 60 * 1000, // 3 days
 };
