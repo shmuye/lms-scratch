@@ -5,7 +5,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL_PROD;
+const baseURL = import.meta.env.VITE_API_BASE_URL_DEV;
 
 const api: AxiosInstance = axios.create({
   baseURL,

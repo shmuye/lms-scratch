@@ -38,7 +38,8 @@ ensureUploadFolders();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL_PROD,
+    // origin: process.env.FRONTEND_URL_PROD,
+    origin: process.env.FRONTEND_URL_DEV,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type"],
