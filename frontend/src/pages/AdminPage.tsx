@@ -1,5 +1,8 @@
 import { useState } from "react";
-import Users from "../components/Users";
+import Users, { numberOfUsers } from "../components/Users";
+import Books, { numberOfBooks } from "./BooksPage";
+import { BookOpen, User2 } from "lucide-react";
+
 import CreateLibrarian from "../components/CreateLibrarian";
 
 const tabs = [
@@ -22,6 +25,36 @@ const AdminPage = () => {
         <p className="text-sm text-gray-500 mt-1">
           Manage users, books, and borrowing activity
         </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Total Users */}
+        <div className="bg-white border border-primary-100 rounded-xl p-4 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-500">Total Users</p>
+            <p className="text-2xl font-semibold text-gray-900">
+              {numberOfUsers ?? 0}
+            </p>
+          </div>
+
+          <div className="w-10 h-10 flex items-center justify-center rounded-full bg-primary-100 text-primary-600">
+            <User2 size={18} />
+          </div>
+        </div>
+
+        {/* Total Books */}
+        <div className="bg-white border border-primary-100 rounded-xl p-4 shadow-sm flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-500">Total Books</p>
+            <p className="text-2xl font-semibold text-gray-900">
+              {numberOfBooks ?? 0}
+            </p>
+          </div>
+
+          <div className="w-10 h-10 flex items-center justify-center rounded-full bg-primary-100 text-primary-600">
+            <BookOpen size={18} />
+          </div>
+        </div>
       </div>
 
       {/* Tabs */}

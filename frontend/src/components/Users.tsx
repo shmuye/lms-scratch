@@ -8,6 +8,8 @@ import {
 import { User } from "../types/auth.types";
 import Loader from "./Loader";
 
+let numberOfUsers = 0;
+
 const Users = () => {
   const queryClient = useQueryClient();
 
@@ -20,8 +22,8 @@ const Users = () => {
     queryFn: getUsers,
   });
 
-  console.log("Fetched users:", users); // Debugging log
-  // ✅ Mutations
+  numberOfUsers = users?.length ?? 0;
+
   const activateMutation = useMutation({
     mutationFn: activateUser,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
@@ -165,3 +167,4 @@ const Users = () => {
 };
 
 export default Users;
+export { numberOfUsers };

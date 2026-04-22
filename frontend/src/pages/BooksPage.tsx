@@ -7,6 +7,8 @@ import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import SearchBar from "../components/SearchBar";
 
+let numberOfBooks = 0;
+
 export type BookCategory =
   | "Fiction"
   | "Science"
@@ -32,6 +34,7 @@ const Books = () => {
     queryFn: () => getBooks(debouncedSearch),
   });
 
+  numberOfBooks = books?.length ?? 0;
   const safeBooks = Array.isArray(books) ? books : [];
 
   const filteredBooks = selectedCategory
@@ -106,3 +109,4 @@ const Books = () => {
 };
 
 export default Books;
+export { numberOfBooks };
