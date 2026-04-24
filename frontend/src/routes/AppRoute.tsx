@@ -16,7 +16,7 @@ import PublicLayout from "../layouts/PublicLayout";
 import AppLayout from "../layouts/AppLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import Notfound from "../components/Notfound";
-import BorrowedBooks from "../components/BorrowedBooks";
+import BorrowedBooks from "../components/UserBorrows";
 
 const AppRouter = () => {
   return (

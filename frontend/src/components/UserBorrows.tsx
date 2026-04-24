@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllBorrows } from "../services/borrow.api";
+import { getAllMyBorrows } from "../services/borrow.api.ts";
 import Book from "./Book.tsx";
 import Loader from "./Loader.tsx";
 
@@ -9,8 +9,8 @@ const BorrowedBooks = () => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["borrows"],
-    queryFn: getAllBorrows,
+    queryKey: ["myBorrows"],
+    queryFn: getAllMyBorrows,
   });
 
   if (isLoading) {

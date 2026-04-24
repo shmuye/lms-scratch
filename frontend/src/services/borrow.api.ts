@@ -10,7 +10,7 @@ export const borrowBook = async (id: string) => {
   }
 };
 
-export const getAllBorrows = async () => {
+export const getAllMyBorrows = async () => {
   try {
     const response = await api.get("/users/me/borrows");
     return response.data;

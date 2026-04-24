@@ -43,6 +43,7 @@ const LibrarianDashboard = () => {
       </div>
 
       {/* Content */}
+      <Profile />
       <div className="bg-white border border-primary-100 rounded-xl shadow-sm p-4 sm:p-6">
         {activeTab === "requests" && <ReturnRequests />}
 
