@@ -1,10 +1,10 @@
 import { useState } from "react";
-import ReturnRequests from "../components/ReturnRequest";
-import { Profile } from "../components";
+import { Profile, Borrows, ReturnRequest } from "../components";
 
 const tabs = [
   { label: "Return Requests", value: "requests" },
   { label: "Profile", value: "profile" },
+  { label: "Borrowed Books", value: "borrowed" },
 ];
 
 const LibrarianDashboard = () => {
@@ -43,13 +43,19 @@ const LibrarianDashboard = () => {
       </div>
 
       {/* Content */}
-      <Profile />
+
       <div className="bg-white border border-primary-100 rounded-xl shadow-sm p-4 sm:p-6">
-        {activeTab === "requests" && <ReturnRequests />}
+        {activeTab === "requests" && <ReturnRequest />}
 
         {activeTab === "profile" && (
           <div className="text-gray-500 text-sm">
             <Profile />
+          </div>
+        )}
+
+        {activeTab === "borrowed" && (
+          <div className="text-gray-500 text-sm">
+            <Borrows />
           </div>
         )}
       </div>

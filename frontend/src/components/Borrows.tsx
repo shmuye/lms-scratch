@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllBorrows } from "../services/book.api";
+import { getAllBorrows } from "../services/borrow.api";
 import Loader from "./Loader";
 
 const Borrows = () => {

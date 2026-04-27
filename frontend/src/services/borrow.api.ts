@@ -1,5 +1,14 @@
 import api from "./axios";
 
+export const getAllBorrows = async () => {
+  try {
+    const response = await api.get("/books/borrows");
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error fetching borrows, ${error}`);
+  }
+};
+
 export const borrowBook = async (id: string) => {
   try {
     const response = await api.post(`/books/${id}/borrow`);

@@ -56,12 +56,3 @@ export const deleteBook = async (id: string) => {
     throw new Error(`Error deleting book, ${error}`);
   }
 };
-
-export const getAllBorrows = async () => {
-  try {
-    const response = await api.get("/books/borrows");
-    return response.data;
-  } catch (error) {
-    throw new Error(`Error fetching borrows, ${error}`);
-  }
-};
