@@ -8,7 +8,7 @@ import CreateLibrarian from "../components/CreateLibrarian";
 const tabs = [
   { label: "Users", value: "users" },
   { label: "Books", value: "books" },
-  { label: "Borrowing History", value: "history" },
+  { label: "Borrows", value: "borrowed" },
 ];
 
 const AdminPage = () => {
@@ -90,7 +90,7 @@ const AdminPage = () => {
       <div className="bg-white rounded-xl border border-primary-100 shadow-sm p-4 sm:p-6">
         {activeTab === "users" && <Users />}
         {activeTab === "books" && <p>Books management coming soon...</p>}
-        {activeTab === "history" && <p>Borrowing history coming soon...</p>}
+        {activeTab === "borrowed" && <p>Borrowed books coming soon...</p>}
       </div>
 
       {/* Modal */}
