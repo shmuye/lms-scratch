@@ -11,7 +11,7 @@ const LibrarianDashboard = () => {
   const [activeTab, setActiveTab] = useState("requests");
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-6 flex flex-col gap-6 md:ml-64">
+    <div className="w-full max-w-7xl mx-auto px-4 py-6 flex flex-col gap-6">
       {/* Header */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900">
