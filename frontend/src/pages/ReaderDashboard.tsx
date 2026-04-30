@@ -46,7 +46,7 @@ const ReaderDashboard = () => {
       </div>
 
       {/* Content */}
-      <div className="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-primary-100 min-h-[300px] sm:min-h-[400px]">
+      <div className="bg-white rounded-xl p-3 sm:p-4 shadow-sm border border-primary-100 min-h-75 sm:min-h-100">
         <Outlet />
       </div>
     </div>

@@ -30,6 +30,23 @@ router.post(
 );
 
 router.get("/", getBooks);
+
+// ✅ STATIC ROUTES FIRST
+router.get(
+  "/borrows/return-requests",
+  authenticate,
+  authorize(PERMISSIONS.BOOK_UPDATE),
+  getReturnRequests,
+);
+
+router.get(
+  "/borrows",
+  authenticate,
+  authorize(PERMISSIONS.BOOK_UPDATE),
+  getAllBorrows,
+);
+
+// ✅ DYNAMIC ROUTES AFTER
 router.get("/:id", authenticate, getBook);
 
 router.patch(
@@ -51,17 +68,5 @@ router.delete(
 router.post("/:id/borrow", authenticate, authorize(), borrowBook);
 router.post("/:id/return-request", authenticate, authorize(), requestReturn);
 router.post("/:id/return-approve", authenticate, authorize(), approveReturn);
-router.get(
-  "/borrows/return-requests",
-  authenticate,
-  authorize(PERMISSIONS.BOOK_UPDATE),
-  getReturnRequests,
-);
-router.get(
-  "/borrows",
-  authenticate,
-  authorize(PERMISSIONS.BOOK_UPDATE),
-  getAllBorrows,
-);
 
 export default router;

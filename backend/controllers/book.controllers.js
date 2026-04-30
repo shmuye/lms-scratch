@@ -288,9 +288,6 @@ export const getAllBorrows = async (req, res) => {
     const borrows = await Borrow.find()
       .populate("book", "title author coverPage isbn category")
       .populate("user", "name email");
-
-    console.log(borrows);
-
     return res.status(200).json(borrows);
   } catch (error) {
     return res.status(500).json({

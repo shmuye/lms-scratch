@@ -53,6 +53,7 @@ api.interceptors.response.use(
     };
 
     if (originalRequest.url?.includes("/auth/refresh")) {
+      window.location.href = "/login";
       return Promise.reject(error);
     }
     if (error.response?.status === 401 && !originalRequest._retry) {
