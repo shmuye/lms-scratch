@@ -10,6 +10,8 @@ import {
 } from "../config/token-options.js";
 import { hash } from "../utils/hash.js";
 import { compareHash } from "../utils/hash.js";
+import { generateEmailToken } from "../utils/generateEmailToken.js";
+import { sendEmailVerification } from "../utils/send-email-verification.js";
 
 export const signUp = async (req, res) => {
   const { name, email, password } = req.body;
@@ -28,10 +30,20 @@ export const signUp = async (req, res) => {
       password: hashedPassword,
     });
 
+    const token = generateEmailToken(user._id);
+
+    user.emailVerificationToken = token;
+    user.emailVerificationTokenExpires = Date.now() + 24 * 60 * 60 * 1000;
+
+    await user.save();
+
+    await sendEmailVerification(email, token);
+
     return res.status(201).json({
       user,
       success: true,
-      message: "User created successfully",
+      message:
+        "Account created successfully. Please check your email to verify your account.",
     });
   } catch (err) {
     console.log("Error creating a User", err.message);
@@ -55,6 +67,12 @@ export const signIn = async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
 
+    if (!user.emailVerified) {
+      return res.status(400).json({
+        message: "Please verify your email before logging in",
+      });
+    }
+
     const accessToken = generateAccessToken(user._id, user.role);
     const refreshToken = generateRefreshToken(user._id);
 
@@ -74,6 +92,44 @@ export const signIn = async (req, res) => {
     });
   } catch (err) {
     console.log("Error signing in", err.message);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  const { token } = req.query;
+
+  try {
+    const payload = jwt.verify(
+      token,
+      process.env.JWT_EMAIL_VERIFICATION_SECRET,
+    );
+    const userId = payload.userId;
+
+    const user = await User.findById(userId).select(
+      "+emailVerificationToken +emailVerificationTokenExpires",
+    );
+    if (!user) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+    if (user.emailVerificationToken !== token) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+    if (user.emailVerificationTokenExpires < Date.now()) {
+      return res.status(400).json({ message: "Token has expired" });
+    }
+    user.emailVerified = true;
+    user.emailVerificationToken = null;
+    user.emailVerificationTokenExpires = null;
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Email verified successfully",
+    });
+  } catch (err) {
+    console.error("Error verifying email", err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };

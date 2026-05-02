@@ -7,15 +7,15 @@ export const sendEmailVerification = async (email, token) => {
     const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
 
     await resend.emails.send({
-      from: "Library App <no-reply@libraryapp.com>",
+      from: "Readsphere <onboarding@resend.dev>",
       to: email,
       subject: "Verify Your Email Address",
       html: `
                 <p>Hi,</p>
-                <p>Thank you for registering with our Library App! Please click the link below to verify your email address:</p>
+                <p>Thank you for registering with our Readsphere! Please click the link below to verify your email address:</p>
                 <a href="${verificationLink}">Verify Email</a>
                 <p>If you did not create an account, please ignore this email.</p>
-                <p>Best regards,<br/>Library App Team</p>
+                <p>Best regards,<br/>Readsphere Team</p>
             `,
     });
 

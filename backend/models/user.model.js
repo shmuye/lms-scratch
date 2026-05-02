@@ -28,6 +28,22 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
 
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    emailVerificationToken: {
+      type: String,
+      default: null,
+      select: false,
+    },
+    emailVerificationTokenExpires: {
+      type: Date,
+      default: null,
+      select: false,
+    },
+
     role: {
       type: String,
       enum: Object.values(ROLES),
