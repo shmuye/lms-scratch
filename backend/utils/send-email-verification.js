@@ -1,10 +1,10 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export const sendEmailVerification = async (email, token) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   try {
-    const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+    const verificationLink = `${process.env.FRONTEND_URL_DEV}/verify-email?token=${token}`;
 
     await resend.emails.send({
       from: "Readsphere <onboarding@resend.dev>",
@@ -15,7 +15,7 @@ export const sendEmailVerification = async (email, token) => {
                 <p>Thank you for registering with our Readsphere! Please click the link below to verify your email address:</p>
                 <a href="${verificationLink}">Verify Email</a>
                 <p>If you did not create an account, please ignore this email.</p>
-                <p>Best regards,<br/>Readsphere Team</p>
+                <p>Best regards,<br/>Readsphere</p>
             `,
     });
 
