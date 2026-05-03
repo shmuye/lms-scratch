@@ -1,5 +1,4 @@
 import express from "express";
-const router = express.Router();
 import { validate } from "../middleware/validate.middleware.js";
 import { registerSchema } from "../../shared/validations/auth.schema.js";
 import { loginSchema } from "../../shared/validations/auth.schema.js";
@@ -11,6 +10,8 @@ import {
   refresh,
   verifyEmail,
 } from "../controllers/auth.controllers.js";
+
+const router = express.Router();
 
 router.post("/register", validate(registerSchema), signUp);
 router.post("/login", validate(loginSchema), signIn);

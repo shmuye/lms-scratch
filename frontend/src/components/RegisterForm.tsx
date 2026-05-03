@@ -5,6 +5,7 @@ import { RegisterInput } from "../types/auth.types.ts";
 import { useAppDispatch } from "../hooks/hooks.ts";
 import { registerUser } from "../features/auth/auth.thunks.ts";
 import { useNavigate, Link } from "react-router-dom";
+import { showError, showSuccess } from "../utils.ts";
 
 const RegisterForm = () => {
   const {
@@ -21,11 +22,13 @@ const RegisterForm = () => {
 
   const onSubmit = async (data: RegisterInput) => {
     try {
-      const result = await dispatch(registerUser(data)).unwrap();
-      console.log("Registered user", result);
+      await dispatch(registerUser(data)).unwrap();
+      showSuccess(
+        "Account created successfully. Please check your email to verify your account.",
+      );
       navigate("/login");
-    } catch (error) {
-      throw new Error(`Error logging in, ${error}`);
+    } catch (error: any) {
+      showError(`Error creating account, ${error?.message ?? error}`);
     }
   };
 

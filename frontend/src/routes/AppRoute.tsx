@@ -17,6 +17,7 @@ import AppLayout from "../layouts/AppLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import Notfound from "../components/Notfound";
 import BorrowedBooks from "../components/UserBorrows";
+import VerifyEmail from "../components/VerifyEmail";
 
 const AppRouter = () => {
   return (
@@ -30,6 +31,7 @@ const AppRouter = () => {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
         </Route>
 
         <Route element={<ProtectedRoutes />}>

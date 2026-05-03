@@ -2,71 +2,60 @@ import { LoginInput, RegisterInput } from "../types/auth.types";
 import api from "./axios";
 
 export const register = async (data: RegisterInput) => {
-    try {
-        const res = await api.post('auth/register',data)
-        return res.data
-
-    } catch (error: any) {
-       throw new Error(
-
-           error?.response?.data?.message ??
-           error?.message ??
-           "registeration failed"
-
-       )
-    }
-}
+  try {
+    const res = await api.post("auth/register", data);
+    return res.data;
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message ??
+        error?.message ??
+        "registeration failed",
+    );
+  }
+};
 
 export const login = async (data: LoginInput) => {
-    try {
-        const res = await api.post('auth/login',data)
-        return res.data
+  try {
+    const res = await api.post("auth/login", data);
+    return res.data;
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message ?? error?.message ?? "Login failed",
+    );
+  }
+};
 
-    } catch (error: any) {
-       throw new Error(
+export const verifyEmail = async (token: string) => {
+  try {
+    const res = await api.get(`auth/verify-email?token=${token}`);
+    return res.data;
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message ??
+        error?.message ??
+        "Email verification failed",
+    );
+  }
+};
 
-           error?.response?.data?.message ??
-           error?.message ??
-           "Login failed"
-
-       )
-    }
-}
-
-export const logout= async () => {
-    try {
-        const res = await api.post('auth/logout')
-        return res.data
-
-    } catch (error: any) {
-       throw new Error(
-
-           error?.response?.data?.message ??
-           error?.message ??
-           "Logout failed"
-
-       )
-    }
-}
+export const logout = async () => {
+  try {
+    const res = await api.post("auth/logout");
+    return res.data;
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message ?? error?.message ?? "Logout failed",
+    );
+  }
+};
 
 export const refresh = async () => {
-    try {
-        const res = await api.post('auth/refresh')
-        return res.data
-
-    } catch (error: any) {
-       throw new Error(
-
-           error?.response?.data?.message ??
-           error?.message ??
-           "refresh failed"
-
-       )
-    }
-}
-
-
-
-
-
-
+  try {
+    const res = await api.post("auth/refresh");
+    return res.data;
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message ?? error?.message ?? "refresh failed",
+    );
+  }
+};

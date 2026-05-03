@@ -67,11 +67,11 @@ export const signIn = async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
 
-    if (!user.emailVerified) {
-      return res.status(400).json({
-        message: "Please verify your email before logging in",
-      });
-    }
+    // if (!user.emailVerified) {
+    //   return res.status(400).json({
+    //     message: "Please verify your email before logging in",
+    //   });
+    // }
 
     const accessToken = generateAccessToken(user._id, user.role);
     const refreshToken = generateRefreshToken(user._id);
