@@ -1,6 +1,7 @@
 export interface User {
-    name: string,
-    email: string,
-    password: string,
-    role: 'ADMIN' | 'READER' | 'LIBRARIAN'
+  name: string;
+  email: string;
+  password: string;
+  role: "ADMIN" | "READER" | "LIBRARIAN";
+  isActive?: boolean;
 }

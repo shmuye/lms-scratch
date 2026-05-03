@@ -82,20 +82,21 @@ const Users = () => {
 
             {/* Actions */}
             <div className="flex gap-2 mt-2">
-              <button
-                onClick={() => activateMutation.mutate(user._id)}
-                className="flex-1 bg-success-100 text-success-700 py-1.5 rounded-lg text-xs"
-              >
-                Activate
-              </button>
-
-              <button
-                onClick={() => deactivateMutation.mutate(user._id)}
-                className="flex-1 bg-warning-100 text-warning-700 py-1.5 rounded-lg text-xs"
-              >
-                Deactivate
-              </button>
-
+              {user.isActive ? (
+                <button
+                  onClick={() => deactivateMutation.mutate(user._id)}
+                  className="flex-1 bg-warning-100 text-warning-700 py-1.5 rounded-lg text-xs"
+                >
+                  Deactivate
+                </button>
+              ) : (
+                <button
+                  onClick={() => activateMutation.mutate(user._id)}
+                  className="flex-1 bg-success-100 text-success-700 py-1.5 rounded-lg text-xs"
+                >
+                  Activate
+                </button>
+              )}
               <button
                 onClick={() => deleteMutation.mutate(user._id)}
                 className="flex-1 bg-danger-100 text-danger-700 py-1.5 rounded-lg text-xs"
@@ -135,20 +136,21 @@ const Users = () => {
                 {/* Actions */}
                 <td className="px-4 py-3">
                   <div className="flex justify-center gap-2">
-                    <button
-                      onClick={() => activateMutation.mutate(user._id)}
-                      className="px-3 py-1 text-xs rounded-md bg-success-100 text-success-700 hover:bg-success-200"
-                    >
-                      Activate
-                    </button>
-
-                    <button
-                      onClick={() => deactivateMutation.mutate(user._id)}
-                      className="px-3 py-1 text-xs rounded-md bg-warning-100 text-warning-700 hover:bg-warning-200"
-                    >
-                      Deactivate
-                    </button>
-
+                    {user.isActive ? (
+                      <button
+                        onClick={() => deactivateMutation.mutate(user._id)}
+                        className="px-3 py-1 text-xs rounded-md bg-warning-100 text-warning-700 hover:bg-warning-200"
+                      >
+                        Deactivate
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => activateMutation.mutate(user._id)}
+                        className="px-3 py-1 text-xs rounded-md bg-success-100 text-success-700 hover:bg-success-200"
+                      >
+                        Activate
+                      </button>
+                    )}
                     <button
                       onClick={() => deleteMutation.mutate(user._id)}
                       className="px-3 py-1 text-xs rounded-md bg-danger-100 text-danger-700 hover:bg-danger-200"
