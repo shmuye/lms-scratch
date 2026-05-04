@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { updateBook } from "../services/book.api";
 import { updateBookRequest } from "../types/book.types";
+import { showError, showSuccess } from "../utils";
 
 type editProps = {
   setOpenEditModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,9 +49,13 @@ const EditModal: React.FC<editProps> = ({
   >({
     mutationFn: ({ bookId, data }) => updateBook(bookId, data),
     onSuccess: () => {
+      showSuccess("Book updated successfully");
       queryClient.invalidateQueries({ queryKey: ["books"] });
       setOpenEditModal(false);
       setOpenDropDown(false);
+    },
+    onError: () => {
+      showError("Failed to update book");
     },
   });
 

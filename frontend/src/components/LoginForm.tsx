@@ -8,6 +8,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { selectUser } from "../features/auth/auth.slice.ts";
 import { LogIn, Lock, Mail } from "lucide-react";
 import { useEffect } from "react";
+import { showError, showSuccess } from "../utils.ts";
 
 const LoginForm = () => {
   const {
@@ -31,8 +32,11 @@ const LoginForm = () => {
   const onSubmit = async (data: LoginInput) => {
     try {
       await dispatch(loginUser(data)).unwrap();
-    } catch (error) {
-      throw new Error(`Error logging in, ${error}`);
+      showSuccess("Logged in successfully");
+    } catch (error: any) {
+      showError(
+        `Failed to login: ${error?.message ? error.message : "error logging in"}`,
+      );
     }
   };
 
