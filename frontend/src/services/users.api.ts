@@ -46,6 +46,30 @@ export const getProfileInfo = async () => {
   }
 };
 
+export const deleteAccount = async () => {
+  try {
+    const response = await api.delete("/users/me");
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error deleting your account, ${error}`);
+  }
+};
+
+export const changePassword = async (
+  currentPassword: string,
+  newPassword: string,
+) => {
+  try {
+    const response = await api.post("/users/me/change-password", {
+      currentPassword,
+      newPassword,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error changing password, ${error}`);
+  }
+};
+
 export const updateProfileInfo = async (data: User) => {
   try {
     const response = await api.patch("/user/me", data);
