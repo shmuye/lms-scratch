@@ -122,35 +122,34 @@ lms-scratch/
 
 ## Setup Instructions
 
-### 1. Clone the repository
+1. Clone the repository
 
 git clone <repository-url>
 cd lms-scratch
 
-### 2. Backend Setup
+2. Backend Setup
 
 cd backend
 
-# Install dependencies
+**_Install dependencies_**
 
 npm install
 
-# Create a .env file based on .env.example
+Create a .env file based on .env.example
 
-# and populate all required environment variables
+and populate all required environment variables
 
 npm run dev
 
-### 3. Frontend Setup
+3. Frontend Setup
 
 cd ../frontend
 
-# Install dependencies
+**_Install dependencies_**
 
 npm install
 
-# Create a .env file based on .env.example
-
-# and populate all required environment variables
+Create a .env file based on .env.example
+and populate all required environment variables
 
 npm run dev
