@@ -15,7 +15,8 @@ import {
   updateAvatar,
   deactivateUser,
   activateUser,
-  changePassword,
+  forgotPassword,
+  resetPassword,
   deleteAccount,
 } from "../controllers/user.controllers.js";
 import { authenticate, authorize } from "../middleware/index.js";
@@ -58,7 +59,8 @@ router.post(
   authorize(PERMISSIONS.SYSTEM_ALL),
   activateUser,
 );
-router.post("/me/change-password", authenticate, changePassword);
+router.post("/me/forgot-password", forgotPassword);
+router.post("/me/reset-password", authenticate, resetPassword);
 router.delete("/me", authenticate, deleteAccount);
 router.delete("/me/avatar", authenticate, deleteAvatar);
 

@@ -10,7 +10,7 @@ import {
 } from "../config/token-options.js";
 import { hash } from "../utils/hash.js";
 import { compareHash } from "../utils/hash.js";
-import { generateEmailToken } from "../utils/generateEmailToken.js";
+import { generateEmailToken } from "../utils/generateTokens.js";
 import { sendEmailVerification } from "../utils/send-email-verification.js";
 
 export const signUp = async (req, res) => {

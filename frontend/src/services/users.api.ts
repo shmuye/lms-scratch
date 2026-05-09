@@ -55,19 +55,19 @@ export const deleteAccount = async () => {
   }
 };
 
-export const changePassword = async (
-  currentPassword: string,
-  newPassword: string,
-) => {
-  try {
-    const response = await api.post("/users/me/change-password", {
-      currentPassword,
-      newPassword,
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error(`Error changing password, ${error}`);
-  }
+export const forgotPassword = async (email: string) => {
+  const res = await api.post("users/me/forgot-password", { email });
+
+  return res.data;
+};
+
+export const resetPassword = async (token: string, password: string) => {
+  const res = await api.post("users/me/reset-password", {
+    token,
+    password,
+  });
+
+  return res.data;
 };
 
 export const updateProfileInfo = async (data: User) => {

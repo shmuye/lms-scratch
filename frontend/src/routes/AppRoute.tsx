@@ -18,6 +18,8 @@ import AuthLayout from "../layouts/AuthLayout";
 import Notfound from "../components/Notfound";
 import BorrowedBooks from "../components/UserBorrows";
 import VerifyEmail from "../components/VerifyEmail";
+import ResetPassword from "../components/ResetPassword";
+import ForgotPassword from "../components/ForgorPassword";
 
 const AppRouter = () => {
   return (
@@ -32,6 +34,8 @@ const AppRouter = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route element={<ProtectedRoutes />}>

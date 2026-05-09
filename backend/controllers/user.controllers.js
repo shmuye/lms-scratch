@@ -2,6 +2,8 @@ import User from "../models/user.model.js";
 import Borrow from "../models/borrow.model.js";
 import { ROLES } from "../constants/roles.js";
 import { hash } from "../utils/hash.js";
+import { generateResetPasswordToken } from "../utils/generateTokens.js";
+import { sendResetPasswordEmail } from "../utils/send-reset-password-email.js";
 
 export const createUserByAdmin = async (req, res) => {
   try {
@@ -203,28 +205,80 @@ export const deleteAvatar = async (req, res) => {
   }
 };
 
-export const changePassword = async (req, res) => {
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
   try {
-    const userId = req.user.id;
-    const { currentPassword, newPassword } = req.body;
-
-    const user = await User.findById(userId).select("+password");
+    const user = await User.findOne({ email }).select(
+      "+passwordResetToken +passwordResetTokenExpires",
+    );
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(400)
+        .json({ message: "A user with this email does not exist" });
     }
 
-    const isMatch = await user.comparePassword(currentPassword);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Current password is incorrect" });
-    }
+    const token = generateResetPasswordToken(user._id);
 
-    user.password = await hash(newPassword);
+    user.passwordResetToken = token;
+    user.passwordResetTokenExpires = Date.now() + 3600000; // 1 hour
+
     await user.save();
 
-    return res.status(200).json({ message: "Password changed successfully" });
+    // Send reset password email
+    await sendResetPasswordEmail(user.email, token);
+
+    return res
+      .status(200)
+      .json({ message: "Reset password link sent to your email" });
   } catch (error) {
-    console.log("Error changing password", error.message);
+    console.log("Error in forgotPassword", error.message);
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_RESET_PASSWORD_SECRET);
+
+    const user = await User.findById(payload.userId).select(
+      "+passwordResetToken +passwordResetTokenExpires",
+    );
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid token",
+      });
+    }
+
+    if (user.passwordResetToken !== token) {
+      return res.status(400).json({
+        message: "Invalid token",
+      });
+    }
+
+    if (user.passwordResetTokenExpires < Date.now()) {
+      return res.status(400).json({
+        message: "Token expired",
+      });
+    }
+
+    user.password = await hash(password);
+
+    user.passwordResetToken = null;
+    user.passwordResetTokenExpires = null;
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successful",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Internal server error",
+    });
   }
 };
 
