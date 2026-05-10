@@ -1,8 +1,8 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export const sendResetPasswordEmail = async (email, token) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
   try {
     const resetLink = `${process.env.FRONTEND_URL_DEV}/reset-password?token=${token}`;
 

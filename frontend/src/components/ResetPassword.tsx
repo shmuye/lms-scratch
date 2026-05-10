@@ -1,6 +1,6 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { resetPassword } from "../services/auth.api";
+import { resetPassword } from "../services/users.api";
 import { showError, showSuccess } from "../utils";
 
 type ResetPasswordInput = {

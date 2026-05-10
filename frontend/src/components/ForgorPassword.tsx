@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
-import { forgotPassword } from "../services/auth.api";
+import { forgotPassword } from "../services/users.api";
 import { showError, showSuccess } from "../utils";
 
 type ForgotPasswordInput = {

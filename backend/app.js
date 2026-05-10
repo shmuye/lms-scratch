@@ -6,11 +6,11 @@ import fs from "fs";
 import cors from "cors";
 import morgan from "morgan";
 
+dotenv.config();
+
 import authRoutes from "./routes/auth.routes.js";
 import bookRoutes from "./routes/book.routes.js";
 import userRoutes from "./routes/user.routes.js";
-
-dotenv.config();
 
 const app = express();
 
