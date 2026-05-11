@@ -41,6 +41,7 @@ const AppRouter = () => {
         <Route element={<ProtectedRoutes />}>
           <Route element={<AppLayout />}>
             <Route path="/reader" element={<ReaderDashboard />}>
+              <Route index element={<Profile />} />
               <Route path="profile" element={<Profile />} />
               <Route path="borrowed" element={<BorrowedBooks />} />
             </Route>
