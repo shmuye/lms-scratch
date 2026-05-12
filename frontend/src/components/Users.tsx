@@ -7,6 +7,7 @@ import {
 } from "../services/users.api";
 import { User } from "../types/auth.types";
 import Loader from "./Loader";
+import { showError, showSuccess } from "../utils";
 
 let numberOfUsers = 0;
 
@@ -26,17 +27,35 @@ const Users = () => {
 
   const activateMutation = useMutation({
     mutationFn: activateUser,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onSuccess: () => {
+      showSuccess("User activated successfully");
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: () => {
+      showError("Can't activate user");
+    },
   });
 
   const deactivateMutation = useMutation({
     mutationFn: deactivateUser,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onSuccess: () => {
+      showSuccess("User deactivated successfully");
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: () => {
+      showError("Error deactivating a user");
+    },
   });
 
   const deleteMutation = useMutation({
     mutationFn: deleteUser,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onSuccess: () => {
+      showSuccess("User deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    onError: () => {
+      showError("Error deleting a user");
+    },
   });
 
   if (isLoading) return <Loader />;
