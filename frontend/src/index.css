@@ -59,7 +59,7 @@ body,
 @layer components {
   /* ── Layout ── */
   .page-container {
-    @apply w-full max-w-7xl mx-auto flex flex-col gap-6;
+    @apply w-full max-w-7xl mx-auto min-w-0 flex flex-col gap-6;
   }
 
   .page-header {

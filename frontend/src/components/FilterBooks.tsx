@@ -11,14 +11,14 @@ const FilterBooks = ({
   setSelectedCategory,
 }: FilterBookProps) => {
   return (
-    <div className="w-full sm:max-w-xs relative">
+    <div className="w-full min-w-0 md:w-48 lg:w-56 shrink-0 relative">
       <select
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value as BookCategory)}
-        className="w-full appearance-none px-4 py-2 pr-10 rounded-lg text-sm 
-        bg-gray-50 border border-primary-100 
-        focus:outline-none focus:ring-2 focus:ring-primary-500 
-        shadow-sm transition"
+        className="w-full min-w-0 max-w-full appearance-none px-4 py-2 pr-10 rounded-lg text-sm
+        bg-gray-50 border border-primary-100
+        focus:outline-none focus:ring-2 focus:ring-primary-500
+        shadow-sm transition truncate"
       >
         <option value="">All Categories</option>
 
