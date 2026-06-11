@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { MoreVertical } from "lucide-react";
-import EditModal from "./EditModal.tsx";
-import DeleteModal from "./DeleteModal.tsx";
-import Actions from "./Actions.tsx";
-import Protected from "./Protected.tsx";
+import { Actions, EditModal, DeleteModal, Protected } from "./";
+
 import { useMutation } from "@tanstack/react-query";
 import { borrowBook, requestReturn } from "../services/borrow.api.ts";
 import { showError, showSuccess } from "../utils.ts";

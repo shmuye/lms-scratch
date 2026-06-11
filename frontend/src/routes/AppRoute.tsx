@@ -19,7 +19,7 @@ import Notfound from "../components/Notfound";
 import BorrowedBooks from "../components/UserBorrows";
 import VerifyEmail from "../components/VerifyEmail";
 import ResetPassword from "../components/ResetPassword";
-import ForgotPassword from "../components/ForgorPassword";
+import ForgotPassword from "../components/ForgotPassword";
 
 const AppRouter = () => {
   return (
