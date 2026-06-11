@@ -34,10 +34,13 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <h1 className="text-2xl font-semibold text-center">Reset Password</h1>
+    <div className="auth-card">
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold text-gray-900">Reset Password</h1>
+        <p className="text-sm text-gray-500 mt-1">Enter your new password below.</p>
+      </div>
 
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <input
           type="password"
           placeholder="New password"
@@ -52,10 +55,7 @@ const ResetPassword = () => {
           className="input"
         />
 
-        <button
-          type="submit"
-          className="bg-primary-600 text-white py-2 rounded-lg"
-        >
+        <button type="submit" className="btn-primary w-full">
           Reset Password
         </button>
       </form>

@@ -25,7 +25,6 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (!user) return;
-
     navigate("/", { replace: true });
   }, [user, navigate]);
 
@@ -41,7 +40,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6">
+    <div className="auth-card">
       <div className="flex flex-col items-center gap-3">
         <div className="p-3 rounded-full bg-primary-100">
           <LogIn className="text-primary-600" size={24} />
@@ -61,56 +60,34 @@ const LoginForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-5 w-full"
       >
-        {/* Email */}
         <div className="flex flex-col gap-1">
-          <div
-            className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2
-                      focus-within:ring-2 focus-within:ring-primary-500
-                      focus-within:border-primary-500 transition"
-          >
-            <Mail className="text-gray-400" size={18} />
+          <div className="input-icon-wrap">
+            <Mail className="text-gray-400 shrink-0" size={18} />
             <input
               {...register("email")}
               type="email"
-              className="flex-1 bg-transparent outline-none text-gray-900
-                     placeholder:text-gray-400
-                     autofill:bg-transparent"
+              className="flex-1 bg-transparent outline-none text-gray-900 placeholder:text-gray-400"
               placeholder="Email"
             />
           </div>
-
-          {errors.email && (
-            <p className="text-center text-sm text-red-500">
-              {errors.email.message}
-            </p>
-          )}
+          {errors.email && <p className="error">{errors.email.message}</p>}
         </div>
 
-        {/* Password */}
         <div className="flex flex-col gap-1">
-          <div
-            className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2
-                      focus-within:ring-2 focus-within:ring-primary-500
-                      focus-within:border-primary-500 transition"
-          >
-            <Lock className="text-gray-400" size={18} />
+          <div className="input-icon-wrap">
+            <Lock className="text-gray-400 shrink-0" size={18} />
             <input
               {...register("password")}
               type="password"
-              className="flex-1 bg-transparent outline-none text-gray-900
-                     placeholder:text-gray-400"
+              className="flex-1 bg-transparent outline-none text-gray-900 placeholder:text-gray-400"
               placeholder="Password"
             />
           </div>
-
           {errors.password && (
-            <p className="text-center text-sm text-red-500">
-              {errors.password.message}
-            </p>
+            <p className="error">{errors.password.message}</p>
           )}
         </div>
 
-        {/* Forgot Password */}
         <div className="flex justify-end">
           <Link
             to="/forgot-password"
@@ -120,20 +97,13 @@ const LoginForm = () => {
           </Link>
         </div>
 
-        <button
-          type="submit"
-          className="w-full py-2.5 rounded-lg bg-primary-600
-                 text-white font-medium
-                 hover:bg-primary-700
-                 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
-                 transition"
-        >
+        <button type="submit" className="btn-primary w-full">
           Login
         </button>
       </form>
 
       <p className="text-sm text-center text-gray-600">
-        Don’t have an account?
+        Don&apos;t have an account?
         <Link
           className="text-primary-600 font-medium ml-1 hover:underline"
           to="/signup"

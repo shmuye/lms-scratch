@@ -53,7 +53,7 @@ const NavBar = ({ setOpenSidebar }: NavBarProps) => {
               <li>
                 <Link
                   to="/signup"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-primary-500 text-white hover:bg-primary-600 transition shadow-md shadow-primary-500/30"
+                  className="btn-primary btn-sm shadow-md shadow-primary-600/20"
                 >
                   <UserPlus size={18} />
                   Sign Up

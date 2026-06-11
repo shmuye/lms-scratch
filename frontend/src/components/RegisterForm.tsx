@@ -6,6 +6,7 @@ import { useAppDispatch } from "../hooks/hooks.ts";
 import { registerUser } from "../features/auth/auth.thunks.ts";
 import { useNavigate, Link } from "react-router-dom";
 import { showError, showSuccess } from "../utils.ts";
+import { UserPlus } from "lucide-react";
 
 const RegisterForm = () => {
   const {
@@ -17,7 +18,6 @@ const RegisterForm = () => {
   });
 
   const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
 
   const onSubmit = async (data: RegisterInput) => {
@@ -33,75 +33,58 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold text-gray-900">
-          Create your account
-        </h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Start building your reading habit today.
-        </p>
+    <div className="auth-card">
+      <div className="flex flex-col items-center gap-3">
+        <div className="p-3 rounded-full bg-primary-100">
+          <UserPlus className="text-primary-600" size={24} />
+        </div>
+
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold text-gray-900">
+            Create your account
+          </h1>
+          <p className="text-sm text-gray-500 mt-1">
+            Start building your reading habit today.
+          </p>
+        </div>
       </div>
 
       <form
         className="flex flex-col gap-5 w-full"
         onSubmit={handleSubmit(onSubmit)}
       >
-        {/* Name */}
         <div className="flex flex-col gap-1">
           <input
             {...register("name")}
             placeholder="Full name"
-            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg
-                   outline-none text-gray-900 placeholder:text-gray-400
-                   focus:ring-2 focus:ring-primary-500
-                   focus:border-primary-500 transition"
+            className="input"
           />
-          {errors.name && (
-            <p className="text-sm text-red-500">{errors.name.message}</p>
-          )}
+          {errors.name && <p className="error">{errors.name.message}</p>}
         </div>
 
-        {/* Email */}
         <div className="flex flex-col gap-1">
           <input
             type="email"
             {...register("email")}
             placeholder="Email address"
-            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg
-                   outline-none text-gray-900 placeholder:text-gray-400
-                   focus:ring-2 focus:ring-primary-500
-                   focus:border-primary-500 transition"
+            className="input"
           />
-          {errors.email && (
-            <p className="text-sm text-red-500">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="error">{errors.email.message}</p>}
         </div>
 
-        {/* Password */}
         <div className="flex flex-col gap-1">
           <input
             type="password"
             {...register("password")}
             placeholder="Password"
-            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg
-                   outline-none text-gray-900 placeholder:text-gray-400
-                   focus:ring-2 focus:ring-primary-500
-                   focus:border-primary-500 transition"
+            className="input"
           />
           {errors.password && (
-            <p className="text-sm text-red-500">{errors.password.message}</p>
+            <p className="error">{errors.password.message}</p>
           )}
         </div>
 
-        <button
-          type="submit"
-          className="w-full py-2.5 rounded-lg bg-primary-600
-                 text-white font-medium
-                 hover:bg-primary-700
-                 focus:ring-2 focus:primary-primary-500 focus:ring-offset-2
-                 transition"
-        >
+        <button type="submit" className="btn-primary w-full">
           Register
         </button>
       </form>
@@ -110,7 +93,7 @@ const RegisterForm = () => {
         Already have an account?
         <Link
           to="/login"
-          className="text-primary-500 font-medium ml-1 hover:underline"
+          className="text-primary-600 font-medium ml-1 hover:underline"
         >
           Login
         </Link>

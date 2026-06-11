@@ -71,9 +71,8 @@ const Book = ({
   });
 
   return (
-    <div className="bookCard group">
-      {/* Book top section */}
-      <div className="relative h-62.5">
+    <div className="bookCard group h-full">
+      <div className="relative h-56 sm:h-60">
         <img
           className="w-full h-full object-cover"
           src={coverPage}
@@ -96,8 +95,8 @@ const Book = ({
           />
         )}
       </div>
-      <div className="p-4 flex flex-col gap-1">
-        <h2 className="text-lg font-semibold">{title}</h2>
+      <div className="p-4 flex flex-col gap-1 flex-1">
+        <h2 className="text-base font-semibold text-gray-900 line-clamp-2">{title}</h2>
         <p className="text-sm text-gray-600">
           <span className="font-bold">Author: </span>
           {author}
@@ -139,7 +138,7 @@ const Book = ({
 
             <p
               className={`text-sm font-semibold ${
-                status === "Borrowed" ? "text-yellow-600" : "text-green-600"
+                status === "Borrowed" ? "text-warning-700" : "text-success-700"
               }`}
             >
               Status: {status}
@@ -149,14 +148,14 @@ const Book = ({
       </div>
 
       {/* Action buttons */}
-      <div className="p-4 flex justify-between gap-2 shrink-0">
+      <div className="p-4 pt-0 flex justify-between gap-2 shrink-0 mt-auto">
         {mode !== "borrowed" && (
           <button
             onClick={() => mutate(id)}
             disabled={isPending || copiesAvailable === 0}
-            className="flex-1 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition cursor-pointer"
+            className="btn-primary flex-1 w-full"
           >
-            Borrow Book
+            {isPending ? "Borrowing..." : "Borrow Book"}
           </button>
         )}
 
@@ -164,7 +163,7 @@ const Book = ({
           <button
             onClick={() => requestReturnMutate(id)}
             disabled={isReturning || status !== "Borrowed"}
-            className="flex-1 bg-primary-500 text-white py-2 rounded-md hover:bg-primary-600 transition disabled:opacity-50"
+            className="btn-primary flex-1 w-full"
           >
             {status === "Return Requested"
               ? "Pending Approval"

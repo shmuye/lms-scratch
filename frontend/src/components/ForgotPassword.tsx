@@ -17,7 +17,6 @@ const ForgotPassword = () => {
   const onSubmit = async (data: ForgotPasswordInput) => {
     try {
       await forgotPassword(data.email);
-
       showSuccess("Password reset link sent to your email");
     } catch (error: any) {
       showError(error.message || "Failed to send reset link");
@@ -25,7 +24,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6">
+    <div className="auth-card">
       <div className="flex flex-col items-center gap-3">
         <div className="p-3 rounded-full bg-primary-100">
           <Mail className="text-primary-600" size={24} />
@@ -35,9 +34,8 @@ const ForgotPassword = () => {
           <h1 className="text-2xl font-semibold text-gray-900">
             Forgot Password
           </h1>
-
           <p className="text-sm text-gray-500 mt-1">
-            Enter your email and we’ll send you a reset link.
+            Enter your email and we&apos;ll send you a reset link.
           </p>
         </div>
       </div>
@@ -52,16 +50,10 @@ const ForgotPassword = () => {
             })}
             className="input"
           />
-
-          {errors.email && (
-            <p className="text-sm text-red-500">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="error">{errors.email.message}</p>}
         </div>
 
-        <button
-          type="submit"
-          className="w-full py-2.5 rounded-lg bg-primary-600 text-white font-medium hover:bg-primary-700 transition"
-        >
+        <button type="submit" className="btn-primary w-full">
           Send Reset Link
         </button>
       </form>

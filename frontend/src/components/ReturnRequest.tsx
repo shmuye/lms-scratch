@@ -25,51 +25,61 @@ const ReturnRequests = () => {
   });
 
   if (isLoading) return <Loader />;
-  if (isError) return <p>Error loading requests</p>;
+  if (isError) {
+    return (
+      <div className="empty-state text-danger-500">
+        <p className="empty-state-title">Error loading requests</p>
+        <p className="empty-state-text">Please try again later.</p>
+      </div>
+    );
+  }
+
+  if (!data?.length) {
+    return (
+      <div className="empty-state">
+        <p className="empty-state-title">No pending requests</p>
+        <p className="empty-state-text">
+          Return requests will appear here when readers submit them.
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-[80%] mx-auto p-6">
-      <h2 className="text-xl font-bold mb-6">Return Requests</h2>
+    <div className="flex flex-col gap-4">
+      {data.map((borrow: any) => (
+        <div
+          key={borrow._id}
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 card p-4"
+        >
+          <div className="flex items-center gap-4 min-w-0">
+            <img
+              src={borrow.book.coverPage}
+              alt={borrow.book.title}
+              className="w-14 h-20 sm:w-16 sm:h-20 object-cover rounded-lg shrink-0"
+            />
 
-      {data.length === 0 ? (
-        <p className="text-gray-500">No pending requests</p>
-      ) : (
-        <div className="grid gap-4">
-          {data.map((borrow: any) => (
-            <div
-              key={borrow._id}
-              className="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-primary-100"
-            >
-              {/* Left */}
-              <div className="flex items-center gap-4">
-                <img
-                  src={borrow.book.coverPage}
-                  className="w-16 h-20 object-cover rounded"
-                />
-
-                <div>
-                  <h3 className="font-semibold">{borrow.book.title}</h3>
-                  <p className="text-sm text-gray-600">{borrow.book.author}</p>
-
-                  <p className="text-xs text-gray-500 mt-1">
-                    Borrowed by: {borrow.user.name}
-                  </p>
-                </div>
-              </div>
-
-              {/* Right */}
-              <button
-                onClick={() => mutate(borrow.book._id)}
-                disabled={isPending}
-                className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
-              >
-                <CheckCircle size={18} />
-                Approve
-              </button>
+            <div className="min-w-0">
+              <h3 className="font-semibold text-gray-900 truncate">
+                {borrow.book.title}
+              </h3>
+              <p className="text-sm text-gray-600">{borrow.book.author}</p>
+              <p className="text-xs text-gray-500 mt-1">
+                Borrowed by: {borrow.user.name}
+              </p>
             </div>
-          ))}
+          </div>
+
+          <button
+            onClick={() => mutate(borrow.book._id)}
+            disabled={isPending}
+            className="btn-success shrink-0 w-full sm:w-auto"
+          >
+            <CheckCircle size={18} />
+            Approve
+          </button>
         </div>
-      )}
+      ))}
     </div>
   );
 };

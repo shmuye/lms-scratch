@@ -70,7 +70,10 @@ const Users = () => {
 
   if (!users?.length) {
     return (
-      <div className="text-center py-10 text-gray-500">No users found</div>
+      <div className="empty-state">
+        <p className="empty-state-title">No users found</p>
+        <p className="empty-state-text">Users will appear here once registered.</p>
+      </div>
     );
   }
 

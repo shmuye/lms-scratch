@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import SearchBar from "../components/SearchBar";
+import PageContainer from "../components/ui/PageContainer";
+import PageHeader from "../components/ui/PageHeader";
 
 let numberOfBooks = 0;
 
@@ -40,13 +42,17 @@ const Books = () => {
   const filteredBooks = selectedCategory
     ? safeBooks?.filter((book) => book.category === selectedCategory)
     : safeBooks;
+
   if (isLoading) return <Loader />;
 
   if (error instanceof Error) {
     return (
-      <div className="text-center text-danger-500 mt-10">
-        Error: {error.message}
-      </div>
+      <PageContainer>
+        <div className="empty-state text-danger-500">
+          <p className="empty-state-title">Something went wrong</p>
+          <p className="empty-state-text">{error.message}</p>
+        </div>
+      </PageContainer>
     );
   }
 
@@ -55,39 +61,34 @@ const Books = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-3 sm:px-5 py-6 flex flex-col gap-6">
-      {/* Toolbar */}
-      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between bg-white p-3 rounded-xl border border-primary-100 shadow-sm">
+    <PageContainer>
+      <PageHeader
+        title="Browse Books"
+        subtitle="Discover and borrow from our collection"
+      />
+
+      <div className="card p-3 sm:p-4 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
         <SearchBar
           search={search}
           setSearch={setSearch}
           onSearch={handleSearch}
         />
-
         <FilterBooks
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />
       </div>
 
-      {/* Empty State */}
       {!filteredBooks?.length && (
-        <div className="text-center py-16 text-gray-500">
-          <p className="text-lg font-medium mb-2">No books found</p>
-          <p className="text-sm">Try a different search or category</p>
+        <div className="empty-state">
+          <p className="empty-state-title">No books found</p>
+          <p className="empty-state-text">
+            Try a different search or category
+          </p>
         </div>
       )}
 
-      {/* Books Grid */}
-      <div
-        className="
-            grid gap-4 sm:gap-6
-            grid-cols-1 
-            sm:grid-cols-2 
-            md:grid-cols-3 
-            lg:grid-cols-4
-            justify-items-center"
-      >
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredBooks.length > 0 &&
           filteredBooks.map((book) => (
             <Book
@@ -104,7 +105,7 @@ const Books = () => {
             />
           ))}
       </div>
-    </div>
+    </PageContainer>
   );
 };
 

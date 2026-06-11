@@ -12,16 +12,18 @@ const Borrows = () => {
 
   if (isError) {
     return (
-      <div className="text-center text-danger-500 py-10">
-        Error loading borrows
+      <div className="empty-state text-danger-500">
+        <p className="empty-state-title">Error loading borrows</p>
+        <p className="empty-state-text">Please try again later.</p>
       </div>
     );
   }
 
   if (!data?.length) {
     return (
-      <div className="text-center py-16 text-gray-500">
-        No borrow records found
+      <div className="empty-state">
+        <p className="empty-state-title">No borrow records found</p>
+        <p className="empty-state-text">Borrow activity will appear here.</p>
       </div>
     );
   }

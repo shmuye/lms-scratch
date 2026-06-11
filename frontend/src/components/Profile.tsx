@@ -6,14 +6,13 @@ const Profile = () => {
 
   return (
     <div className="w-full flex justify-center">
-      <div className="w-full max-w-md bg-white border border-primary-100 rounded-xl shadow-sm p-6 flex flex-col gap-5">
-        <h3 className="text-lg font-semibold text-gray-800 text-center">
+      <div className="w-full max-w-md card card-body flex flex-col gap-5">
+        <h3 className="text-lg font-semibold text-gray-900 text-center">
           Your Profile
         </h3>
 
-        {/* Name */}
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-500">Name</label>
+          <label className="label">Name</label>
           <input
             type="text"
             value={user?.name || ""}
@@ -22,14 +21,23 @@ const Profile = () => {
           />
         </div>
 
-        {/* Email */}
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-500">Email</label>
+          <label className="label">Email</label>
           <input
             type="email"
             value={user?.email || ""}
             readOnly
             className="input bg-gray-50"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="label">Role</label>
+          <input
+            type="text"
+            value={user?.role || ""}
+            readOnly
+            className="input bg-gray-50 capitalize"
           />
         </div>
       </div>

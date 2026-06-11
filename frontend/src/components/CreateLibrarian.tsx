@@ -28,8 +28,7 @@ const CreateLibrarian = ({ onClose }: Props) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      {/* Modal Card */}
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8 flex flex-col gap-5 animate-fadeIn">
+      <div className="w-full max-w-md card card-body flex flex-col gap-5 shadow-xl">
         {/* Header */}
         <div className="flex justify-between items-center">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
@@ -78,19 +77,11 @@ const CreateLibrarian = ({ onClose }: Props) => {
 
           {/* Buttons */}
           <div className="flex gap-3 mt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="w-full py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
-            >
+            <button type="button" onClick={onClose} className="btn-secondary flex-1">
               Cancel
             </button>
 
-            <button
-              type="submit"
-              disabled={isPending}
-              className="w-full py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition disabled:opacity-50"
-            >
+            <button type="submit" disabled={isPending} className="btn-primary flex-1">
               {isPending ? "Creating..." : "Create"}
             </button>
           </div>

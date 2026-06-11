@@ -50,7 +50,7 @@ const CreateBook = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="w-full max-w-4xl bg-white shadow-lg rounded-2xl p-4 sm:p-6 md:p-8">
+      <div className="w-full max-w-4xl card card-body">
         <form
           onSubmit={handleSubmit(handleCreateBook)}
           className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6"
@@ -197,9 +197,7 @@ const CreateBook = () => {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full bg-primary-600 text-white py-3 rounded-xl font-semibold
-                hover:bg-primary-700 transition
-                disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-primary w-full py-3"
             >
               {isPending ? "Creating..." : "Create Book"}
             </button>
