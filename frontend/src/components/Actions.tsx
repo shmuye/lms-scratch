@@ -12,26 +12,30 @@ const Actions = ({
   setOpenDropDown,
 }: actionProps) => {
   return (
-    <div className="absolute right-0 top-12 z-40 w-40 rounded-xl bg-white shadow-lg border border-gray-100 p-2 animate-in fade-in zoom-in-95">
+    <div className="dropdown-menu" role="menu">
       <button
+        type="button"
+        role="menuitem"
         onClick={() => {
           setOpenEditModal(true);
           setOpenDropDown(false);
         }}
-        className="flex w-full items-center gap-3 px-3 py-2 text-sm text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+        className="dropdown-item"
       >
-        <Edit2 size={18} />
+        <Edit2 size={16} aria-hidden />
         Edit
       </button>
 
       <button
+        type="button"
+        role="menuitem"
         onClick={() => {
           setOpenDeleteModal(true);
           setOpenDropDown(false);
         }}
-        className="flex w-full items-center gap-3 px-3 py-2 text-sm text-danger-500 rounded-lg hover:bg-danger-100 transition-colors"
+        className="dropdown-item-danger"
       >
-        <Trash2 size={18} />
+        <Trash2 size={16} aria-hidden />
         Delete
       </button>
     </div>

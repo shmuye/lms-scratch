@@ -167,12 +167,7 @@ const CreateBook = () => {
                   return true;
                 },
               })}
-              className="block w-full text-sm text-gray-600
-                file:mr-3 file:py-2 file:px-4
-                file:rounded-lg file:border-0
-                file:text-sm file:font-medium
-                file:bg-primary-50 file:text-primary-600
-                hover:file:bg-primary-100 transition"
+              className="file-input"
             />
             {errors.coverPage?.message && (
               <p className="error">{String(errors.coverPage.message)}</p>

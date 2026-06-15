@@ -1,5 +1,5 @@
 import { Menu, BookOpen, LogIn, UserPlus } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAppSelector } from "../hooks/hooks";
 import { isAuthenticated } from "../features/auth/auth.slice";
 
@@ -9,34 +9,34 @@ interface NavBarProps {
 
 const NavBar = ({ setOpenSidebar }: NavBarProps) => {
   const authenticated = useAppSelector(isAuthenticated);
+  const location = useLocation();
 
-  const linkClass =
-    "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium hover:bg-primary-200 transition";
+  const linkClass = (path: string) =>
+    `nav-link ${location.pathname === path ? "nav-link-active" : ""}`;
 
   return (
-    <header className="bg-white/80 backdrop-blur-md sticky top-0 h-16 px-4 flex justify-between items-center z-50 border-b border-primary-100 shadow-sm">
-      {/* Left */}
+    <header className="nav-header">
       <div className="flex items-center gap-3">
-        {/* Mobile menu */}
         <button
-          className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-primary-100 transition"
+          type="button"
+          className="btn-icon md:hidden"
           onClick={() => setOpenSidebar((prev) => !prev)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={false}
         >
           <Menu size={20} />
         </button>
 
-        {/* Logo */}
-        <Link to="/">
-          <h1 className="text-xl font-bold text-primary-500 tracking-wide">
-            ReadSphere
-          </h1>
+        <Link to="/" className="nav-brand">
+          ReadSphere
         </Link>
       </div>
-      <nav className="hidden md:flex items-center">
-        <ul className="flex items-center gap-2">
+
+      <nav className="hidden md:flex items-center" aria-label="Main navigation">
+        <ul className="flex items-center gap-1">
           <li>
-            <Link to="/books" className={linkClass}>
-              <BookOpen size={18} />
+            <Link to="/books" className={linkClass("/books")}>
+              <BookOpen size={18} aria-hidden />
               <span>Books</span>
             </Link>
           </li>
@@ -44,18 +44,14 @@ const NavBar = ({ setOpenSidebar }: NavBarProps) => {
           {!authenticated && (
             <>
               <li>
-                <Link to="/login" className={linkClass}>
-                  <LogIn size={18} />
+                <Link to="/login" className={linkClass("/login")}>
+                  <LogIn size={18} aria-hidden />
                   <span>Sign In</span>
                 </Link>
               </li>
-
               <li>
-                <Link
-                  to="/signup"
-                  className="btn-primary btn-sm shadow-md shadow-primary-600/20"
-                >
-                  <UserPlus size={18} />
+                <Link to="/signup" className="btn-primary btn-sm ml-1">
+                  <UserPlus size={16} aria-hidden />
                   Sign Up
                 </Link>
               </li>

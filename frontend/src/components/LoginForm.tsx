@@ -10,13 +10,10 @@ import { LogIn, Lock, Mail } from "lucide-react";
 import { useEffect } from "react";
 import { showError, showSuccess } from "../utils.ts";
 import { getDashboardPath } from "../utils/getDashboardPath";
+import AuthCard from "./ui/AuthCard";
 
 const LoginForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginInput>({
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   });
 
@@ -34,85 +31,52 @@ const LoginForm = () => {
       await dispatch(loginUser(data)).unwrap();
       showSuccess("Logged in successfully");
     } catch (error: any) {
-      showError(
-        `Failed to login: ${error?.message ? error.message : "error logging in"}`,
-      );
+      showError(`Failed to login: ${error?.message ?? "error logging in"}`);
     }
   };
 
   return (
-    <div className="auth-card">
-      <div className="flex flex-col items-center gap-3">
-        <div className="p-3 rounded-full bg-primary-100">
-          <LogIn className="text-primary-600" size={24} />
-        </div>
-
-        <div className="text-center">
-          <h1 className="text-2xl font-semibold text-gray-900">
-            Sign in to your account
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Make reading your habit. Get access to world class books.
-          </p>
-        </div>
-      </div>
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-5 w-full"
-      >
-        <div className="flex flex-col gap-1">
+    <AuthCard
+      icon={<LogIn size={24} />}
+      title="Welcome back"
+      subtitle="Sign in to access your library account."
+      footer={
+        <p className="text-sm text-center text-slate-600">
+          Don&apos;t have an account?{" "}
+          <Link className="text-primary-600 font-medium hover:underline" to="/signup">
+            Create account
+          </Link>
+        </p>
+      }
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-full">
+        <div>
+          <label className="label" htmlFor="login-email">Email</label>
           <div className="input-icon-wrap">
-            <Mail className="text-gray-400 shrink-0" size={18} />
-            <input
-              {...register("email")}
-              type="email"
-              className="flex-1 bg-transparent outline-none text-gray-900 placeholder:text-gray-400"
-              placeholder="Email"
-            />
+            <Mail className="text-slate-400 shrink-0" size={18} aria-hidden />
+            <input id="login-email" {...register("email")} type="email" className="flex-1 bg-transparent outline-none text-sm" placeholder="you@example.com" />
           </div>
           {errors.email && <p className="error">{errors.email.message}</p>}
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div>
+          <label className="label" htmlFor="login-password">Password</label>
           <div className="input-icon-wrap">
-            <Lock className="text-gray-400 shrink-0" size={18} />
-            <input
-              {...register("password")}
-              type="password"
-              className="flex-1 bg-transparent outline-none text-gray-900 placeholder:text-gray-400"
-              placeholder="Password"
-            />
+            <Lock className="text-slate-400 shrink-0" size={18} aria-hidden />
+            <input id="login-password" {...register("password")} type="password" className="flex-1 bg-transparent outline-none text-sm" placeholder="••••••••" />
           </div>
-          {errors.password && (
-            <p className="error">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="error">{errors.password.message}</p>}
         </div>
 
         <div className="flex justify-end">
-          <Link
-            to="/forgot-password"
-            className="text-sm text-primary-600 hover:underline font-medium"
-          >
+          <Link to="/forgot-password" className="text-sm text-primary-600 hover:underline font-medium">
             Forgot password?
           </Link>
         </div>
 
-        <button type="submit" className="btn-primary w-full">
-          Login
-        </button>
+        <button type="submit" className="btn-primary w-full">Sign In</button>
       </form>
-
-      <p className="text-sm text-center text-gray-600">
-        Don&apos;t have an account?
-        <Link
-          className="text-primary-600 font-medium ml-1 hover:underline"
-          to="/signup"
-        >
-          Create account
-        </Link>
-      </p>
-    </div>
+    </AuthCard>
   );
 };
 

@@ -1,7 +1,9 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { KeyRound } from "lucide-react";
 import { resetPassword } from "../services/users.api";
 import { showError, showSuccess } from "../utils";
+import AuthCard from "./ui/AuthCard";
 
 type ResetPasswordInput = {
   password: string;
@@ -10,23 +12,17 @@ type ResetPasswordInput = {
 
 const ResetPassword = () => {
   const [params] = useSearchParams();
-
   const token = params.get("token");
-
   const navigate = useNavigate();
-
   const { register, handleSubmit } = useForm<ResetPasswordInput>();
 
   const onSubmit = async (data: ResetPasswordInput) => {
     if (data.password !== data.confirmPassword) {
       return showError("Passwords do not match");
     }
-
     try {
       await resetPassword(token as string, data.password);
-
       showSuccess("Password reset successful");
-
       navigate("/login");
     } catch (error: any) {
       showError(error.message);
@@ -34,32 +30,23 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="auth-card">
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold text-gray-900">Reset Password</h1>
-        <p className="text-sm text-gray-500 mt-1">Enter your new password below.</p>
-      </div>
-
+    <AuthCard
+      icon={<KeyRound size={24} />}
+      title="Reset password"
+      subtitle="Choose a strong new password for your account."
+    >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <input
-          type="password"
-          placeholder="New password"
-          {...register("password")}
-          className="input"
-        />
-
-        <input
-          type="password"
-          placeholder="Confirm password"
-          {...register("confirmPassword")}
-          className="input"
-        />
-
-        <button type="submit" className="btn-primary w-full">
-          Reset Password
-        </button>
+        <div>
+          <label className="label" htmlFor="new-password">New password</label>
+          <input id="new-password" type="password" placeholder="••••••••" {...register("password")} className="input" />
+        </div>
+        <div>
+          <label className="label" htmlFor="confirm-password">Confirm password</label>
+          <input id="confirm-password" type="password" placeholder="••••••••" {...register("confirmPassword")} className="input" />
+        </div>
+        <button type="submit" className="btn-primary w-full">Reset Password</button>
       </form>
-    </div>
+    </AuthCard>
   );
 };
 

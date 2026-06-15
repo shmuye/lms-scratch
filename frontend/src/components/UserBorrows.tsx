@@ -2,25 +2,21 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllMyBorrows } from "../services/borrow.api.ts";
 import Book from "./Book.tsx";
 import Loader from "./Loader.tsx";
+import { BookOpen } from "lucide-react";
 
 const BorrowedBooks = () => {
-  const {
-    data: borrowedBooks,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: borrowedBooks, isLoading, isError } = useQuery({
     queryKey: ["myBorrows"],
     queryFn: getAllMyBorrows,
   });
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  if (isLoading) return <Loader label="Loading your books..." />;
 
   if (isError) {
     return (
-      <div className="text-center text-danger-500 py-10">
-        Error loading borrowed books
+      <div className="empty-state">
+        <p className="empty-state-title text-danger-600">Error loading borrowed books</p>
+        <p className="empty-state-text">Please try again later.</p>
       </div>
     );
   }
@@ -29,44 +25,37 @@ const BorrowedBooks = () => {
 
   if (!validBorrows.length) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
-        <h2 className="text-xl font-semibold mb-2">No borrowed books yet</h2>
-        <p className="text-gray-500">
-          You haven’t borrowed any books. Start exploring and borrow one!
+      <div className="empty-state">
+        <div className="empty-state-icon">
+          <BookOpen size={22} />
+        </div>
+        <p className="empty-state-title">No borrowed books yet</p>
+        <p className="empty-state-text">
+          You haven&apos;t borrowed any books. Browse the catalog to get started.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-2 sm:px-4">
-      <div
-        className="grid gap-4 sm:gap-6 
-        grid-cols-1 
-        sm:grid-cols-2 
-        lg:grid-cols-3 
-        xl:grid-cols-4
-        justify-items-center
-        "
-      >
-        {validBorrows.map((borrow: any) => (
-          <Book
-            key={borrow._id}
-            id={borrow.book._id}
-            title={borrow.book.title}
-            author={borrow.book.author}
-            coverPage={borrow.book.coverPage}
-            mode="borrowed"
-            description={borrow.book.description}
-            totalCopies={0}
-            copiesAvailable={0}
-            category={borrow.book.category}
-            borrowDate={borrow.borrowDate}
-            dueDate={borrow.dueDate}
-            status={borrow.status}
-          />
-        ))}
-      </div>
+    <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {validBorrows.map((borrow: any) => (
+        <Book
+          key={borrow._id}
+          id={borrow.book._id}
+          title={borrow.book.title}
+          author={borrow.book.author}
+          coverPage={borrow.book.coverPage}
+          mode="borrowed"
+          description={borrow.book.description}
+          totalCopies={0}
+          copiesAvailable={0}
+          category={borrow.book.category}
+          borrowDate={borrow.borrowDate}
+          dueDate={borrow.dueDate}
+          status={borrow.status}
+        />
+      ))}
     </div>
   );
 };

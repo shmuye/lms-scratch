@@ -1,7 +1,12 @@
-const Loader = () => {
+const Loader = ({ label = "Loading..." }: { label?: string }) => {
   return (
-    <div className="flex justify-center items-center py-16 sm:py-24">
-      <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin" />
+    <div
+      className="flex flex-col justify-center items-center py-16 sm:py-24 gap-4"
+      role="status"
+      aria-live="polite"
+    >
+      <div className="spinner" aria-hidden />
+      <p className="text-sm text-slate-500">{label}</p>
     </div>
   );
 };

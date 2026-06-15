@@ -37,30 +37,27 @@ const Sidebar = ({ open = true, onNavigate }: SidebarProps) => {
       location.pathname === path ||
       (path !== "/" && location.pathname.startsWith(path));
 
-    return `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition ${
-      isActive
-        ? "bg-primary-700 text-white"
-        : "text-primary-100 hover:bg-primary-800 hover:text-white"
-    }`;
+    return `sidebar-link ${isActive ? "sidebar-link-active" : ""}`;
   };
 
   const handleNav = () => onNavigate?.();
 
   return (
     <nav
-      className={`z-50 fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-primary-900 text-white flex flex-col justify-between shadow-xl
-        transition-transform duration-300 ease-in-out
+      aria-label="Sidebar navigation"
+      className={`sidebar
         ${open ? "translate-x-0" : "-translate-x-full"}
         md:translate-x-0`}
     >
       <div className="p-5 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
-        <h2 className="text-xl font-bold text-center tracking-wide text-primary-100">
-          ReadSphere
-        </h2>
+        <div className="text-center">
+          <p className="text-lg font-bold tracking-tight text-white">ReadSphere</p>
+          <p className="text-xs text-primary-200/80 mt-0.5">Library Management</p>
+        </div>
 
         <div className="flex flex-col gap-1">
           <Link to="/books" className={linkClass("/books")} onClick={handleNav}>
-            <BookOpen size={18} />
+            <BookOpen size={18} aria-hidden />
             <span>Browse Books</span>
           </Link>
         </div>
@@ -68,11 +65,11 @@ const Sidebar = ({ open = true, onNavigate }: SidebarProps) => {
         {!authenticated && (
           <div className="flex flex-col gap-1">
             <Link to="/login" className={linkClass("/login")} onClick={handleNav}>
-              <LogIn size={18} />
+              <LogIn size={18} aria-hidden />
               <span>Sign In</span>
             </Link>
             <Link to="/signup" className={linkClass("/signup")} onClick={handleNav}>
-              <UserPlus size={18} />
+              <UserPlus size={18} aria-hidden />
               <span>Sign Up</span>
             </Link>
           </div>
@@ -80,22 +77,25 @@ const Sidebar = ({ open = true, onNavigate }: SidebarProps) => {
 
         {authenticated && (
           <>
-            <div className="flex items-center gap-3 border-b border-primary-800 pb-4">
+            <div className="flex items-center gap-3 rounded-xl bg-white/10 p-3">
               {user?.avatar ? (
                 <img
                   src={user.avatar}
-                  alt="avatar"
-                  className="w-10 h-10 rounded-full object-cover ring-2 ring-primary-500"
+                  alt=""
+                  className="w-10 h-10 rounded-full object-cover ring-2 ring-primary-400/50"
                 />
               ) : (
-                <div className="w-10 h-10 flex items-center justify-center rounded-full bg-primary-600 text-white font-semibold">
+                <div
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-primary-600 text-white font-semibold text-sm"
+                  aria-hidden
+                >
                   {firstLetter}
                 </div>
               )}
 
               <div className="min-w-0">
-                <p className="text-sm font-medium truncate">{user?.name}</p>
-                <p className="text-xs text-primary-300">{user?.role}</p>
+                <p className="text-sm font-medium truncate text-white">{user?.name}</p>
+                <p className="text-xs text-primary-200/90 capitalize">{user?.role?.toLowerCase()}</p>
               </div>
             </div>
 
@@ -105,14 +105,14 @@ const Sidebar = ({ open = true, onNavigate }: SidebarProps) => {
                 className={linkClass(dashboardRedirectUrl)}
                 onClick={handleNav}
               >
-                <LayoutDashboard size={18} />
+                <LayoutDashboard size={18} aria-hidden />
                 <span>Dashboard</span>
               </Link>
             </div>
 
             <Protected allowedRoles={["ADMIN", "LIBRARIAN"]}>
-              <div className="flex flex-col gap-1 border-t border-primary-800 pt-4">
-                <p className="text-xs text-primary-400 uppercase px-2 tracking-wider">
+              <div className="flex flex-col gap-1 border-t border-white/10 pt-4">
+                <p className="text-[10px] text-primary-200/70 uppercase px-3 tracking-widest font-semibold mb-1">
                   Management
                 </p>
 
@@ -121,7 +121,7 @@ const Sidebar = ({ open = true, onNavigate }: SidebarProps) => {
                   className={linkClass("/create-book")}
                   onClick={handleNav}
                 >
-                  <PlusCircle size={18} />
+                  <PlusCircle size={18} aria-hidden />
                   <span>Create Book</span>
                 </Link>
               </div>
@@ -131,12 +131,13 @@ const Sidebar = ({ open = true, onNavigate }: SidebarProps) => {
       </div>
 
       {authenticated && (
-        <div className="p-4 border-t border-primary-800">
+        <div className="p-4 border-t border-white/10">
           <button
+            type="button"
             onClick={() => dispatch(logoutUser())}
-            className="flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition"
+            className="sidebar-link w-full text-red-300 hover:bg-red-500/10 hover:text-red-200"
           >
-            <LogOut size={18} />
+            <LogOut size={18} aria-hidden />
             Logout
           </button>
         </div>

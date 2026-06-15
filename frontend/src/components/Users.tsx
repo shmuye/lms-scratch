@@ -8,17 +8,14 @@ import {
 import { User } from "../types/auth.types";
 import Loader from "./Loader";
 import { showError, showSuccess } from "../utils";
+import Badge from "./ui/Badge";
 
 let numberOfUsers = 0;
 
 const Users = () => {
   const queryClient = useQueryClient();
 
-  const {
-    data: users,
-    error,
-    isLoading,
-  } = useQuery({
+  const { data: users, error, isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: getUsers,
   });
@@ -31,9 +28,7 @@ const Users = () => {
       showSuccess("User activated successfully");
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-    onError: () => {
-      showError("Can't activate user");
-    },
+    onError: () => showError("Can't activate user"),
   });
 
   const deactivateMutation = useMutation({
@@ -42,9 +37,7 @@ const Users = () => {
       showSuccess("User deactivated successfully");
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-    onError: () => {
-      showError("Error deactivating a user");
-    },
+    onError: () => showError("Error deactivating a user"),
   });
 
   const deleteMutation = useMutation({
@@ -53,17 +46,16 @@ const Users = () => {
       showSuccess("User deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-    onError: () => {
-      showError("Error deleting a user");
-    },
+    onError: () => showError("Error deleting a user"),
   });
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loader label="Loading users..." />;
 
   if (error instanceof Error) {
     return (
-      <div className="text-center text-danger-500 py-10">
-        Error: {error.message}
+      <div className="empty-state">
+        <p className="empty-state-title text-danger-600">Failed to load users</p>
+        <p className="empty-state-text">{error.message}</p>
       </div>
     );
   }
@@ -77,52 +69,40 @@ const Users = () => {
     );
   }
 
+  const roleBadge = (role: string) => {
+    if (role === "ADMIN") return "danger" as const;
+    if (role === "LIBRARIAN") return "info" as const;
+    return "neutral" as const;
+  };
+
   return (
-    <div className="w-full">
-      <div className="flex flex-col gap-4 sm:hidden">
+    <div className="w-full space-y-4">
+      <div className="flex flex-col gap-3 sm:hidden">
         {users.map((user: User) => (
-          <div
-            key={user._id}
-            className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col gap-3"
-          >
-            <div>
-              <p className="text-xs text-gray-400">ID</p>
-              <p className="text-sm text-gray-600">
-                {user._id.slice(0, 10)}...
-              </p>
+          <div key={user._id} className="data-card">
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <p className="font-semibold text-slate-900">{user.name}</p>
+                <p className="text-sm text-slate-500 mt-0.5">{user.email}</p>
+              </div>
+              <div className="flex flex-col items-end gap-1">
+                <Badge variant={roleBadge(user.role)}>{user.role}</Badge>
+                <Badge variant={user.isActive ? "success" : "warning"}>
+                  {user.isActive ? "Active" : "Inactive"}
+                </Badge>
+              </div>
             </div>
-
-            <div>
-              <p className="text-xs text-gray-400">Name</p>
-              <p className="font-medium">{user.name}</p>
-            </div>
-
-            <div>
-              <p className="text-xs text-gray-400">Email</p>
-              <p className="text-sm">{user.email}</p>
-            </div>
-
-            {/* Actions */}
-            <div className="flex gap-2 mt-2">
+            <div className="flex gap-2 pt-1">
               {user.isActive ? (
-                <button
-                  onClick={() => deactivateMutation.mutate(user._id)}
-                  className="flex-1 bg-warning-100 text-warning-700 py-1.5 rounded-lg text-xs"
-                >
+                <button type="button" onClick={() => deactivateMutation.mutate(user._id)} className="btn-secondary btn-sm flex-1">
                   Deactivate
                 </button>
               ) : (
-                <button
-                  onClick={() => activateMutation.mutate(user._id)}
-                  className="flex-1 bg-success-100 text-success-700 py-1.5 rounded-lg text-xs"
-                >
+                <button type="button" onClick={() => activateMutation.mutate(user._id)} className="btn-success btn-sm flex-1">
                   Activate
                 </button>
               )}
-              <button
-                onClick={() => deleteMutation.mutate(user._id)}
-                className="flex-1 bg-danger-100 text-danger-700 py-1.5 rounded-lg text-xs"
-              >
+              <button type="button" onClick={() => deleteMutation.mutate(user._id)} className="btn-danger btn-sm flex-1">
                 Delete
               </button>
             </div>
@@ -130,53 +110,42 @@ const Users = () => {
         ))}
       </div>
 
-      {/* ================= DESKTOP (Table) ================= */}
-      <div className="hidden sm:block overflow-x-auto rounded-lg border border-gray-200">
-        <table className="min-w-full text-sm text-left">
-          <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
+      <div className="table-wrap hidden sm:block">
+        <table className="table">
+          <thead className="table-head">
             <tr>
-              <th className="px-4 py-3">ID</th>
-              <th className="px-4 py-3">Name</th>
-              <th className="px-4 py-3">Email</th>
-              <th className="px-4 py-3 text-center">Actions</th>
+              <th className="table-th">Name</th>
+              <th className="table-th">Email</th>
+              <th className="table-th">Role</th>
+              <th className="table-th">Status</th>
+              <th className="table-th text-right">Actions</th>
             </tr>
           </thead>
-
-          <tbody className="divide-y">
+          <tbody>
             {users.map((user: User) => (
-              <tr key={user._id} className="hover:bg-gray-50 transition">
-                <td className="px-4 py-3 text-gray-500">
-                  {user._id.slice(0, 8)}...
+              <tr key={user._id} className="table-row">
+                <td className="table-td font-medium text-slate-900">{user.name}</td>
+                <td className="table-td">{user.email}</td>
+                <td className="table-td">
+                  <Badge variant={roleBadge(user.role)}>{user.role}</Badge>
                 </td>
-
-                <td className="px-4 py-3 font-medium text-gray-800">
-                  {user.name}
+                <td className="table-td">
+                  <Badge variant={user.isActive ? "success" : "warning"}>
+                    {user.isActive ? "Active" : "Inactive"}
+                  </Badge>
                 </td>
-
-                <td className="px-4 py-3 text-gray-600">{user.email}</td>
-
-                {/* Actions */}
-                <td className="px-4 py-3">
-                  <div className="flex justify-center gap-2">
+                <td className="table-td">
+                  <div className="flex justify-end gap-2">
                     {user.isActive ? (
-                      <button
-                        onClick={() => deactivateMutation.mutate(user._id)}
-                        className="px-3 py-1 text-xs rounded-md bg-warning-100 text-warning-700 hover:bg-warning-200"
-                      >
+                      <button type="button" onClick={() => deactivateMutation.mutate(user._id)} className="btn-secondary btn-sm">
                         Deactivate
                       </button>
                     ) : (
-                      <button
-                        onClick={() => activateMutation.mutate(user._id)}
-                        className="px-3 py-1 text-xs rounded-md bg-success-100 text-success-700 hover:bg-success-200"
-                      >
+                      <button type="button" onClick={() => activateMutation.mutate(user._id)} className="btn-success btn-sm">
                         Activate
                       </button>
                     )}
-                    <button
-                      onClick={() => deleteMutation.mutate(user._id)}
-                      className="px-3 py-1 text-xs rounded-md bg-danger-100 text-danger-700 hover:bg-danger-200"
-                    >
+                    <button type="button" onClick={() => deleteMutation.mutate(user._id)} className="btn-danger btn-sm">
                       Delete
                     </button>
                   </div>

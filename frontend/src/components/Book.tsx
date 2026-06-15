@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { MoreVertical } from "lucide-react";
+import { useState } from "react";
+import { MoreVertical, BookOpen } from "lucide-react";
 import { Actions, EditModal, DeleteModal, Protected } from "./";
-
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { borrowBook, requestReturn } from "../services/borrow.api.ts";
 import { showError, showSuccess } from "../utils.ts";
-import { useQueryClient } from "@tanstack/react-query";
+import Badge, { borrowStatusVariant } from "./ui/Badge";
 
 type BookProps = {
   id: string;
@@ -18,7 +17,6 @@ type BookProps = {
   copiesAvailable: number;
   category: string;
   publishedYear?: number;
-
   borrowDate?: string;
   dueDate?: string;
   status?: string;
@@ -39,145 +37,139 @@ const Book = ({
   dueDate,
   status,
 }: BookProps) => {
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
-  const [openDropDown, setOpenDropDown] = useState<boolean>(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDropDown, setOpenDropDown] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (id: string) => borrowBook(id),
+    mutationFn: (bookId: string) => borrowBook(bookId),
     onSuccess: () => {
-      showSuccess(
-        "Book borrowed successfully, Make sure to take it with in the next 24 hours",
-      );
-      queryClient.invalidateQueries({
-        queryKey: ["books"],
-      });
+      showSuccess("Book borrowed successfully. Pick it up within 24 hours.");
+      queryClient.invalidateQueries({ queryKey: ["books"] });
     },
-    onError: () => {
-      showError("An Error Occurred , Please Try again");
-    },
+    onError: () => showError("An error occurred. Please try again."),
   });
 
   const { mutate: requestReturnMutate, isPending: isReturning } = useMutation({
-    mutationFn: (id: string) => requestReturn(id),
+    mutationFn: (bookId: string) => requestReturn(bookId),
     onSuccess: () => {
       showSuccess("Return request sent. Wait for approval.");
       queryClient.invalidateQueries({ queryKey: ["borrows"] });
     },
-    onError: () => {
-      showError("Failed to request return");
-    },
+    onError: () => showError("Failed to request return"),
   });
 
   return (
-    <div className="bookCard group h-full">
-      <div className="relative h-56 sm:h-60">
-        <img
-          className="w-full h-full object-cover"
-          src={coverPage}
-          alt="book coverpage"
-        />
-        <Protected allowedRoles={["ADMIN", "LIBRARIAN"]}>
-          <button
-            className="flex items-center justify-center absolute w-8 h-8 top-5 right-5 rounded-full bg-gray-600"
-            onClick={() => setOpenDropDown(!openDropDown)}
-          >
-            <MoreVertical className="text-white w-4 h-4" />
-          </button>
-        </Protected>
-
-        {openDropDown && (
-          <Actions
-            setOpenDropDown={setOpenDropDown}
-            setOpenDeleteModal={setOpenDeleteModal}
-            setOpenEditModal={setOpenEditModal}
+    <article className="bookCard group h-full">
+      <div className="relative h-56 sm:h-60 bg-slate-100">
+        {!imgError && coverPage ? (
+          <img
+            className="w-full h-full object-cover"
+            src={coverPage}
+            alt={`Cover of ${title}`}
+            onError={() => setImgError(true)}
           />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 gap-2">
+            <BookOpen size={32} aria-hidden />
+            <span className="text-xs">No cover</span>
+          </div>
         )}
+
+        {mode !== "borrowed" && (
+          <span className="absolute top-3 left-3 badge-primary shadow-sm">
+            {category}
+          </span>
+        )}
+
+        {mode !== "borrowed" && copiesAvailable === 0 && (
+          <span className="absolute bottom-3 left-3 badge-danger shadow-sm">
+            Unavailable
+          </span>
+        )}
+
+        <Protected allowedRoles={["ADMIN", "LIBRARIAN"]}>
+          <div className="absolute top-3 right-3">
+            <button
+              type="button"
+              className="btn-icon bg-white/90 backdrop-blur-sm shadow-sm hover:bg-white"
+              onClick={() => setOpenDropDown(!openDropDown)}
+              aria-label="Book actions"
+              aria-expanded={openDropDown}
+            >
+              <MoreVertical size={16} />
+            </button>
+            {openDropDown && (
+              <Actions
+                setOpenDropDown={setOpenDropDown}
+                setOpenDeleteModal={setOpenDeleteModal}
+                setOpenEditModal={setOpenEditModal}
+              />
+            )}
+          </div>
+        </Protected>
       </div>
-      <div className="p-4 flex flex-col gap-1 flex-1">
-        <h2 className="text-base font-semibold text-gray-900 line-clamp-2">{title}</h2>
-        <p className="text-sm text-gray-600">
-          <span className="font-bold">Author: </span>
-          {author}
-        </p>
-        {description && (
-          <p className="text-sm text-gray-600">
-            <span className="font-bold">Description: </span>
+
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        <h2 className="text-base font-semibold text-slate-900 line-clamp-2 leading-snug">
+          {title}
+        </h2>
+        <p className="text-sm text-slate-500 line-clamp-1">by {author}</p>
+
+        {description && mode !== "borrowed" && (
+          <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
             {description}
           </p>
         )}
+
         {mode !== "borrowed" && (
-          <>
-            <p className="text-sm text-gray-600">
-              <span className="font-bold">Total Copies: </span>
-              {totalCopies}
-            </p>
-            <p className="text-sm text-gray-600">
-              <span className="font-bold">Available: </span>
-              {copiesAvailable}
-            </p>
-          </>
+          <p className="text-xs text-slate-500 mt-auto">
+            <span className="font-medium text-slate-700">{copiesAvailable}</span> of{" "}
+            <span className="font-medium text-slate-700">{totalCopies}</span> available
+          </p>
         )}
-        <p className="text-sm text-gray-600">
-          <span className="font-bold">Category: </span>
-          {category}
-        </p>
 
         {mode === "borrowed" && (
-          <>
-            <p className="text-sm text-gray-600">
-              <span className="font-bold">Borrowed: </span>
-              {new Date(borrowDate!).toLocaleDateString()}
+          <div className="space-y-1.5 mt-auto">
+            <p className="text-xs text-slate-500">
+              Borrowed {new Date(borrowDate!).toLocaleDateString()}
             </p>
-
-            <p className="text-sm text-gray-600">
-              <span className="font-bold">Due Date: </span>
-              {new Date(dueDate!).toLocaleDateString()}
+            <p className="text-xs text-slate-500">
+              Due {new Date(dueDate!).toLocaleDateString()}
             </p>
-
-            <p
-              className={`text-sm font-semibold ${
-                status === "Borrowed" ? "text-warning-700" : "text-success-700"
-              }`}
-            >
-              Status: {status}
-            </p>
-          </>
+            {status && <Badge variant={borrowStatusVariant(status)}>{status}</Badge>}
+          </div>
         )}
       </div>
 
-      {/* Action buttons */}
-      <div className="p-4 pt-0 flex justify-between gap-2 shrink-0 mt-auto">
+      <div className="p-4 pt-0 shrink-0">
         {mode !== "borrowed" && (
           <button
+            type="button"
             onClick={() => mutate(id)}
             disabled={isPending || copiesAvailable === 0}
-            className="btn-primary flex-1 w-full"
+            className="btn-primary w-full"
           >
-            {isPending ? "Borrowing..." : "Borrow Book"}
+            {isPending ? "Borrowing..." : copiesAvailable === 0 ? "Unavailable" : "Borrow Book"}
           </button>
         )}
 
         {mode === "borrowed" && (
           <button
+            type="button"
             onClick={() => requestReturnMutate(id)}
             disabled={isReturning || status !== "Borrowed"}
-            className="btn-primary flex-1 w-full"
+            className="btn-primary w-full"
           >
-            {status === "Return Requested"
-              ? "Pending Approval"
-              : "Request Return"}
+            {status === "Return Requested" ? "Pending Approval" : "Request Return"}
           </button>
         )}
       </div>
 
       {openDeleteModal && (
-        <DeleteModal
-          bookId={id}
-          setOpenDropDown={setOpenDropDown}
-          setOpenDeleteModal={setOpenDeleteModal}
-        />
+        <DeleteModal bookId={id} setOpenDropDown={setOpenDropDown} setOpenDeleteModal={setOpenDeleteModal} />
       )}
 
       {openEditModal && (
@@ -194,7 +186,7 @@ const Book = ({
           setOpenEditModal={setOpenEditModal}
         />
       )}
-    </div>
+    </article>
   );
 };
 

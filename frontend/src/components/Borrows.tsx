@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllBorrows } from "../services/borrow.api";
 import Loader from "./Loader";
+import Badge, { borrowStatusVariant } from "./ui/Badge";
+import { BookOpen } from "lucide-react";
 
 const Borrows = () => {
   const { data, isLoading, isError } = useQuery({
@@ -8,12 +10,12 @@ const Borrows = () => {
     queryFn: getAllBorrows,
   });
 
-  if (isLoading) return <Loader />;
+  if (isLoading) return <Loader label="Loading borrows..." />;
 
   if (isError) {
     return (
-      <div className="empty-state text-danger-500">
-        <p className="empty-state-title">Error loading borrows</p>
+      <div className="empty-state">
+        <p className="empty-state-title text-danger-600">Error loading borrows</p>
         <p className="empty-state-text">Please try again later.</p>
       </div>
     );
@@ -29,71 +31,45 @@ const Borrows = () => {
   }
 
   return (
-    <div className="w-full">
-      {/* Desktop Table */}
-      <div className="hidden sm:block overflow-x-auto border border-primary-100 rounded-xl bg-white shadow-sm">
-        <table className="min-w-full text-sm text-left">
-          <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
+    <div className="w-full space-y-4">
+      <div className="table-wrap hidden sm:block">
+        <table className="table">
+          <thead className="table-head">
             <tr>
-              <th className="px-4 py-3">Book</th>
-              <th className="px-4 py-3">User</th>
-              <th className="px-4 py-3">Borrow Date</th>
-              <th className="px-4 py-3">Due Date</th>
-              <th className="px-4 py-3">Status</th>
+              <th className="table-th">Book</th>
+              <th className="table-th">User</th>
+              <th className="table-th">Borrowed</th>
+              <th className="table-th">Due</th>
+              <th className="table-th">Status</th>
             </tr>
           </thead>
-
-          <tbody className="divide-y">
+          <tbody>
             {data.map((borrow: any) => (
-              <tr key={borrow._id} className="hover:bg-gray-50 transition">
-                {/* Book */}
-                <td className="px-4 py-3 flex items-center gap-3">
-                  <img
-                    src={borrow.book?.coverPage}
-                    className="w-10 h-14 object-cover rounded"
-                  />
-                  <div>
-                    <p className="font-medium text-gray-800">
-                      {borrow.book?.title}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {borrow.book?.author}
-                    </p>
+              <tr key={borrow._id} className="table-row">
+                <td className="table-td">
+                  <div className="flex items-center gap-3">
+                    {borrow.book?.coverPage ? (
+                      <img src={borrow.book.coverPage} alt="" className="w-9 h-12 object-cover rounded-md border border-slate-200" />
+                    ) : (
+                      <div className="w-9 h-12 rounded-md bg-slate-100 flex items-center justify-center">
+                        <BookOpen size={14} className="text-slate-400" />
+                      </div>
+                    )}
+                    <div>
+                      <p className="font-medium text-slate-900">{borrow.book?.title ?? "Unknown"}</p>
+                      <p className="text-xs text-slate-500">{borrow.book?.author}</p>
+                    </div>
                   </div>
                 </td>
-
-                {/* User */}
-                <td className="px-4 py-3 text-gray-600">
-                  {borrow.user?.name || "Unknown"}
-                </td>
-
-                {/* Dates */}
-                <td className="px-4 py-3 text-gray-500">
+                <td className="table-td">{borrow.user?.name || "Unknown"}</td>
+                <td className="table-td text-slate-500">
                   {new Date(borrow.borrowDate).toLocaleDateString()}
                 </td>
-
-                <td className="px-4 py-3 text-gray-500">
+                <td className="table-td text-slate-500">
                   {new Date(borrow.dueDate).toLocaleDateString()}
                 </td>
-
-                {/* Status */}
-                <td className="px-4 py-3">
-                  <span
-                    className={`
-                      px-2 py-1 text-xs rounded-full
-                      ${
-                        borrow.status === "Borrowed"
-                          ? "bg-warning-100 text-warning-700"
-                          : borrow.status === "Returned"
-                            ? "bg-success-100 text-success-700"
-                            : borrow.status === "Return Requested"
-                              ? "bg-info-100 text-info-700"
-                              : "bg-danger-100 text-danger-700"
-                      }
-                    `}
-                  >
-                    {borrow.status}
-                  </span>
+                <td className="table-td">
+                  <Badge variant={borrowStatusVariant(borrow.status)}>{borrow.status}</Badge>
                 </td>
               </tr>
             ))}
@@ -101,36 +77,28 @@ const Borrows = () => {
         </table>
       </div>
 
-      {/* Mobile Cards */}
-      <div className="sm:hidden flex flex-col gap-4">
+      <div className="sm:hidden flex flex-col gap-3">
         {data.map((borrow: any) => (
-          <div
-            key={borrow._id}
-            className="bg-white border border-gray-200 rounded-xl p-4 shadow-sm flex flex-col gap-3"
-          >
+          <div key={borrow._id} className="data-card">
             <div className="flex gap-3">
-              <img
-                src={borrow.book?.coverPage}
-                className="w-14 h-20 object-cover rounded"
-              />
-              <div>
-                <p className="font-medium">{borrow.book?.title}</p>
-                <p className="text-xs text-gray-500">{borrow.book?.author}</p>
+              {borrow.book?.coverPage ? (
+                <img src={borrow.book.coverPage} alt="" className="w-12 h-16 object-cover rounded-lg border border-slate-200 shrink-0" />
+              ) : (
+                <div className="w-12 h-16 rounded-lg bg-slate-100 flex items-center justify-center shrink-0">
+                  <BookOpen size={18} className="text-slate-400" />
+                </div>
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-slate-900 truncate">{borrow.book?.title ?? "Unknown"}</p>
+                <p className="text-xs text-slate-500">{borrow.book?.author}</p>
+                <div className="mt-2">
+                  <Badge variant={borrowStatusVariant(borrow.status)}>{borrow.status}</Badge>
+                </div>
               </div>
             </div>
-
-            <div className="text-sm text-gray-600 space-y-1">
-              <p>
-                <span className="font-medium">User:</span>{" "}
-                {borrow.user?.name || "Unknown"}
-              </p>
-              <p>
-                <span className="font-medium">Due:</span>{" "}
-                {new Date(borrow.dueDate).toLocaleDateString()}
-              </p>
-              <p>
-                <span className="font-medium">Status:</span> {borrow.status}
-              </p>
+            <div className="grid grid-cols-2 gap-2 text-xs text-slate-500">
+              <p><span className="font-medium text-slate-700">User:</span> {borrow.user?.name || "Unknown"}</p>
+              <p><span className="font-medium text-slate-700">Due:</span> {new Date(borrow.dueDate).toLocaleDateString()}</p>
             </div>
           </div>
         ))}

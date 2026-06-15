@@ -2,17 +2,12 @@ import { useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
 import { forgotPassword } from "../services/users.api";
 import { showError, showSuccess } from "../utils";
+import AuthCard from "./ui/AuthCard";
 
-type ForgotPasswordInput = {
-  email: string;
-};
+type ForgotPasswordInput = { email: string };
 
 const ForgotPassword = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ForgotPasswordInput>();
+  const { register, handleSubmit, formState: { errors } } = useForm<ForgotPasswordInput>();
 
   const onSubmit = async (data: ForgotPasswordInput) => {
     try {
@@ -24,40 +19,20 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="auth-card">
-      <div className="flex flex-col items-center gap-3">
-        <div className="p-3 rounded-full bg-primary-100">
-          <Mail className="text-primary-600" size={24} />
-        </div>
-
-        <div className="text-center">
-          <h1 className="text-2xl font-semibold text-gray-900">
-            Forgot Password
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Enter your email and we&apos;ll send you a reset link.
-          </p>
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-        <div className="flex flex-col gap-1">
-          <input
-            type="email"
-            placeholder="Email"
-            {...register("email", {
-              required: "Email is required",
-            })}
-            className="input"
-          />
+    <AuthCard
+      icon={<Mail size={24} />}
+      title="Forgot password?"
+      subtitle="Enter your email and we'll send you a reset link."
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div>
+          <label className="label" htmlFor="forgot-email">Email</label>
+          <input id="forgot-email" type="email" placeholder="you@example.com" {...register("email", { required: "Email is required" })} className="input" />
           {errors.email && <p className="error">{errors.email.message}</p>}
         </div>
-
-        <button type="submit" className="btn-primary w-full">
-          Send Reset Link
-        </button>
+        <button type="submit" className="btn-primary w-full">Send Reset Link</button>
       </form>
-    </div>
+    </AuthCard>
   );
 };
 

@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import { BookCategory } from "../pages/BooksPage";
 import { categoryEnum } from "../types/book.types";
 
@@ -12,28 +13,27 @@ const FilterBooks = ({
 }: FilterBookProps) => {
   return (
     <div className="w-full min-w-0 md:w-48 lg:w-56 shrink-0 relative">
+      <label htmlFor="category-filter" className="sr-only">Filter by category</label>
       <select
+        id="category-filter"
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value as BookCategory)}
-        className="w-full min-w-0 max-w-full appearance-none px-4 py-2 pr-10 rounded-lg text-sm
-        bg-gray-50 border border-primary-100
-        focus:outline-none focus:ring-2 focus:ring-primary-500
-        shadow-sm transition truncate"
+        className="select truncate"
       >
         <option value="">All Categories</option>
-
         {categoryEnum.map((category) => (
           <option key={category} value={category}>
             {category}
           </option>
         ))}
       </select>
-
-      {/* Dropdown icon */}
-      <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none text-primary-500">
-        ▼
-      </div>
+      <ChevronDown
+        size={16}
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+        aria-hidden
+      />
     </div>
   );
 };
+
 export default FilterBooks;

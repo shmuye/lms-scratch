@@ -67,7 +67,7 @@ const Books = () => {
         subtitle="Discover and borrow from our collection"
       />
 
-      <div className="card p-3 sm:p-4 w-full min-w-0 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <div className="toolbar">
         <SearchBar
           search={search}
           setSearch={setSearch}
