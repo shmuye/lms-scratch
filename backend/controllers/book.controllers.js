@@ -275,7 +275,9 @@ export const getReturnRequests = async (req, res) => {
       .populate("book", "title author coverPage")
       .populate("user", "name email");
 
-    return res.status(200).json(borrows);
+    const validBorrows = borrows.filter((borrow) => borrow.book && borrow.user);
+
+    return res.status(200).json(validBorrows);
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",

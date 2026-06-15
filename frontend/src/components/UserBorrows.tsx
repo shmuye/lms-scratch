@@ -25,7 +25,9 @@ const BorrowedBooks = () => {
     );
   }
 
-  if (!borrowedBooks || borrowedBooks.length === 0) {
+  const validBorrows = (borrowedBooks ?? []).filter((borrow: any) => borrow?.book);
+
+  if (!validBorrows.length) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <h2 className="text-xl font-semibold mb-2">No borrowed books yet</h2>
@@ -47,7 +49,7 @@ const BorrowedBooks = () => {
         justify-items-center
         "
       >
-        {borrowedBooks?.map((borrow: any) => (
+        {validBorrows.map((borrow: any) => (
           <Book
             key={borrow._id}
             id={borrow.book._id}
