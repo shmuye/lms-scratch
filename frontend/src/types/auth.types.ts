@@ -25,6 +25,7 @@ export interface AuthResponse {
 export interface AuthState {
   user: User | null;
   loading: boolean;
+  bootstrapping: boolean;
   error: string | null;
   success: boolean;
 }

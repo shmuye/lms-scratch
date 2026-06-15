@@ -1,6 +1,5 @@
-// authSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthState, User } from "../../types/auth.types";
+import { AuthState } from "../../types/auth.types";
 import {
   loginUser,
   registerUser,
@@ -12,6 +11,7 @@ import { RootState } from "../../store/store";
 const initialState: AuthState = {
   user: null,
   loading: false,
+  bootstrapping: true,
   error: null,
   success: false,
 };
@@ -22,6 +22,9 @@ const authSlice = createSlice({
   reducers: {
     resetAuth: (state) => {
       state.user = null;
+      state.success = false;
+      state.error = null;
+      state.loading = false;
     },
   },
 
@@ -31,17 +34,16 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state) => {
         state.success = true;
         state.loading = false;
         state.error = null;
-        state.user = action.payload.user;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string | null;
       })
-      .addCase(loginUser.pending, (state, action) => {
+      .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -56,24 +58,35 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
+        state.success = false;
+        state.loading = false;
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        state.user = null;
+        state.success = false;
+        state.loading = false;
       })
       .addCase(fetchCurrentUser.pending, (state) => {
-        state.loading = true;
+        state.bootstrapping = true;
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.success = true;
-        state.loading = false;
+        state.bootstrapping = false;
       })
       .addCase(fetchCurrentUser.rejected, (state) => {
         state.user = null;
         state.success = false;
-        state.loading = false;
+        state.bootstrapping = false;
       });
   },
 });
 
+export const { resetAuth } = authSlice.actions;
 export default authSlice.reducer;
 
 export const isAuthenticated = (state: RootState) => !!state.auth.user;
 export const selectUser = (state: RootState) => state.auth.user;
+export const selectAuthBootstrapping = (state: RootState) =>
+  state.auth.bootstrapping;
+export const selectAuthLoading = (state: RootState) => state.auth.loading;

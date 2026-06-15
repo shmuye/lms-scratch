@@ -15,6 +15,7 @@ import authReducer from "../features/auth/auth.slice";
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: ["auth"],
 };
 
 export const rootReducer = combineReducers({

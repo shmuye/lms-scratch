@@ -4,8 +4,13 @@ import axios, {
   AxiosError,
   InternalAxiosRequestConfig,
 } from "axios";
+import { notifySessionExpired } from "./authSession";
+import { refresh } from "./auth.api";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL_DEV;
+const baseURL =
+  import.meta.env.MODE === "production"
+    ? import.meta.env.VITE_API_BASE_URL_PROD
+    : import.meta.env.VITE_API_BASE_URL_DEV;
 
 const api: AxiosInstance = axios.create({
   baseURL,
@@ -16,9 +21,12 @@ const api: AxiosInstance = axios.create({
 });
 
 let isRefreshing = false;
-let failedQueue: any[] = [];
+let failedQueue: Array<{
+  resolve: () => void;
+  reject: (error: unknown) => void;
+}> = [];
 
-const processQueue = (error: any = null) => {
+const processQueue = (error: unknown = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
@@ -30,19 +38,19 @@ const processQueue = (error: any = null) => {
   failedQueue = [];
 };
 
-// request interceptors
+const isAuthEndpoint = (url?: string) => {
+  if (!url) return false;
+  return (
+    url.includes("auth/refresh") ||
+    url.includes("auth/login") ||
+    url.includes("auth/register")
+  );
+};
 
 api.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-
-  (error) => {
-    return Promise.reject(error);
-  },
+  (config) => config,
+  (error) => Promise.reject(error),
 );
-
-// Response Interceptors
 
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
@@ -52,10 +60,10 @@ api.interceptors.response.use(
       _retry?: boolean;
     };
 
-    if (originalRequest.url?.includes("/auth/refresh")) {
-      window.location.href = "/login";
+    if (!originalRequest || isAuthEndpoint(originalRequest.url)) {
       return Promise.reject(error);
     }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -67,17 +75,18 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await api.post("/auth/refresh");
+        await refresh();
         processQueue();
         isRefreshing = false;
         return api(originalRequest);
-      } catch (err) {
-        processQueue(err);
+      } catch (refreshError) {
+        processQueue(refreshError);
         isRefreshing = false;
-        window.location.href = "/login";
-        return Promise.reject(err);
+        notifySessionExpired();
+        return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   },
 );

@@ -20,22 +20,27 @@ import BorrowedBooks from "../components/UserBorrows";
 import VerifyEmail from "../components/VerifyEmail";
 import ResetPassword from "../components/ResetPassword";
 import ForgotPassword from "../components/ForgotPassword";
+import AuthSessionSetup from "../components/AuthSessionSetup";
+import GuestRoutes from "./GuestRoutes";
 
 const AppRouter = () => {
   return (
     <Router>
+      <AuthSessionSetup />
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/books" element={<Books />} />
         </Route>
 
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/verify-email" element={<VerifyEmail />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+        <Route element={<GuestRoutes />}>
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+          </Route>
         </Route>
 
         <Route element={<ProtectedRoutes />}>

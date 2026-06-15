@@ -1,33 +1,20 @@
+import { useEffect } from "react";
 import { PersistGate } from "redux-persist/integration/react";
 import AppRouter from "./routes/AppRoute.tsx";
 import { Toaster } from "react-hot-toast";
 import { persistor } from "./store/store.ts";
-import { useEffect } from "react";
 import { fetchCurrentUser } from "./features/auth/auth.thunks.ts";
-import { useAppDispatch, useAppSelector } from "./hooks/hooks.ts";
-import Loader from "./components/Loader"; // your loader
+import { useAppDispatch } from "./hooks/hooks.ts";
 
-// ✅ Handles initial auth sync
-// const AppInit = () => {
-//   const dispatch = useAppDispatch();
+const AppInit = () => {
+  const dispatch = useAppDispatch();
 
-//   useEffect(() => {
-//     dispatch(fetchCurrentUser());
-//   }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
-//   return null;
-// };
-
-// ✅ Gate UI until auth is ready
-// const AppContent = () => {
-//   const { loading } = useAppSelector((state) => state.auth);
-
-//   if (loading) {
-//     return <Loader />; // prevents flicker
-//   }
-
-//   return <AppRouter />;
-// };
+  return null;
+};
 
 const App = () => {
   return (
@@ -40,8 +27,8 @@ const App = () => {
         }}
       />
 
-      <PersistGate loading={<Loader />} persistor={persistor}>
-        {/* <AppInit /> */}
+      <PersistGate loading={null} persistor={persistor}>
+        <AppInit />
         <AppRouter />
       </PersistGate>
     </>

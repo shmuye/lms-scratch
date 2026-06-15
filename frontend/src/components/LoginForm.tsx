@@ -9,6 +9,7 @@ import { selectUser } from "../features/auth/auth.slice.ts";
 import { LogIn, Lock, Mail } from "lucide-react";
 import { useEffect } from "react";
 import { showError, showSuccess } from "../utils.ts";
+import { getDashboardPath } from "../utils/getDashboardPath";
 
 const LoginForm = () => {
   const {
@@ -25,7 +26,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (!user) return;
-    navigate("/", { replace: true });
+    navigate(getDashboardPath(user.role), { replace: true });
   }, [user, navigate]);
 
   const onSubmit = async (data: LoginInput) => {
