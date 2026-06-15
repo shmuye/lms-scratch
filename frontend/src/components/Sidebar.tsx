@@ -8,8 +8,6 @@ import {
   LogIn,
   UserPlus,
   LayoutDashboard,
-  User,
-  Settings,
   PlusCircle,
   LogOut,
 } from "lucide-react";
@@ -31,13 +29,6 @@ const Sidebar = ({ open = true, onNavigate }: SidebarProps) => {
       : user?.role === "LIBRARIAN"
         ? "/librarian"
         : "/reader";
-
-  const profileUrl =
-    user?.role === "ADMIN"
-      ? "/admin"
-      : user?.role === "LIBRARIAN"
-        ? "/librarian"
-        : "/reader/profile";
 
   const firstLetter = user?.name ? user.name.charAt(0).toUpperCase() : "?";
 
@@ -116,15 +107,6 @@ const Sidebar = ({ open = true, onNavigate }: SidebarProps) => {
               >
                 <LayoutDashboard size={18} />
                 <span>Dashboard</span>
-              </Link>
-
-              <Link
-                to={profileUrl}
-                className={linkClass(profileUrl)}
-                onClick={handleNav}
-              >
-                <User size={18} />
-                <span>Profile</span>
               </Link>
             </div>
 
