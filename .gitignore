@@ -11,7 +11,7 @@
 /backend/.env
 /backend/.env.local
 /backend/.env.*.local
-/backend/uploads/
+/backend/uploads
 
 # Logs
 /backend/logs/
