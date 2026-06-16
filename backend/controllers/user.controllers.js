@@ -285,7 +285,11 @@ export const resetPassword = async (req, res) => {
 export const deleteAccount = async (req, res) => {
   try {
     const userId = req.user.id;
+
+    await Borrow.deleteMany({ user: userId });
+
     const deletedUser = await User.findByIdAndDelete(userId);
+
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });
     }
