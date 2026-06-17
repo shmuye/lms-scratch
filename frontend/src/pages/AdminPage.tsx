@@ -67,7 +67,7 @@ const AdminPage = () => {
             onClick={() => setOpenModal(true)}
             className="btn-primary btn-sm"
           >
-            + Create Librarian
+            + Add Librarian
           </button>
         </div>
       )}
