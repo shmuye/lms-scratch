@@ -47,7 +47,9 @@ export const deleteAccount = async () => {
     const response = await api.delete("/users/me");
     return response.data;
   } catch (error) {
-    throw new Error(`Error deleting your account, ${error}`);
+    throw new Error(
+      `Error deleting your account, ${error?.response?.data?.message ?? error.message ?? error}`,
+    );
   }
 };
 

@@ -286,6 +286,20 @@ export const deleteAccount = async (req, res) => {
   try {
     const userId = req.user.id;
 
+    // Prevent deletion if user has active borrows or pending return requests
+    const activeCount = await Borrow.countDocuments({
+      user: userId,
+      status: { $in: ["Borrowed", "Return Requested", "Overdue"] },
+    });
+
+    if (activeCount > 0) {
+      return res.status(400).json({
+        message:
+          "Account cannot be deleted while you have active borrows or pending return requests",
+      });
+    }
+
+    // Safe to remove any historical borrow records and delete the user
     await Borrow.deleteMany({ user: userId });
 
     const deletedUser = await User.findByIdAndDelete(userId);
