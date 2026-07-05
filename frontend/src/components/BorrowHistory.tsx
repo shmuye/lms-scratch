@@ -4,25 +4,24 @@ import Book from "./Book.tsx";
 import Loader from "./Loader.tsx";
 import { BookOpen } from "lucide-react";
 
-const BorrowedBooks = () => {
-  const { data: borrowedBooks, isLoading, isError } = useQuery({
+const BorrowHistory = () => {
+  const { data: borrows, isLoading, isError } = useQuery({
     queryKey: ["myBorrows"],
     queryFn: getAllMyBorrows,
   });
 
-  if (isLoading) return <Loader label="Loading your books..." />;
+  if (isLoading) return <Loader label="Loading your borrow history..." />;
 
   if (isError) {
     return (
       <div className="empty-state">
-        <p className="empty-state-title text-danger-600">Error loading borrowed books</p>
+        <p className="empty-state-title text-danger-600">Error loading borrow history</p>
         <p className="empty-state-text">Please try again later.</p>
       </div>
     );
   }
 
-  // Active borrows: anything that is not 'Returned'
-  const validBorrows = (borrowedBooks ?? []).filter((borrow: any) => borrow?.book && borrow?.status !== "Returned");
+  const validBorrows = (borrows ?? []).filter((b: any) => b?.book);
 
   if (!validBorrows.length) {
     return (
@@ -30,9 +29,9 @@ const BorrowedBooks = () => {
         <div className="empty-state-icon">
           <BookOpen size={22} />
         </div>
-        <p className="empty-state-title">No borrowed books yet</p>
+        <p className="empty-state-title">No borrow history</p>
         <p className="empty-state-text">
-          You haven&apos;t borrowed any books. Browse the catalog to get started.
+          You haven't borrowed any books yet.
         </p>
       </div>
     );
@@ -47,13 +46,14 @@ const BorrowedBooks = () => {
           title={borrow.book.title}
           author={borrow.book.author}
           coverPage={borrow.book.coverPage}
-          mode="borrowed"
+          mode="history"
           description={borrow.book.description}
           totalCopies={0}
           copiesAvailable={0}
           category={borrow.book.category}
           borrowDate={borrow.borrowDate}
           dueDate={borrow.dueDate}
+          returnDate={borrow.returnDate}
           status={borrow.status}
         />
       ))}
@@ -61,4 +61,4 @@ const BorrowedBooks = () => {
   );
 };
 
-export default BorrowedBooks;
+export default BorrowHistory;

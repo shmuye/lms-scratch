@@ -9,7 +9,7 @@ import Badge, { borrowStatusVariant } from "./ui/Badge";
 type BookProps = {
   id: string;
   title: string;
-  mode?: "default" | "borrowed";
+  mode?: "default" | "borrowed" | "history";
   author: string;
   coverPage: string;
   description?: string;
@@ -19,6 +19,7 @@ type BookProps = {
   publishedYear?: number;
   borrowDate?: string;
   dueDate?: string;
+  returnDate?: string;
   status?: string;
 };
 
@@ -35,6 +36,7 @@ const Book = ({
   publishedYear,
   borrowDate,
   dueDate,
+  returnDate,
   status,
 }: BookProps) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -84,7 +86,7 @@ const Book = ({
           </span>
         )}
 
-        {mode !== "borrowed" && copiesAvailable === 0 && (
+        {mode === "default" && copiesAvailable === 0 && (
           <span className="absolute bottom-3 left-3 badge-danger shadow-sm">
             Unavailable
           </span>
@@ -118,34 +120,41 @@ const Book = ({
         </h2>
         <p className="text-sm text-slate-500 line-clamp-1">by {author}</p>
 
-        {description && mode !== "borrowed" && (
+        {description && mode === "default" && (
           <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
             {description}
           </p>
         )}
 
-        {mode !== "borrowed" && (
+        {mode === "default" && (
           <p className="text-xs text-slate-500 mt-auto">
             <span className="font-medium text-slate-700">{copiesAvailable}</span> of{" "}
             <span className="font-medium text-slate-700">{totalCopies}</span> available
           </p>
         )}
-
-        {mode === "borrowed" && (
+        {(mode === "borrowed" || mode === "history") && (
           <div className="space-y-1.5 mt-auto">
-            <p className="text-xs text-slate-500">
-              Borrowed {new Date(borrowDate!).toLocaleDateString()}
-            </p>
-            <p className="text-xs text-slate-500">
-              Due {new Date(dueDate!).toLocaleDateString()}
-            </p>
+            {borrowDate && (
+              <p className="text-xs text-slate-500">
+                Borrowed {new Date(borrowDate).toLocaleDateString()}
+              </p>
+            )}
+            {dueDate && (
+              <p className="text-xs text-slate-500">Due {new Date(dueDate).toLocaleDateString()}</p>
+            )}
+            {mode === "history" && (typeof ({} as any).returnDate !== "undefined") && (
+              // returnDate prop may be undefined; show if provided via props
+              (returnDate ? (
+                <p className="text-xs text-slate-500">Returned {new Date(returnDate).toLocaleDateString()}</p>
+              ) : null)
+            )}
             {status && <Badge variant={borrowStatusVariant(status)}>{status}</Badge>}
           </div>
         )}
       </div>
 
       <div className="p-4 pt-0 shrink-0">
-        {mode !== "borrowed" && (
+        {mode === "default" && (
           <button
             type="button"
             onClick={() => mutate(id)}

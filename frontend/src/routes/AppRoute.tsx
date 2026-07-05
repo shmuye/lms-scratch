@@ -17,6 +17,7 @@ import AppLayout from "../layouts/AppLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import Notfound from "../components/Notfound";
 import BorrowedBooks from "../components/UserBorrows";
+import BorrowHistory from "../components/BorrowHistory";
 import VerifyEmail from "../components/VerifyEmail";
 import ResetPassword from "../components/ResetPassword";
 import ForgotPassword from "../components/ForgotPassword";
@@ -49,6 +50,7 @@ const AppRouter = () => {
               <Route index element={<Profile />} />
               <Route path="profile" element={<Profile />} />
               <Route path="borrowed" element={<BorrowedBooks />} />
+              <Route path="history" element={<BorrowHistory />} />
             </Route>
 
             <Route path="/librarian" element={<LibrarianDashboard />} />
