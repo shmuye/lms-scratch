@@ -31,6 +31,7 @@ const ReturnRequests = () => {
       showSuccess("Return approved successfully");
       queryClient.invalidateQueries({ queryKey: ["returnRequests"] });
       queryClient.invalidateQueries({ queryKey: ["books"] });
+      queryClient.invalidateQueries({ queryKey: ["myBorrows"] });
     },
     onError: () => {
       showError("Failed to approve return");

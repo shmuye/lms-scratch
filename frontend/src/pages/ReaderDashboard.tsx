@@ -8,7 +8,7 @@ const ReaderDashboard = () => {
 
   const tabs = [
     { label: "Profile", path: "/reader/profile", icon: User },
-    { label: "Borrowed Books", path: "/reader/borrowed", icon: BookOpen },
+    { label: "Active Borrows", path: "/reader/borrowed", icon: BookOpen },
     { label: "Borrow History", path: "/reader/history", icon: BookOpen },
   ];
 

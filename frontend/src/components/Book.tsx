@@ -59,6 +59,7 @@ const Book = ({
     onSuccess: () => {
       showSuccess("Return request sent. Wait for approval.");
       queryClient.invalidateQueries({ queryKey: ["borrows"] });
+      queryClient.invalidateQueries({ queryKey: ["myBorrows"] });
     },
     onError: () => showError("Failed to request return"),
   });
@@ -128,8 +129,11 @@ const Book = ({
 
         {mode === "default" && (
           <p className="text-xs text-slate-500 mt-auto">
-            <span className="font-medium text-slate-700">{copiesAvailable}</span> of{" "}
-            <span className="font-medium text-slate-700">{totalCopies}</span> available
+            <span className="font-medium text-slate-700">
+              {copiesAvailable}
+            </span>{" "}
+            of <span className="font-medium text-slate-700">{totalCopies}</span>{" "}
+            available
           </p>
         )}
         {(mode === "borrowed" || mode === "history") && (
@@ -140,15 +144,21 @@ const Book = ({
               </p>
             )}
             {dueDate && (
-              <p className="text-xs text-slate-500">Due {new Date(dueDate).toLocaleDateString()}</p>
+              <p className="text-xs text-slate-500">
+                Due {new Date(dueDate).toLocaleDateString()}
+              </p>
             )}
-            {mode === "history" && (typeof ({} as any).returnDate !== "undefined") && (
+            {mode === "history" &&
+              typeof ({} as any).returnDate !== "undefined" &&
               // returnDate prop may be undefined; show if provided via props
               (returnDate ? (
-                <p className="text-xs text-slate-500">Returned {new Date(returnDate).toLocaleDateString()}</p>
-              ) : null)
+                <p className="text-xs text-slate-500">
+                  Returned {new Date(returnDate).toLocaleDateString()}
+                </p>
+              ) : null)}
+            {status && (
+              <Badge variant={borrowStatusVariant(status)}>{status}</Badge>
             )}
-            {status && <Badge variant={borrowStatusVariant(status)}>{status}</Badge>}
           </div>
         )}
       </div>
@@ -161,7 +171,11 @@ const Book = ({
             disabled={isPending || copiesAvailable === 0}
             className="btn-primary w-full"
           >
-            {isPending ? "Borrowing..." : copiesAvailable === 0 ? "Unavailable" : "Borrow Book"}
+            {isPending
+              ? "Borrowing..."
+              : copiesAvailable === 0
+                ? "Unavailable"
+                : "Borrow Book"}
           </button>
         )}
 
@@ -172,13 +186,19 @@ const Book = ({
             disabled={isReturning || status !== "Borrowed"}
             className="btn-primary w-full"
           >
-            {status === "Return Requested" ? "Pending Approval" : "Request Return"}
+            {status === "Return Requested"
+              ? "Pending Approval"
+              : "Request Return"}
           </button>
         )}
       </div>
 
       {openDeleteModal && (
-        <DeleteModal bookId={id} setOpenDropDown={setOpenDropDown} setOpenDeleteModal={setOpenDeleteModal} />
+        <DeleteModal
+          bookId={id}
+          setOpenDropDown={setOpenDropDown}
+          setOpenDeleteModal={setOpenDeleteModal}
+        />
       )}
 
       {openEditModal && (

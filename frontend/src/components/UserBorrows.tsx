@@ -5,7 +5,11 @@ import Loader from "./Loader.tsx";
 import { BookOpen } from "lucide-react";
 
 const BorrowedBooks = () => {
-  const { data: borrowedBooks, isLoading, isError } = useQuery({
+  const {
+    data: borrowedBooks,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["myBorrows"],
     queryFn: getAllMyBorrows,
   });
@@ -15,14 +19,21 @@ const BorrowedBooks = () => {
   if (isError) {
     return (
       <div className="empty-state">
-        <p className="empty-state-title text-danger-600">Error loading borrowed books</p>
+        <p className="empty-state-title text-danger-600">
+          Error loading borrowed books
+        </p>
         <p className="empty-state-text">Please try again later.</p>
       </div>
     );
   }
 
-  // Active borrows: anything that is not 'Returned'
-  const validBorrows = (borrowedBooks ?? []).filter((borrow: any) => borrow?.book && borrow?.status !== "Returned");
+  // Active borrows: exclude Returned and Return Requested
+  const validBorrows = (borrowedBooks ?? []).filter(
+    (borrow: any) =>
+      borrow?.book &&
+      borrow?.status !== "Returned" &&
+      borrow?.status !== "Return Requested",
+  );
 
   if (!validBorrows.length) {
     return (
@@ -32,7 +43,8 @@ const BorrowedBooks = () => {
         </div>
         <p className="empty-state-title">No borrowed books yet</p>
         <p className="empty-state-text">
-          You haven&apos;t borrowed any books. Browse the catalog to get started.
+          You haven&apos;t borrowed any books. Browse the catalog to get
+          started.
         </p>
       </div>
     );

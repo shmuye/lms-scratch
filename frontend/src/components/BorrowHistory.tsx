@@ -5,7 +5,11 @@ import Loader from "./Loader.tsx";
 import { BookOpen } from "lucide-react";
 
 const BorrowHistory = () => {
-  const { data: borrows, isLoading, isError } = useQuery({
+  const {
+    data: borrows,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["myBorrows"],
     queryFn: getAllMyBorrows,
   });
@@ -15,7 +19,9 @@ const BorrowHistory = () => {
   if (isError) {
     return (
       <div className="empty-state">
-        <p className="empty-state-title text-danger-600">Error loading borrow history</p>
+        <p className="empty-state-title text-danger-600">
+          Error loading borrow history
+        </p>
         <p className="empty-state-text">Please try again later.</p>
       </div>
     );
@@ -30,9 +36,7 @@ const BorrowHistory = () => {
           <BookOpen size={22} />
         </div>
         <p className="empty-state-title">No borrow history</p>
-        <p className="empty-state-text">
-          You haven't borrowed any books yet.
-        </p>
+        <p className="empty-state-text">You haven't borrowed any books yet.</p>
       </div>
     );
   }
