@@ -40,6 +40,8 @@ router.patch(
 );
 
 router.get("/:id", authenticate, authorize(PERMISSIONS.USER_READ), getUserById);
+router.delete("/me", authenticate, deleteAccount);
+router.delete("/me/avatar", authenticate, deleteAvatar);
 router.delete(
   "/:id",
   authenticate,
@@ -61,7 +63,5 @@ router.post(
 );
 router.post("/me/forgot-password", forgotPassword);
 router.post("/me/reset-password", authenticate, resetPassword);
-router.delete("/me", authenticate, deleteAccount);
-router.delete("/me/avatar", authenticate, deleteAvatar);
 
 export default router;
