@@ -202,7 +202,7 @@ export const requestReturn = async (req, res) => {
     const borrowRecord = await Borrow.findOne({
       user: userId,
       book: bookId,
-      status: "Borrowed",
+      status: { $in: ["Borrowed", "Overdue"] },
     });
 
     if (!borrowRecord) {

@@ -183,7 +183,7 @@ const Book = ({
           <button
             type="button"
             onClick={() => requestReturnMutate(id)}
-            disabled={isReturning || status !== "Borrowed"}
+            disabled={isReturning || status === "Return Requested"}
             className="btn-primary w-full"
           >
             {status === "Return Requested"

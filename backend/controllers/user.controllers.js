@@ -4,6 +4,7 @@ import { ROLES } from "../constants/roles.js";
 import { hash } from "../utils/hash.js";
 import { generateResetPasswordToken } from "../utils/generateTokens.js";
 import { sendResetPasswordEmail } from "../utils/send-reset-password-email.js";
+import { ACCESS_COOKIE_OPTIONS, REFRESH_COOKIE_OPTIONS } from "../config/token-options.js";
 
 export const createUserByAdmin = async (req, res) => {
   try {
@@ -114,7 +115,6 @@ export const getUserBorrows = async (req, res) => {
   try {
     const borrows = await Borrow.find({
       user: userId,
-      status: ["Borrowed", "Return Requested", "Overdue"],
     })
       .populate("book", "coverPage description title author isbn category")
       .exec();
@@ -307,6 +307,10 @@ export const deleteAccount = async (req, res) => {
     if (!deletedUser) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    res.clearCookie("accessToken", ACCESS_COOKIE_OPTIONS);
+    res.clearCookie("refreshToken", REFRESH_COOKIE_OPTIONS);
+
     return res.status(200).json({ message: "Account deleted successfully" });
   } catch (error) {
     console.log("Error deleting account", error.message);
