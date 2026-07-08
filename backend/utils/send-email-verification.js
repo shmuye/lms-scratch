@@ -4,7 +4,12 @@ export const sendEmailVerification = async (email, token) => {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
-    const verificationLink = `${process.env.FRONTEND_URL_DEV}/verify-email?token=${token}`;
+    const frontendUrl =
+      process.env.NODE_ENV === "production"
+        ? process.env.FRONTEND_URL_PROD || process.env.FRONTEND_URL
+        : process.env.FRONTEND_URL_DEV || process.env.FRONTEND_URL;
+
+    const verificationLink = `${frontendUrl}/verify-email?token=${token}`;
 
     await resend.emails.send({
       from: "Readsphere <onboarding@resend.dev>",
