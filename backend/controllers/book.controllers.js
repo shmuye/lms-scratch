@@ -240,14 +240,9 @@ export const approveReturn = async (req, res) => {
     }
 
     const now = new Date();
-    let status = "Returned";
-
-    if (now > borrowRecord.dueDate) {
-      status = "Overdue";
-    }
 
     borrowRecord.returnDate = now;
-    borrowRecord.status = status;
+    borrowRecord.status = "Returned";
     await borrowRecord.save();
 
     await Book.findByIdAndUpdate(bookId, {
