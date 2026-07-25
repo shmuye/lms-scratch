@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Users as UsersIcon } from "lucide-react";
 import {
   getUsers,
   activateUser,
@@ -20,6 +21,8 @@ const Users = () => {
     queryFn: getUsers,
   });
 
+  const librarianCount = users?.filter((user) => user.role === "LIBRARIAN").length ?? 0;
+  const regularUserCount = users?.filter((user) => user.role === "READER").length ?? 0;
   numberOfUsers = users?.length ?? 0;
 
   const activateMutation = useMutation({
@@ -62,9 +65,37 @@ const Users = () => {
 
   if (!users?.length) {
     return (
-      <div className="empty-state">
-        <p className="empty-state-title">No users found</p>
-        <p className="empty-state-text">Users will appear here once registered.</p>
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="stat-card">
+            <div>
+              <p className="text-sm text-gray-500">Librarians</p>
+              <p className="text-2xl font-semibold text-gray-900">
+                {librarianCount}
+              </p>
+            </div>
+            <div className="stat-icon">
+              <UsersIcon size={18} />
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div>
+              <p className="text-sm text-gray-500">Regular Users</p>
+              <p className="text-2xl font-semibold text-gray-900">
+                {regularUserCount}
+              </p>
+            </div>
+            <div className="stat-icon">
+              <UsersIcon size={18} />
+            </div>
+          </div>
+        </div>
+
+        <div className="empty-state">
+          <p className="empty-state-title">No users found</p>
+          <p className="empty-state-text">Users will appear here once registered.</p>
+        </div>
       </div>
     );
   }
@@ -77,6 +108,32 @@ const Users = () => {
 
   return (
     <div className="w-full space-y-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="stat-card">
+          <div>
+            <p className="text-sm text-gray-500">Librarians</p>
+            <p className="text-2xl font-semibold text-gray-900">
+              {librarianCount}
+            </p>
+          </div>
+          <div className="stat-icon">
+            <UsersIcon size={18} />
+          </div>
+        </div>
+
+        <div className="stat-card">
+          <div>
+            <p className="text-sm text-gray-500">Regular Users</p>
+            <p className="text-2xl font-semibold text-gray-900">
+              {regularUserCount}
+            </p>
+          </div>
+          <div className="stat-icon">
+            <UsersIcon size={18} />
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-col gap-3 sm:hidden">
         {users.map((user: User) => (
           <div key={user._id} className="data-card">
